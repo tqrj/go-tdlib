@@ -1,7 +1,7 @@
 # go-tdlib
 
 Go wrapper for [TDLib (Telegram Database Library)](https://github.com/tdlib/td) with full support of the TDLib.
-Current supported version of TDLib corresponds to the commit hash [971684a](https://github.com/tdlib/td/commit/971684a3dcc7bdf99eec024e1c4f57ae729d6d53), updated on 2025-04-30
+Current supported version of TDLib corresponds to the commit hash [49b3bcb](https://github.com/tdlib/td/commit/49b3bcbb6bfebf2ed44dd9f25102d2e1a94a58c4), updated on 2026-05-08
 
 ## TDLib installation
 
