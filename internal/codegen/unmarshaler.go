@@ -3,7 +3,7 @@ package codegen
 import (
 	"bytes"
 	"fmt"
-	"github.com/zelenin/go-tdlib/internal/tlparser"
+	"github.com/tqrj/go-tdlib/internal/tlparser"
 )
 
 func GenerateUnmarshalers(schema *tlparser.Schema, packageName string) []byte {

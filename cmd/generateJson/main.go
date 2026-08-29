@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"flag"
-	"github.com/zelenin/go-tdlib/internal/tlparser"
+	"github.com/tqrj/go-tdlib/internal/tlparser"
 	"io"
 	"log"
 	"net/http"

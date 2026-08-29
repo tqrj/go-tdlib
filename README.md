@@ -45,7 +45,7 @@ package main
 
 import (
 	"context"
-	"github.com/zelenin/go-tdlib/client"
+	"github.com/tqrj/go-tdlib/client"
 	"log"
 	"os"
 	"os/signal"
@@ -140,7 +140,7 @@ import (
 	"log"
 	"path/filepath"
 
-	"github.com/zelenin/go-tdlib/client"
+	"github.com/tqrj/go-tdlib/client"
 )
 
 const (
@@ -209,7 +209,7 @@ tdlibClient, err := client.NewClient(authorizer, proxy)
 
 ## Example
 
-[Example application](https://github.com/zelenin/go-tdlib/tree/master/example)
+[Example application](https://github.com/tqrj/go-tdlib/tree/master/example)
 
 ```
 cd example
@@ -221,7 +221,7 @@ docker run --rm -it -e "API_ID=00000" -e "API_HASH=abcdef0123456789" tdlib-test 
 ## Notes
 
 * WIP. Library API can be changed in the future
-* The package includes a .tl-parser and generated [json-schema](https://github.com/zelenin/go-tdlib/tree/master/data) for creating libraries in other languages
+* The package includes a .tl-parser and generated [json-schema](https://github.com/tqrj/go-tdlib/tree/master/data) for creating libraries in other languages
 
 ## Author
 

@@ -1,7 +1,7 @@
 package codegen
 
 import (
-	"github.com/zelenin/go-tdlib/internal/tlparser"
+	"github.com/tqrj/go-tdlib/internal/tlparser"
 	"log"
 	"strings"
 )
