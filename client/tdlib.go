@@ -18,7 +18,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 	"strconv"
 	"sync"
 	"unsafe"
@@ -51,6 +50,16 @@ func (instance *tdlib) addClient(client *Client) {
 	})
 }
 
+// removeClient forgets a client that reached authorizationStateClosed. TDLib
+// keeps answering requests addressed to a closed client id (500 "Request
+// aborted"); those answers are dropped by the receiver from now on.
+func (instance *tdlib) removeClient(id int) {
+	instance.mu.Lock()
+	defer instance.mu.Unlock()
+
+	delete(instance.clients, id)
+}
+
 func (instance *tdlib) getClient(id int) (*Client, error) {
 	instance.mu.Lock()
 	defer instance.mu.Unlock()
@@ -63,6 +72,8 @@ func (instance *tdlib) getClient(id int) (*Client, error) {
 	return client, nil
 }
 
+// receiver is the single process-wide td_receive loop. It must never block
+// forever and must never panic: every client shares it.
 func (instance *tdlib) receiver() {
 	for {
 		resp, err := instance.receive(instance.timeout)
@@ -72,15 +83,13 @@ func (instance *tdlib) receiver() {
 
 		client, err := instance.getClient(resp.MetaClientId)
 		if err != nil {
-			log.Print(err)
+			// A client that already closed was removed from the registry;
+			// late responses for it (TDLib's "Request aborted" for requests
+			// discarded during close) are expected and silently dropped.
 			continue
 		}
 
-		if client.isClosed {
-			continue
-		}
-
-		client.responses <- resp
+		client.deliver(resp)
 	}
 }
 

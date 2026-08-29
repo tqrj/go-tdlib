@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/zelenin/go-tdlib/internal/codegen"
 	"github.com/zelenin/go-tdlib/internal/tlparser"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -14,6 +15,8 @@ import (
 
 type config struct {
 	version             string
+	schemaPath          string
+	codePath            string
 	outputDirPath       string
 	packageName         string
 	functionFileName    string
@@ -26,6 +29,8 @@ func main() {
 	var config config
 
 	flag.StringVar(&config.version, "version", "", "TDLib version")
+	flag.StringVar(&config.schemaPath, "schema", "", "local td_api.tl (overrides download by -version)")
+	flag.StringVar(&config.codePath, "code", "", "local Requests.cpp (overrides download by -version)")
 	flag.StringVar(&config.outputDirPath, "outputDir", "./tdlib", "output directory")
 	flag.StringVar(&config.packageName, "package", "tdlib", "package name")
 	flag.StringVar(&config.functionFileName, "functionFile", "function.go", "functions filename")
@@ -35,17 +40,29 @@ func main() {
 
 	flag.Parse()
 
-	resp, err := http.Get("https://raw.githubusercontent.com/tdlib/td/" + config.version + "/td/generate/scheme/td_api.tl")
+	schemaReader, closeSchema, err := openSource(config.schemaPath, "https://raw.githubusercontent.com/tdlib/td/"+config.version+"/td/generate/scheme/td_api.tl")
 	if err != nil {
-		log.Fatalf("http.Get error: %s", err)
-		return
+		log.Fatalf("open schema error: %s", err)
 	}
-	defer resp.Body.Close()
+	defer closeSchema()
 
-	schema, err := tlparser.Parse(resp.Body)
+	schema, err := tlparser.Parse(schemaReader)
 	if err != nil {
 		log.Fatalf("schema parse error: %s", err)
-		return
+	}
+
+	// Requests.cpp tells which functions are user-only / bot-only; the generated
+	// code doesn't use that today, but keep the JSON and the Go output in sync.
+	if config.codePath != "" {
+		codeReader, closeCode, err := openSource(config.codePath, "")
+		if err != nil {
+			log.Fatalf("open code error: %s", err)
+		}
+		err = tlparser.ParseCode(codeReader, schema)
+		closeCode()
+		if err != nil {
+			log.Fatalf("parse code error: %s", err)
+		}
 	}
 
 	err = os.MkdirAll(config.outputDirPath, 0755)
@@ -110,4 +127,22 @@ package %s
 const TDLIB_VERSION = %q
 `, config.packageName, config.version)))
 	writer.Flush()
+}
+
+// openSource returns a reader for a local file when path is set, otherwise
+// downloads url. The schema can live in a TDLib fork that is not on GitHub
+// under tdlib/td, so a local path must be an option.
+func openSource(path, url string) (io.Reader, func(), error) {
+	if path != "" {
+		f, err := os.Open(path)
+		if err != nil {
+			return nil, nil, err
+		}
+		return f, func() { f.Close() }, nil
+	}
+	res, err := http.Get(url)
+	if err != nil {
+		return nil, nil, err
+	}
+	return res.Body, func() { res.Body.Close() }, nil
 }

@@ -33,6 +33,14 @@ func Authorize(client *Client, authorizationStateHandler AuthorizationStateHandl
 	for {
 		state, err := client.GetAuthorizationState(context.Background())
 		if err != nil {
+			// After Handle failed the client has been closed below; the next
+			// GetAuthorizationState then races with TDLib tearing the client
+			// down and can fail with 500 "Request aborted" (or ErrClientClosed).
+			// That failure is a side effect of our own Close — report the real
+			// authorization error instead of losing it.
+			if authorizationError != nil {
+				return authorizationError
+			}
 			return err
 		}
 
