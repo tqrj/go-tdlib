@@ -142,6 +142,16 @@ func (client *Client) receiver() {
 				default:
 				}
 			}
+			// A non-empty @extra marks an RPC response, never an update: TDLib
+			// echoes back only what the request carried, and updates carry none.
+			// Falling through would unmarshal every response a second time and
+			// then fan it out to every subscriber, which have nothing to do with
+			// it — they all switch on Update* types. That is not free: listing
+			// 3000 chats pushed 3000 Chat objects through every subscriber's
+			// buffer, and getCurrentState (megabytes) was fully materialized
+			// just to be dropped. Stop here; the authorizationStateClosed check
+			// below still fires because that arrives as an update.
+			continue
 		}
 
 		typ, err := UnmarshalType(response.Data)
