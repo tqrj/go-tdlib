@@ -8,53 +8,73 @@ import (
 	"time"
 )
 
-// TestResponseQueue_CloseWhileProducerBlocked is the crash this fork exists to
-// fix: with a plain channel, closing it while the global receiver is blocked on
-// a send panics inside the receiver goroutine ("send on closed channel"), and
-// nothing can recover it. The queue must instead release the producer and drop
-// the item.
-func TestResponseQueue_CloseWhileProducerBlocked(t *testing.T) {
-	q := newResponseQueue(1)
-	if !q.push(&Response{}) {
-		t.Fatal("first push should succeed")
+// A single global producer must keep reaching other clients even when one
+// client stops consuming. Everything queued for the slow client remains FIFO.
+func TestDeliver_SlowClientDoesNotBlockOtherClients(t *testing.T) {
+	slow, fast := newTestClient(), newTestClient()
+	defer slow.responses.close()
+	defer fast.responses.close()
+	const n = 2001 // exceeds the former production queue limit
+	items := make([]*Response, n)
+	for i := range items {
+		items[i] = &Response{}
 	}
-
-	pushed := make(chan bool, 1)
-	go func() { pushed <- q.push(&Response{}) }() // blocks: queue is full
-
-	select {
-	case <-pushed:
-		t.Fatal("push should block while the queue is full")
-	case <-time.After(50 * time.Millisecond):
-	}
-
-	q.close()
-
-	select {
-	case ok := <-pushed:
-		if ok {
-			t.Fatal("push after close must report the item was dropped")
+	marker := &Response{}
+	delivered := make(chan struct{})
+	go func() {
+		defer close(delivered)
+		for _, item := range items {
+			slow.deliver(item)
 		}
+		fast.deliver(marker)
+	}()
+	select {
+	case <-delivered:
 	case <-time.After(time.Second):
-		t.Fatal("close must release a blocked producer")
+		slow.responses.close()
+		<-delivered
+		t.Fatal("slow client blocked delivery to another client")
 	}
-
-	// Items queued before close stay readable; then pop reports closed.
-	if _, ok := q.pop(); !ok {
-		t.Fatal("queued item must still be delivered after close")
+	if got, ok := fast.responses.pop(); !ok || got != marker {
+		t.Fatal("other client did not receive its response")
 	}
-	if _, ok := q.pop(); ok {
-		t.Fatal("pop on a drained closed queue must report closed")
+	slow.responses.close()
+	for i, want := range items {
+		if got, ok := slow.responses.pop(); !ok || got != want {
+			t.Fatalf("slow client item %d lost or reordered", i)
+		}
 	}
-	if q.push(&Response{}) {
-		t.Fatal("push on a closed queue must be dropped")
+	if _, ok := slow.responses.pop(); ok {
+		t.Fatal("closed queue must end after draining")
+	}
+	if slow.responses.push(&Response{}) {
+		t.Fatal("closed queue must reject new deliveries")
 	}
 }
 
-// TestResponseQueue_FIFOUnderContention: back-pressure must not reorder or
+func TestResponseQueue_CloseWakesConsumer(t *testing.T) {
+	q := newResponseQueue()
+	done := make(chan bool, 1)
+	go func() {
+		_, ok := q.pop()
+		done <- ok
+	}()
+	q.close()
+	q.close() // closing is idempotent
+	select {
+	case ok := <-done:
+		if ok {
+			t.Fatal("empty closed queue must return no item")
+		}
+	case <-time.After(time.Second):
+		t.Fatal("close must release a waiting consumer")
+	}
+}
+
+// TestResponseQueue_FIFOUnderContention: concurrent delivery must not reorder or
 // lose items — updates carry state transitions whose order matters.
 func TestResponseQueue_FIFOUnderContention(t *testing.T) {
-	q := newResponseQueue(4)
+	q := newResponseQueue()
 	const n = 1000
 
 	var wg sync.WaitGroup
@@ -87,7 +107,7 @@ func TestResponseQueue_FIFOUnderContention(t *testing.T) {
 func newTestClient() *Client {
 	return &Client{
 		jsonClient:      &JsonClient{id: -1},
-		responses:       newResponseQueue(8),
+		responses:       newResponseQueue(),
 		catchersStore:   &sync.Map{},
 		extraGenerator:  UuidV4Generator(),
 		resultHandler:   NewCallbackResultHandler(func(Type) {}),

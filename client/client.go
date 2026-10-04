@@ -24,11 +24,6 @@ var ErrClientClosed = errors.New("tdlib client is closed")
 // pre-context API.
 var ErrResponseTimeout = errors.New("response catching timeout")
 
-// responseQueueSize bounds how many undelivered responses/updates a client may
-// hold. When it is full the global receiver blocks (back-pressure on TDLib)
-// exactly like the buffered channel it replaces.
-const responseQueueSize = 1000
-
 type Client struct {
 	jsonClient      *JsonClient
 	extraGenerator  ExtraGenerator
@@ -86,7 +81,7 @@ func NewCallbackResultHandler(callback func(result Type)) *CallbackResultHandler
 func NewClient(authorizationStateHandler AuthorizationStateHandler, options ...Option) (*Client, error) {
 	client := &Client{
 		jsonClient:    NewJsonClient(),
-		responses:     newResponseQueue(responseQueueSize),
+		responses:     newResponseQueue(),
 		catchersStore: &sync.Map{},
 	}
 
@@ -216,37 +211,33 @@ func (client *Client) Execute(req Request) (*Response, error) {
 	return client.jsonClient.Execute(req)
 }
 
-// responseQueue is a bounded FIFO that can be closed safely from the consumer
-// side while a producer is blocked on it — the one thing a Go channel cannot
-// do (close + concurrent send = panic). The producer is the process-wide
-// td_receive loop, so a panic there takes the whole process down.
+// responseQueue is a growing FIFO with safe concurrent delivery and close.
+// The process-wide td_receive producer never waits for a slow client to drain.
+// ponytail: pending messages use unbounded memory; sustained backlog would need
+// durable spooling if retaining every message with bounded memory is required.
 type responseQueue struct {
 	mu     sync.Mutex
 	cond   *sync.Cond
 	items  []*Response
-	cap    int
 	closed bool
 }
 
-func newResponseQueue(capacity int) *responseQueue {
-	q := &responseQueue{cap: capacity}
+func newResponseQueue() *responseQueue {
+	q := &responseQueue{}
 	q.cond = sync.NewCond(&q.mu)
 	return q
 }
 
-// push appends an item, blocking while the queue is full. It returns false
-// (dropping the item) if the queue is or becomes closed.
+// push appends without waiting for the consumer. Only a closed queue rejects
+// new items; messages accepted before close remain available to pop.
 func (q *responseQueue) push(item *Response) bool {
 	q.mu.Lock()
 	defer q.mu.Unlock()
-	for len(q.items) >= q.cap && !q.closed {
-		q.cond.Wait()
-	}
 	if q.closed {
 		return false
 	}
 	q.items = append(q.items, item)
-	q.cond.Broadcast()
+	q.cond.Signal()
 	return true
 }
 
@@ -264,11 +255,10 @@ func (q *responseQueue) pop() (*Response, bool) {
 	item := q.items[0]
 	q.items[0] = nil
 	q.items = q.items[1:]
-	q.cond.Broadcast()
 	return item, true
 }
 
-// close stops accepting items and wakes every blocked producer/consumer.
+// close stops accepting items and wakes the waiting consumer.
 // Items already queued stay readable until drained.
 func (q *responseQueue) close() {
 	q.mu.Lock()
