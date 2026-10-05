@@ -12,7 +12,8 @@ func GenerateTypes(schema *tlparser.Schema, packageName string) []byte {
 	buf.WriteString(fmt.Sprintf("%s\npackage %s\n\n", header, packageName))
 
 	buf.WriteString(`import (
-    "encoding/json"
+    "encoding/json/v2"
+    "encoding/json/jsontext"
 )
 
 `)
@@ -129,9 +130,9 @@ func (*%s) GetConstructor() string {
 					countSimpleProperties++
 				} else {
 					if tdlibTypeArg.IsList() {
-						buf.WriteString(fmt.Sprintf("        %s %s `json:\"%s\"`\n", tdlibTypeArg.ToGoName(), "[]json.RawMessage", arg.Name))
+						buf.WriteString(fmt.Sprintf("        %s %s `json:\"%s\"`\n", tdlibTypeArg.ToGoName(), "[]jsontext.Value", arg.Name))
 					} else {
-						buf.WriteString(fmt.Sprintf("        %s %s `json:\"%s\"`\n", tdlibTypeArg.ToGoName(), "json.RawMessage", arg.Name))
+						buf.WriteString(fmt.Sprintf("        %s %s `json:\"%s\"`\n", tdlibTypeArg.ToGoName(), "jsontext.Value", arg.Name))
 					}
 				}
 			}

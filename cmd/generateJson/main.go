@@ -1,7 +1,8 @@
 package main
 
 import (
-	"encoding/json"
+	"encoding/json/jsontext"
+	"encoding/json/v2"
 	"flag"
 	"github.com/tqrj/go-tdlib/internal/tlparser"
 	"io"
@@ -9,7 +10,6 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"strings"
 )
 
 func main() {
@@ -57,11 +57,9 @@ func main() {
 	}
 	defer f.Close()
 
-	enc := json.NewEncoder(f)
-	enc.SetIndent("", strings.Repeat(" ", 4))
-	err = enc.Encode(schema)
+	err = json.MarshalWrite(f, schema, jsontext.WithIndent("    "))
 	if err != nil {
-		log.Fatalf("enc.Encode error: %s", err)
+		log.Fatalf("json.MarshalWrite error: %s", err)
 	}
 }
 

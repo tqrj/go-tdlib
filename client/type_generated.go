@@ -2,7 +2,8 @@
 package client
 
 import (
-	"encoding/json"
+	"encoding/json/jsontext"
+	"encoding/json/v2"
 )
 
 const (
@@ -4289,8 +4290,8 @@ func (entity *AuthenticationCodeTypeFirebaseAndroid) MarshalJSON() ([]byte, erro
 
 func (authenticationCodeTypeFirebaseAndroid *AuthenticationCodeTypeFirebaseAndroid) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		DeviceVerificationParameters json.RawMessage `json:"device_verification_parameters"`
-		Length                       int32           `json:"length"`
+		DeviceVerificationParameters jsontext.Value `json:"device_verification_parameters"`
+		Length                       int32          `json:"length"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -4368,10 +4369,10 @@ func (entity *AuthenticationCodeInfo) MarshalJSON() ([]byte, error) {
 
 func (authenticationCodeInfo *AuthenticationCodeInfo) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		PhoneNumber string          `json:"phone_number"`
-		Type        json.RawMessage `json:"type"`
-		NextType    json.RawMessage `json:"next_type"`
-		Timeout     int32           `json:"timeout"`
+		PhoneNumber string         `json:"phone_number"`
+		Type        jsontext.Value `json:"type"`
+		NextType    jsontext.Value `json:"next_type"`
+		Timeout     int32          `json:"timeout"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -4580,9 +4581,9 @@ func (entity *TextEntity) MarshalJSON() ([]byte, error) {
 
 func (textEntity *TextEntity) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Offset int32           `json:"offset"`
-		Length int32           `json:"length"`
-		Type   json.RawMessage `json:"type"`
+		Offset int32          `json:"offset"`
+		Length int32          `json:"length"`
+		Type   jsontext.Value `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -4676,9 +4677,9 @@ func (entity *RichMessage) MarshalJSON() ([]byte, error) {
 
 func (richMessage *RichMessage) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Blocks []json.RawMessage `json:"blocks"`
-		IsRtl  bool              `json:"is_rtl"`
-		IsFull bool              `json:"is_full"`
+		Blocks []jsontext.Value `json:"blocks"`
+		IsRtl  bool             `json:"is_rtl"`
+		IsFull bool             `json:"is_full"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -4722,8 +4723,8 @@ func (entity *InputRichMessageMedia) MarshalJSON() ([]byte, error) {
 
 func (inputRichMessageMedia *InputRichMessageMedia) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id    string          `json:"id"`
-		Media json.RawMessage `json:"media"`
+		Id    string         `json:"id"`
+		Media jsontext.Value `json:"media"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -4768,7 +4769,7 @@ func (entity *RichMessageSourceBlocks) MarshalJSON() ([]byte, error) {
 
 func (richMessageSourceBlocks *RichMessageSourceBlocks) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Blocks []json.RawMessage `json:"blocks"`
+		Blocks []jsontext.Value `json:"blocks"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -4869,9 +4870,9 @@ func (entity *InputRichMessage) MarshalJSON() ([]byte, error) {
 
 func (inputRichMessage *InputRichMessage) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Source                json.RawMessage `json:"source"`
-		IsRtl                 bool            `json:"is_rtl"`
-		DetectAutomaticBlocks bool            `json:"detect_automatic_blocks"`
+		Source                jsontext.Value `json:"source"`
+		IsRtl                 bool           `json:"is_rtl"`
+		DetectAutomaticBlocks bool           `json:"detect_automatic_blocks"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -4917,9 +4918,9 @@ func (entity *DiffEntity) MarshalJSON() ([]byte, error) {
 
 func (diffEntity *DiffEntity) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Offset int32           `json:"offset"`
-		Length int32           `json:"length"`
-		Type   json.RawMessage `json:"type"`
+		Offset int32          `json:"offset"`
+		Length int32          `json:"length"`
+		Type   jsontext.Value `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -5281,7 +5282,7 @@ func (authorizationStateWaitEmailCode *AuthorizationStateWaitEmailCode) Unmarsha
 		AllowAppleId           bool                                `json:"allow_apple_id"`
 		AllowGoogleId          bool                                `json:"allow_google_id"`
 		CodeInfo               *EmailAddressAuthenticationCodeInfo `json:"code_info"`
-		EmailAddressResetState json.RawMessage                     `json:"email_address_reset_state"`
+		EmailAddressResetState jsontext.Value                      `json:"email_address_reset_state"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -6127,10 +6128,10 @@ func (entity *Thumbnail) MarshalJSON() ([]byte, error) {
 
 func (thumbnail *Thumbnail) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Format json.RawMessage `json:"format"`
-		Width  int32           `json:"width"`
-		Height int32           `json:"height"`
-		File   *File           `json:"file"`
+		Format jsontext.Value `json:"format"`
+		Width  int32          `json:"width"`
+		Height int32          `json:"height"`
+		File   *File          `json:"file"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -6279,10 +6280,10 @@ func (entity *MaskPosition) MarshalJSON() ([]byte, error) {
 
 func (maskPosition *MaskPosition) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Point  json.RawMessage `json:"point"`
-		XShift float64         `json:"x_shift"`
-		YShift float64         `json:"y_shift"`
-		Scale  float64         `json:"scale"`
+		Point  jsontext.Value `json:"point"`
+		XShift float64        `json:"x_shift"`
+		YShift float64        `json:"y_shift"`
+		Scale  float64        `json:"scale"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -6558,7 +6559,7 @@ func (entity *ClosedVectorPath) MarshalJSON() ([]byte, error) {
 
 func (closedVectorPath *ClosedVectorPath) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Commands []json.RawMessage `json:"commands"`
+		Commands []jsontext.Value `json:"commands"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -6638,16 +6639,16 @@ func (entity *PollOption) MarshalJSON() ([]byte, error) {
 
 func (pollOption *PollOption) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id             string            `json:"id"`
-		Text           *FormattedText    `json:"text"`
-		Media          json.RawMessage   `json:"media"`
-		VoterCount     int32             `json:"voter_count"`
-		VotePercentage int32             `json:"vote_percentage"`
-		RecentVoterIds []json.RawMessage `json:"recent_voter_ids"`
-		IsChosen       bool              `json:"is_chosen"`
-		IsBeingChosen  bool              `json:"is_being_chosen"`
-		Author         json.RawMessage   `json:"author"`
-		AdditionDate   int32             `json:"addition_date"`
+		Id             string           `json:"id"`
+		Text           *FormattedText   `json:"text"`
+		Media          jsontext.Value   `json:"media"`
+		VoterCount     int32            `json:"voter_count"`
+		VotePercentage int32            `json:"vote_percentage"`
+		RecentVoterIds []jsontext.Value `json:"recent_voter_ids"`
+		IsChosen       bool             `json:"is_chosen"`
+		IsBeingChosen  bool             `json:"is_being_chosen"`
+		Author         jsontext.Value   `json:"author"`
+		AdditionDate   int32            `json:"addition_date"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -6702,8 +6703,8 @@ func (entity *InputPollOption) MarshalJSON() ([]byte, error) {
 
 func (inputPollOption *InputPollOption) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text  *FormattedText  `json:"text"`
-		Media json.RawMessage `json:"media"`
+		Text  *FormattedText `json:"text"`
+		Media jsontext.Value `json:"media"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -6777,9 +6778,9 @@ func (entity *PollTypeQuiz) MarshalJSON() ([]byte, error) {
 
 func (pollTypeQuiz *PollTypeQuiz) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		CorrectOptionIds []int32         `json:"correct_option_ids"`
-		Explanation      *FormattedText  `json:"explanation"`
-		ExplanationMedia json.RawMessage `json:"explanation_media"`
+		CorrectOptionIds []int32        `json:"correct_option_ids"`
+		Explanation      *FormattedText `json:"explanation"`
+		ExplanationMedia jsontext.Value `json:"explanation_media"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -6856,9 +6857,9 @@ func (entity *InputPollTypeQuiz) MarshalJSON() ([]byte, error) {
 
 func (inputPollTypeQuiz *InputPollTypeQuiz) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		CorrectOptionIds []int32         `json:"correct_option_ids"`
-		Explanation      *FormattedText  `json:"explanation"`
-		ExplanationMedia json.RawMessage `json:"explanation_media"`
+		CorrectOptionIds []int32        `json:"correct_option_ids"`
+		Explanation      *FormattedText `json:"explanation"`
+		ExplanationMedia jsontext.Value `json:"explanation_media"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -7060,10 +7061,10 @@ func (entity *ChecklistTask) MarshalJSON() ([]byte, error) {
 
 func (checklistTask *ChecklistTask) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id             int32           `json:"id"`
-		Text           *FormattedText  `json:"text"`
-		CompletedBy    json.RawMessage `json:"completed_by"`
-		CompletionDate int32           `json:"completion_date"`
+		Id             int32          `json:"id"`
+		Text           *FormattedText `json:"text"`
+		CompletedBy    jsontext.Value `json:"completed_by"`
+		CompletionDate int32          `json:"completion_date"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -7370,15 +7371,15 @@ func (entity *Sticker) MarshalJSON() ([]byte, error) {
 
 func (sticker *Sticker) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id        JsonInt64       `json:"id"`
-		SetId     JsonInt64       `json:"set_id"`
-		Width     int32           `json:"width"`
-		Height    int32           `json:"height"`
-		Emoji     string          `json:"emoji"`
-		Format    json.RawMessage `json:"format"`
-		FullType  json.RawMessage `json:"full_type"`
-		Thumbnail *Thumbnail      `json:"thumbnail"`
-		Sticker   *File           `json:"sticker"`
+		Id        JsonInt64      `json:"id"`
+		SetId     JsonInt64      `json:"set_id"`
+		Width     int32          `json:"width"`
+		Height    int32          `json:"height"`
+		Emoji     string         `json:"emoji"`
+		Format    jsontext.Value `json:"format"`
+		FullType  jsontext.Value `json:"full_type"`
+		Thumbnail *Thumbnail     `json:"thumbnail"`
+		Sticker   *File          `json:"sticker"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -7481,13 +7482,13 @@ func (entity *VideoNote) MarshalJSON() ([]byte, error) {
 
 func (videoNote *VideoNote) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Duration                int32           `json:"duration"`
-		Waveform                []byte          `json:"waveform"`
-		Length                  int32           `json:"length"`
-		Minithumbnail           *Minithumbnail  `json:"minithumbnail"`
-		Thumbnail               *Thumbnail      `json:"thumbnail"`
-		SpeechRecognitionResult json.RawMessage `json:"speech_recognition_result"`
-		Video                   *File           `json:"video"`
+		Duration                int32          `json:"duration"`
+		Waveform                []byte         `json:"waveform"`
+		Length                  int32          `json:"length"`
+		Minithumbnail           *Minithumbnail `json:"minithumbnail"`
+		Thumbnail               *Thumbnail     `json:"thumbnail"`
+		SpeechRecognitionResult jsontext.Value `json:"speech_recognition_result"`
+		Video                   *File          `json:"video"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -7541,11 +7542,11 @@ func (entity *VoiceNote) MarshalJSON() ([]byte, error) {
 
 func (voiceNote *VoiceNote) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Duration                int32           `json:"duration"`
-		Waveform                []byte          `json:"waveform"`
-		MimeType                string          `json:"mime_type"`
-		SpeechRecognitionResult json.RawMessage `json:"speech_recognition_result"`
-		Voice                   *File           `json:"voice"`
+		Duration                int32          `json:"duration"`
+		Waveform                []byte         `json:"waveform"`
+		MimeType                string         `json:"mime_type"`
+		SpeechRecognitionResult jsontext.Value `json:"speech_recognition_result"`
+		Voice                   *File          `json:"voice"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -7873,24 +7874,24 @@ func (entity *Poll) MarshalJSON() ([]byte, error) {
 
 func (poll *Poll) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id                    JsonInt64         `json:"id"`
-		Question              *FormattedText    `json:"question"`
-		Options               []*PollOption     `json:"options"`
-		TotalVoterCount       int32             `json:"total_voter_count"`
-		RecentVoterIds        []json.RawMessage `json:"recent_voter_ids"`
-		CanGetVoters          bool              `json:"can_get_voters"`
-		CanSeeResults         bool              `json:"can_see_results"`
-		IsAnonymous           bool              `json:"is_anonymous"`
-		AllowsMultipleAnswers bool              `json:"allows_multiple_answers"`
-		AllowsRevoting        bool              `json:"allows_revoting"`
-		MembersOnly           bool              `json:"members_only"`
-		CountryCodes          []string          `json:"country_codes"`
-		OptionOrder           []int32           `json:"option_order"`
-		Type                  json.RawMessage   `json:"type"`
-		OpenPeriod            int32             `json:"open_period"`
-		CloseDate             int32             `json:"close_date"`
-		IsClosed              bool              `json:"is_closed"`
-		VoteRestrictionReason json.RawMessage   `json:"vote_restriction_reason"`
+		Id                    JsonInt64        `json:"id"`
+		Question              *FormattedText   `json:"question"`
+		Options               []*PollOption    `json:"options"`
+		TotalVoterCount       int32            `json:"total_voter_count"`
+		RecentVoterIds        []jsontext.Value `json:"recent_voter_ids"`
+		CanGetVoters          bool             `json:"can_get_voters"`
+		CanSeeResults         bool             `json:"can_see_results"`
+		IsAnonymous           bool             `json:"is_anonymous"`
+		AllowsMultipleAnswers bool             `json:"allows_multiple_answers"`
+		AllowsRevoting        bool             `json:"allows_revoting"`
+		MembersOnly           bool             `json:"members_only"`
+		CountryCodes          []string         `json:"country_codes"`
+		OptionOrder           []int32          `json:"option_order"`
+		Type                  jsontext.Value   `json:"type"`
+		OpenPeriod            int32            `json:"open_period"`
+		CloseDate             int32            `json:"close_date"`
+		IsClosed              bool             `json:"is_closed"`
+		VoteRestrictionReason jsontext.Value   `json:"vote_restriction_reason"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -8023,12 +8024,12 @@ func (entity *Background) MarshalJSON() ([]byte, error) {
 
 func (background *Background) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id        JsonInt64       `json:"id"`
-		IsDefault bool            `json:"is_default"`
-		IsDark    bool            `json:"is_dark"`
-		Name      string          `json:"name"`
-		Document  *Document       `json:"document"`
-		Type      json.RawMessage `json:"type"`
+		Id        JsonInt64      `json:"id"`
+		IsDefault bool           `json:"is_default"`
+		IsDark    bool           `json:"is_dark"`
+		Name      string         `json:"name"`
+		Document  *Document      `json:"document"`
+		Type      jsontext.Value `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -8926,7 +8927,7 @@ func (businessAwayMessageSettings *BusinessAwayMessageSettings) UnmarshalJSON(da
 	var tmp struct {
 		ShortcutId  int32               `json:"shortcut_id"`
 		Recipients  *BusinessRecipients `json:"recipients"`
-		Schedule    json.RawMessage     `json:"schedule"`
+		Schedule    jsontext.Value      `json:"schedule"`
 		OfflineOnly bool                `json:"offline_only"`
 	}
 
@@ -9133,9 +9134,9 @@ func (entity *InputBusinessStartPage) MarshalJSON() ([]byte, error) {
 
 func (inputBusinessStartPage *InputBusinessStartPage) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Title   string          `json:"title"`
-		Message string          `json:"message"`
-		Sticker json.RawMessage `json:"sticker"`
+		Title   string         `json:"title"`
+		Message string         `json:"message"`
+		Sticker jsontext.Value `json:"sticker"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -9424,8 +9425,8 @@ func (entity *ChatPhotoSticker) MarshalJSON() ([]byte, error) {
 
 func (chatPhotoSticker *ChatPhotoSticker) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Type           json.RawMessage `json:"type"`
-		BackgroundFill json.RawMessage `json:"background_fill"`
+		Type           jsontext.Value `json:"type"`
+		BackgroundFill jsontext.Value `json:"background_fill"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -9585,7 +9586,7 @@ func (entity *InputChatPhotoStatic) MarshalJSON() ([]byte, error) {
 
 func (inputChatPhotoStatic *InputChatPhotoStatic) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Photo json.RawMessage `json:"photo"`
+		Photo jsontext.Value `json:"photo"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -9630,8 +9631,8 @@ func (entity *InputChatPhotoAnimation) MarshalJSON() ([]byte, error) {
 
 func (inputChatPhotoAnimation *InputChatPhotoAnimation) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Animation          json.RawMessage `json:"animation"`
-		MainFrameTimestamp float64         `json:"main_frame_timestamp"`
+		Animation          jsontext.Value `json:"animation"`
+		MainFrameTimestamp float64        `json:"main_frame_timestamp"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -10014,8 +10015,8 @@ func (entity *MainWebApp) MarshalJSON() ([]byte, error) {
 
 func (mainWebApp *MainWebApp) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Url  *WebAppUrl      `json:"url"`
-		Mode json.RawMessage `json:"mode"`
+		Url  *WebAppUrl     `json:"url"`
+		Mode jsontext.Value `json:"mode"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -10062,7 +10063,7 @@ func (webAppOpenParameters *WebAppOpenParameters) UnmarshalJSON(data []byte) err
 	var tmp struct {
 		Theme           *ThemeParameters `json:"theme"`
 		ApplicationName string           `json:"application_name"`
-		Mode            json.RawMessage  `json:"mode"`
+		Mode            jsontext.Value   `json:"mode"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -10370,11 +10371,11 @@ func (entity *SuggestedPostInfo) MarshalJSON() ([]byte, error) {
 
 func (suggestedPostInfo *SuggestedPostInfo) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Price         json.RawMessage `json:"price"`
-		SendDate      int32           `json:"send_date"`
-		State         json.RawMessage `json:"state"`
-		CanBeApproved bool            `json:"can_be_approved"`
-		CanBeDeclined bool            `json:"can_be_declined"`
+		Price         jsontext.Value `json:"price"`
+		SendDate      int32          `json:"send_date"`
+		State         jsontext.Value `json:"state"`
+		CanBeApproved bool           `json:"can_be_approved"`
+		CanBeDeclined bool           `json:"can_be_declined"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -10422,8 +10423,8 @@ func (entity *InputSuggestedPostInfo) MarshalJSON() ([]byte, error) {
 
 func (inputSuggestedPostInfo *InputSuggestedPostInfo) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Price    json.RawMessage `json:"price"`
-		SendDate int32           `json:"send_date"`
+		Price    jsontext.Value `json:"price"`
+		SendDate int32          `json:"send_date"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -10644,7 +10645,7 @@ func (starSubscription *StarSubscription) UnmarshalJSON(data []byte) error {
 		IsCanceled     bool                     `json:"is_canceled"`
 		IsExpiring     bool                     `json:"is_expiring"`
 		Pricing        *StarSubscriptionPricing `json:"pricing"`
-		Type           json.RawMessage          `json:"type"`
+		Type           jsontext.Value           `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -11103,12 +11104,12 @@ func (entity *PremiumPaymentOption) MarshalJSON() ([]byte, error) {
 
 func (premiumPaymentOption *PremiumPaymentOption) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Currency           string          `json:"currency"`
-		Amount             int64           `json:"amount"`
-		DiscountPercentage int32           `json:"discount_percentage"`
-		MonthCount         int32           `json:"month_count"`
-		StoreProductId     string          `json:"store_product_id"`
-		PaymentLink        json.RawMessage `json:"payment_link"`
+		Currency           string         `json:"currency"`
+		Amount             int64          `json:"amount"`
+		DiscountPercentage int32          `json:"discount_percentage"`
+		MonthCount         int32          `json:"month_count"`
+		StoreProductId     string         `json:"store_product_id"`
+		PaymentLink        jsontext.Value `json:"payment_link"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -11310,14 +11311,14 @@ func (entity *PremiumGiftCodeInfo) MarshalJSON() ([]byte, error) {
 
 func (premiumGiftCodeInfo *PremiumGiftCodeInfo) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		CreatorId         json.RawMessage `json:"creator_id"`
-		CreationDate      int32           `json:"creation_date"`
-		IsFromGiveaway    bool            `json:"is_from_giveaway"`
-		GiveawayMessageId int64           `json:"giveaway_message_id"`
-		MonthCount        int32           `json:"month_count"`
-		DayCount          int32           `json:"day_count"`
-		UserId            int64           `json:"user_id"`
-		UseDate           int32           `json:"use_date"`
+		CreatorId         jsontext.Value `json:"creator_id"`
+		CreationDate      int32          `json:"creation_date"`
+		IsFromGiveaway    bool           `json:"is_from_giveaway"`
+		GiveawayMessageId int64          `json:"giveaway_message_id"`
+		MonthCount        int32          `json:"month_count"`
+		DayCount          int32          `json:"day_count"`
+		UserId            int64          `json:"user_id"`
+		UseDate           int32          `json:"use_date"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -11827,7 +11828,7 @@ func (entity *UpgradedGiftOriginResale) MarshalJSON() ([]byte, error) {
 
 func (upgradedGiftOriginResale *UpgradedGiftOriginResale) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Price json.RawMessage `json:"price"`
+		Price jsontext.Value `json:"price"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -11920,7 +11921,7 @@ func (entity *UpgradedGiftOriginOffer) MarshalJSON() ([]byte, error) {
 
 func (upgradedGiftOriginOffer *UpgradedGiftOriginOffer) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Price json.RawMessage `json:"price"`
+		Price jsontext.Value `json:"price"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -12117,10 +12118,10 @@ func (entity *UpgradedGiftModel) MarshalJSON() ([]byte, error) {
 
 func (upgradedGiftModel *UpgradedGiftModel) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Name      string          `json:"name"`
-		Sticker   *Sticker        `json:"sticker"`
-		Rarity    json.RawMessage `json:"rarity"`
-		IsCrafted bool            `json:"is_crafted"`
+		Name      string         `json:"name"`
+		Sticker   *Sticker       `json:"sticker"`
+		Rarity    jsontext.Value `json:"rarity"`
+		IsCrafted bool           `json:"is_crafted"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -12167,9 +12168,9 @@ func (entity *UpgradedGiftSymbol) MarshalJSON() ([]byte, error) {
 
 func (upgradedGiftSymbol *UpgradedGiftSymbol) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Name    string          `json:"name"`
-		Sticker *Sticker        `json:"sticker"`
-		Rarity  json.RawMessage `json:"rarity"`
+		Name    string         `json:"name"`
+		Sticker *Sticker       `json:"sticker"`
+		Rarity  jsontext.Value `json:"rarity"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -12249,7 +12250,7 @@ func (upgradedGiftBackdrop *UpgradedGiftBackdrop) UnmarshalJSON(data []byte) err
 		Id     int32                       `json:"id"`
 		Name   string                      `json:"name"`
 		Colors *UpgradedGiftBackdropColors `json:"colors"`
-		Rarity json.RawMessage             `json:"rarity"`
+		Rarity jsontext.Value              `json:"rarity"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -12298,10 +12299,10 @@ func (entity *UpgradedGiftOriginalDetails) MarshalJSON() ([]byte, error) {
 
 func (upgradedGiftOriginalDetails *UpgradedGiftOriginalDetails) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		SenderId   json.RawMessage `json:"sender_id"`
-		ReceiverId json.RawMessage `json:"receiver_id"`
-		Text       *FormattedText  `json:"text"`
-		Date       int32           `json:"date"`
+		SenderId   jsontext.Value `json:"sender_id"`
+		ReceiverId jsontext.Value `json:"receiver_id"`
+		Text       *FormattedText `json:"text"`
+		Date       int32          `json:"date"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -12505,8 +12506,8 @@ func (upgradedGift *UpgradedGift) UnmarshalJSON(data []byte) error {
 		IsPremium                bool                         `json:"is_premium"`
 		IsThemeAvailable         bool                         `json:"is_theme_available"`
 		UsedThemeChatId          int64                        `json:"used_theme_chat_id"`
-		HostId                   json.RawMessage              `json:"host_id"`
-		OwnerId                  json.RawMessage              `json:"owner_id"`
+		HostId                   jsontext.Value               `json:"host_id"`
+		OwnerId                  jsontext.Value               `json:"owner_id"`
 		OwnerAddress             string                       `json:"owner_address"`
 		OwnerName                string                       `json:"owner_name"`
 		GiftAddress              string                       `json:"gift_address"`
@@ -13181,7 +13182,7 @@ func (entity *GiftResaleResultPriceIncreased) MarshalJSON() ([]byte, error) {
 
 func (giftResaleResultPriceIncreased *GiftResaleResultPriceIncreased) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Price json.RawMessage `json:"price"`
+		Price jsontext.Value `json:"price"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -13318,29 +13319,29 @@ func (entity *ReceivedGift) MarshalJSON() ([]byte, error) {
 
 func (receivedGift *ReceivedGift) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ReceivedGiftId               string          `json:"received_gift_id"`
-		SenderId                     json.RawMessage `json:"sender_id"`
-		Text                         *FormattedText  `json:"text"`
-		UniqueGiftNumber             int32           `json:"unique_gift_number"`
-		IsPrivate                    bool            `json:"is_private"`
-		IsSaved                      bool            `json:"is_saved"`
-		IsPinned                     bool            `json:"is_pinned"`
-		CanBeUpgraded                bool            `json:"can_be_upgraded"`
-		CanBeTransferred             bool            `json:"can_be_transferred"`
-		WasRefunded                  bool            `json:"was_refunded"`
-		Date                         int32           `json:"date"`
-		Gift                         json.RawMessage `json:"gift"`
-		CollectionIds                []int32         `json:"collection_ids"`
-		SellStarCount                int64           `json:"sell_star_count"`
-		PrepaidUpgradeStarCount      int64           `json:"prepaid_upgrade_star_count"`
-		IsUpgradeSeparate            bool            `json:"is_upgrade_separate"`
-		TransferStarCount            int64           `json:"transfer_star_count"`
-		DropOriginalDetailsStarCount int64           `json:"drop_original_details_star_count"`
-		NextTransferDate             int32           `json:"next_transfer_date"`
-		NextResaleDate               int32           `json:"next_resale_date"`
-		ExportDate                   int32           `json:"export_date"`
-		PrepaidUpgradeHash           string          `json:"prepaid_upgrade_hash"`
-		CraftDate                    int32           `json:"craft_date"`
+		ReceivedGiftId               string         `json:"received_gift_id"`
+		SenderId                     jsontext.Value `json:"sender_id"`
+		Text                         *FormattedText `json:"text"`
+		UniqueGiftNumber             int32          `json:"unique_gift_number"`
+		IsPrivate                    bool           `json:"is_private"`
+		IsSaved                      bool           `json:"is_saved"`
+		IsPinned                     bool           `json:"is_pinned"`
+		CanBeUpgraded                bool           `json:"can_be_upgraded"`
+		CanBeTransferred             bool           `json:"can_be_transferred"`
+		WasRefunded                  bool           `json:"was_refunded"`
+		Date                         int32          `json:"date"`
+		Gift                         jsontext.Value `json:"gift"`
+		CollectionIds                []int32        `json:"collection_ids"`
+		SellStarCount                int64          `json:"sell_star_count"`
+		PrepaidUpgradeStarCount      int64          `json:"prepaid_upgrade_star_count"`
+		IsUpgradeSeparate            bool           `json:"is_upgrade_separate"`
+		TransferStarCount            int64          `json:"transfer_star_count"`
+		DropOriginalDetailsStarCount int64          `json:"drop_original_details_star_count"`
+		NextTransferDate             int32          `json:"next_transfer_date"`
+		NextResaleDate               int32          `json:"next_resale_date"`
+		ExportDate                   int32          `json:"export_date"`
+		PrepaidUpgradeHash           string         `json:"prepaid_upgrade_hash"`
+		CraftDate                    int32          `json:"craft_date"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -13578,11 +13579,11 @@ func (entity *UserAuctionBid) MarshalJSON() ([]byte, error) {
 
 func (userAuctionBid *UserAuctionBid) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		StarCount        int64           `json:"star_count"`
-		BidDate          int32           `json:"bid_date"`
-		NextBidStarCount int64           `json:"next_bid_star_count"`
-		OwnerId          json.RawMessage `json:"owner_id"`
-		WasReturned      bool            `json:"was_returned"`
+		StarCount        int64          `json:"star_count"`
+		BidDate          int32          `json:"bid_date"`
+		NextBidStarCount int64          `json:"next_bid_star_count"`
+		OwnerId          jsontext.Value `json:"owner_id"`
+		WasReturned      bool           `json:"was_returned"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -13747,8 +13748,8 @@ func (entity *GiftAuctionState) MarshalJSON() ([]byte, error) {
 
 func (giftAuctionState *GiftAuctionState) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Gift  *Gift           `json:"gift"`
-		State json.RawMessage `json:"state"`
+		Gift  *Gift          `json:"gift"`
+		State jsontext.Value `json:"state"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -13803,14 +13804,14 @@ func (entity *GiftAuctionAcquiredGift) MarshalJSON() ([]byte, error) {
 
 func (giftAuctionAcquiredGift *GiftAuctionAcquiredGift) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ReceiverId           json.RawMessage `json:"receiver_id"`
-		Date                 int32           `json:"date"`
-		StarCount            int64           `json:"star_count"`
-		AuctionRoundNumber   int32           `json:"auction_round_number"`
-		AuctionRoundPosition int32           `json:"auction_round_position"`
-		UniqueGiftNumber     int32           `json:"unique_gift_number"`
-		Text                 *FormattedText  `json:"text"`
-		IsPrivate            bool            `json:"is_private"`
+		ReceiverId           jsontext.Value `json:"receiver_id"`
+		Date                 int32          `json:"date"`
+		StarCount            int64          `json:"star_count"`
+		AuctionRoundNumber   int32          `json:"auction_round_number"`
+		AuctionRoundPosition int32          `json:"auction_round_position"`
+		UniqueGiftNumber     int32          `json:"unique_gift_number"`
+		Text                 *FormattedText `json:"text"`
+		IsPrivate            bool           `json:"is_private"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -14092,7 +14093,7 @@ func (entity *StarTransactionTypeFragmentWithdrawal) MarshalJSON() ([]byte, erro
 
 func (starTransactionTypeFragmentWithdrawal *StarTransactionTypeFragmentWithdrawal) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		WithdrawalState json.RawMessage `json:"withdrawal_state"`
+		WithdrawalState jsontext.Value `json:"withdrawal_state"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -14189,8 +14190,8 @@ func (entity *StarTransactionTypeBotPaidMediaPurchase) MarshalJSON() ([]byte, er
 
 func (starTransactionTypeBotPaidMediaPurchase *StarTransactionTypeBotPaidMediaPurchase) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		UserId int64             `json:"user_id"`
-		Media  []json.RawMessage `json:"media"`
+		UserId int64            `json:"user_id"`
+		Media  []jsontext.Value `json:"media"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -14241,10 +14242,10 @@ func (entity *StarTransactionTypeBotPaidMediaSale) MarshalJSON() ([]byte, error)
 
 func (starTransactionTypeBotPaidMediaSale *StarTransactionTypeBotPaidMediaSale) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		UserId    int64             `json:"user_id"`
-		Media     []json.RawMessage `json:"media"`
-		Payload   string            `json:"payload"`
-		Affiliate *AffiliateInfo    `json:"affiliate"`
+		UserId    int64            `json:"user_id"`
+		Media     []jsontext.Value `json:"media"`
+		Payload   string           `json:"payload"`
+		Affiliate *AffiliateInfo   `json:"affiliate"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -14295,9 +14296,9 @@ func (entity *StarTransactionTypeChannelPaidMediaPurchase) MarshalJSON() ([]byte
 
 func (starTransactionTypeChannelPaidMediaPurchase *StarTransactionTypeChannelPaidMediaPurchase) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ChatId    int64             `json:"chat_id"`
-		MessageId int64             `json:"message_id"`
-		Media     []json.RawMessage `json:"media"`
+		ChatId    int64            `json:"chat_id"`
+		MessageId int64            `json:"message_id"`
+		Media     []jsontext.Value `json:"media"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -14347,9 +14348,9 @@ func (entity *StarTransactionTypeChannelPaidMediaSale) MarshalJSON() ([]byte, er
 
 func (starTransactionTypeChannelPaidMediaSale *StarTransactionTypeChannelPaidMediaSale) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		UserId    int64             `json:"user_id"`
-		MessageId int64             `json:"message_id"`
-		Media     []json.RawMessage `json:"media"`
+		UserId    int64            `json:"user_id"`
+		MessageId int64            `json:"message_id"`
+		Media     []jsontext.Value `json:"media"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -14583,8 +14584,8 @@ func (entity *StarTransactionTypeGiftAuctionBid) MarshalJSON() ([]byte, error) {
 
 func (starTransactionTypeGiftAuctionBid *StarTransactionTypeGiftAuctionBid) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		OwnerId json.RawMessage `json:"owner_id"`
-		Gift    *Gift           `json:"gift"`
+		OwnerId jsontext.Value `json:"owner_id"`
+		Gift    *Gift          `json:"gift"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -14631,8 +14632,8 @@ func (entity *StarTransactionTypeGiftPurchase) MarshalJSON() ([]byte, error) {
 
 func (starTransactionTypeGiftPurchase *StarTransactionTypeGiftPurchase) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		OwnerId json.RawMessage `json:"owner_id"`
-		Gift    *Gift           `json:"gift"`
+		OwnerId jsontext.Value `json:"owner_id"`
+		Gift    *Gift          `json:"gift"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -14706,8 +14707,8 @@ func (entity *StarTransactionTypeGiftTransfer) MarshalJSON() ([]byte, error) {
 
 func (starTransactionTypeGiftTransfer *StarTransactionTypeGiftTransfer) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		OwnerId json.RawMessage `json:"owner_id"`
-		Gift    *UpgradedGift   `json:"gift"`
+		OwnerId jsontext.Value `json:"owner_id"`
+		Gift    *UpgradedGift  `json:"gift"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -14754,8 +14755,8 @@ func (entity *StarTransactionTypeGiftOriginalDetailsDrop) MarshalJSON() ([]byte,
 
 func (starTransactionTypeGiftOriginalDetailsDrop *StarTransactionTypeGiftOriginalDetailsDrop) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		OwnerId json.RawMessage `json:"owner_id"`
-		Gift    *UpgradedGift   `json:"gift"`
+		OwnerId jsontext.Value `json:"owner_id"`
+		Gift    *UpgradedGift  `json:"gift"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -14860,8 +14861,8 @@ func (entity *StarTransactionTypeGiftUpgradePurchase) MarshalJSON() ([]byte, err
 
 func (starTransactionTypeGiftUpgradePurchase *StarTransactionTypeGiftUpgradePurchase) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		OwnerId json.RawMessage `json:"owner_id"`
-		Gift    *Gift           `json:"gift"`
+		OwnerId jsontext.Value `json:"owner_id"`
+		Gift    *Gift          `json:"gift"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -15092,10 +15093,10 @@ func (entity *StarTransactionTypePaidMessageReceive) MarshalJSON() ([]byte, erro
 
 func (starTransactionTypePaidMessageReceive *StarTransactionTypePaidMessageReceive) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		SenderId             json.RawMessage `json:"sender_id"`
-		MessageCount         int32           `json:"message_count"`
-		CommissionPerMille   int32           `json:"commission_per_mille"`
-		CommissionStarAmount *StarAmount     `json:"commission_star_amount"`
+		SenderId             jsontext.Value `json:"sender_id"`
+		MessageCount         int32          `json:"message_count"`
+		CommissionPerMille   int32          `json:"commission_per_mille"`
+		CommissionStarAmount *StarAmount    `json:"commission_star_amount"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -15173,9 +15174,9 @@ func (entity *StarTransactionTypePaidGroupCallMessageReceive) MarshalJSON() ([]b
 
 func (starTransactionTypePaidGroupCallMessageReceive *StarTransactionTypePaidGroupCallMessageReceive) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		SenderId             json.RawMessage `json:"sender_id"`
-		CommissionPerMille   int32           `json:"commission_per_mille"`
-		CommissionStarAmount *StarAmount     `json:"commission_star_amount"`
+		SenderId             jsontext.Value `json:"sender_id"`
+		CommissionPerMille   int32          `json:"commission_per_mille"`
+		CommissionStarAmount *StarAmount    `json:"commission_star_amount"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -15252,9 +15253,9 @@ func (entity *StarTransactionTypePaidGroupCallReactionReceive) MarshalJSON() ([]
 
 func (starTransactionTypePaidGroupCallReactionReceive *StarTransactionTypePaidGroupCallReactionReceive) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		SenderId             json.RawMessage `json:"sender_id"`
-		CommissionPerMille   int32           `json:"commission_per_mille"`
-		CommissionStarAmount *StarAmount     `json:"commission_star_amount"`
+		SenderId             jsontext.Value `json:"sender_id"`
+		CommissionPerMille   int32          `json:"commission_per_mille"`
+		CommissionStarAmount *StarAmount    `json:"commission_star_amount"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -15493,11 +15494,11 @@ func (entity *StarTransaction) MarshalJSON() ([]byte, error) {
 
 func (starTransaction *StarTransaction) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id         string          `json:"id"`
-		StarAmount *StarAmount     `json:"star_amount"`
-		IsRefund   bool            `json:"is_refund"`
-		Date       int32           `json:"date"`
-		Type       json.RawMessage `json:"type"`
+		Id         string         `json:"id"`
+		StarAmount *StarAmount    `json:"star_amount"`
+		IsRefund   bool           `json:"is_refund"`
+		Date       int32          `json:"date"`
+		Type       jsontext.Value `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -15601,7 +15602,7 @@ func (entity *TonTransactionTypeFragmentWithdrawal) MarshalJSON() ([]byte, error
 
 func (tonTransactionTypeFragmentWithdrawal *TonTransactionTypeFragmentWithdrawal) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		WithdrawalState json.RawMessage `json:"withdrawal_state"`
+		WithdrawalState jsontext.Value `json:"withdrawal_state"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -15841,11 +15842,11 @@ func (entity *TonTransaction) MarshalJSON() ([]byte, error) {
 
 func (tonTransaction *TonTransaction) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id         string          `json:"id"`
-		GramAmount int64           `json:"gram_amount"`
-		IsRefund   bool            `json:"is_refund"`
-		Date       int32           `json:"date"`
-		Type       json.RawMessage `json:"type"`
+		Id         string         `json:"id"`
+		GramAmount int64          `json:"gram_amount"`
+		IsRefund   bool           `json:"is_refund"`
+		Date       int32          `json:"date"`
+		Type       jsontext.Value `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -16132,9 +16133,9 @@ func (entity *GiveawayInfoOngoing) MarshalJSON() ([]byte, error) {
 
 func (giveawayInfoOngoing *GiveawayInfoOngoing) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		CreationDate int32           `json:"creation_date"`
-		Status       json.RawMessage `json:"status"`
-		IsEnded      bool            `json:"is_ended"`
+		CreationDate int32          `json:"creation_date"`
+		Status       jsontext.Value `json:"status"`
+		IsEnded      bool           `json:"is_ended"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -16614,7 +16615,7 @@ func (community *Community) UnmarshalJSON(data []byte) error {
 		Name        string                `json:"name"`
 		Photo       *ChatPhotoInfo        `json:"photo"`
 		Date        int32                 `json:"date"`
-		Status      json.RawMessage       `json:"status"`
+		Status      jsontext.Value        `json:"status"`
 		Permissions *CommunityPermissions `json:"permissions"`
 	}
 
@@ -16841,8 +16842,8 @@ func (entity *EmojiStatus) MarshalJSON() ([]byte, error) {
 
 func (emojiStatus *EmojiStatus) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Type           json.RawMessage `json:"type"`
-		ExpirationDate int32           `json:"expiration_date"`
+		Type           jsontext.Value `json:"type"`
+		ExpirationDate int32          `json:"expiration_date"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -17015,7 +17016,7 @@ func (user *User) UnmarshalJSON(data []byte) error {
 		LastName                       string              `json:"last_name"`
 		Usernames                      *Usernames          `json:"usernames"`
 		PhoneNumber                    string              `json:"phone_number"`
-		Status                         json.RawMessage     `json:"status"`
+		Status                         jsontext.Value      `json:"status"`
 		ProfilePhoto                   *ProfilePhoto       `json:"profile_photo"`
 		AccentColorId                  int32               `json:"accent_color_id"`
 		BackgroundCustomEmojiId        JsonInt64           `json:"background_custom_emoji_id"`
@@ -17030,11 +17031,11 @@ func (user *User) UnmarshalJSON(data []byte) error {
 		IsPremium                      bool                `json:"is_premium"`
 		IsSupport                      bool                `json:"is_support"`
 		RestrictionInfo                *RestrictionInfo    `json:"restriction_info"`
-		ActiveStoryState               json.RawMessage     `json:"active_story_state"`
+		ActiveStoryState               jsontext.Value      `json:"active_story_state"`
 		RestrictsNewChats              bool                `json:"restricts_new_chats"`
 		PaidMessageStarCount           int64               `json:"paid_message_star_count"`
 		HaveAccess                     bool                `json:"have_access"`
-		Type                           json.RawMessage     `json:"type"`
+		Type                           jsontext.Value      `json:"type"`
 		LanguageCode                   string              `json:"language_code"`
 		AddedToAttachmentMenu          bool                `json:"added_to_attachment_menu"`
 	}
@@ -17169,10 +17170,10 @@ func (botInfo *BotInfo) UnmarshalJSON(data []byte) error {
 		CanGetRevenueStatistics           bool                       `json:"can_get_revenue_statistics"`
 		CanManageEmojiStatus              bool                       `json:"can_manage_emoji_status"`
 		HasMediaPreviews                  bool                       `json:"has_media_previews"`
-		EditCommandsLink                  json.RawMessage            `json:"edit_commands_link"`
-		EditDescriptionLink               json.RawMessage            `json:"edit_description_link"`
-		EditDescriptionMediaLink          json.RawMessage            `json:"edit_description_media_link"`
-		EditSettingsLink                  json.RawMessage            `json:"edit_settings_link"`
+		EditCommandsLink                  jsontext.Value             `json:"edit_commands_link"`
+		EditDescriptionLink               jsontext.Value             `json:"edit_description_link"`
+		EditDescriptionMediaLink          jsontext.Value             `json:"edit_description_media_link"`
+		EditSettingsLink                  jsontext.Value             `json:"edit_settings_link"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -17306,7 +17307,7 @@ func (userFullInfo *UserFullInfo) UnmarshalJSON(data []byte) error {
 		Photo                                  *ChatPhoto       `json:"photo"`
 		PublicPhoto                            *ChatPhoto       `json:"public_photo"`
 		CommunityId                            int64            `json:"community_id"`
-		BlockList                              json.RawMessage  `json:"block_list"`
+		BlockList                              jsontext.Value   `json:"block_list"`
 		CanBeCalled                            bool             `json:"can_be_called"`
 		SupportsVideoCalls                     bool             `json:"supports_video_calls"`
 		HasPrivateCalls                        bool             `json:"has_private_calls"`
@@ -17326,7 +17327,7 @@ func (userFullInfo *UserFullInfo) UnmarshalJSON(data []byte) error {
 		OutgoingPaidMessageStarCount           int64            `json:"outgoing_paid_message_star_count"`
 		GiftSettings                           *GiftSettings    `json:"gift_settings"`
 		BotVerification                        *BotVerification `json:"bot_verification"`
-		MainProfileTab                         json.RawMessage  `json:"main_profile_tab"`
+		MainProfileTab                         jsontext.Value   `json:"main_profile_tab"`
 		FirstProfileAudio                      *Audio           `json:"first_profile_audio"`
 		Rating                                 *UserRating      `json:"rating"`
 		PendingRating                          *UserRating      `json:"pending_rating"`
@@ -17684,11 +17685,11 @@ func (entity *ChatMember) MarshalJSON() ([]byte, error) {
 
 func (chatMember *ChatMember) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		MemberId       json.RawMessage `json:"member_id"`
-		Tag            string          `json:"tag"`
-		InviterUserId  int64           `json:"inviter_user_id"`
-		JoinedChatDate int32           `json:"joined_chat_date"`
-		Status         json.RawMessage `json:"status"`
+		MemberId       jsontext.Value `json:"member_id"`
+		Tag            string         `json:"tag"`
+		InviterUserId  int64          `json:"inviter_user_id"`
+		JoinedChatDate int32          `json:"joined_chat_date"`
+		Status         jsontext.Value `json:"status"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -17838,7 +17839,7 @@ func (entity *ChatMembersFilterMention) MarshalJSON() ([]byte, error) {
 
 func (chatMembersFilterMention *ChatMembersFilterMention) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		TopicId json.RawMessage `json:"topic_id"`
+		TopicId jsontext.Value `json:"topic_id"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -18116,8 +18117,8 @@ func (entity *SupergroupMembersFilterMention) MarshalJSON() ([]byte, error) {
 
 func (supergroupMembersFilterMention *SupergroupMembersFilterMention) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Query   string          `json:"query"`
-		TopicId json.RawMessage `json:"topic_id"`
+		Query   string         `json:"query"`
+		TopicId jsontext.Value `json:"topic_id"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -18670,7 +18671,7 @@ func (chatInviteLinkInfo *ChatInviteLinkInfo) UnmarshalJSON(data []byte) error {
 	var tmp struct {
 		ChatId             int64                           `json:"chat_id"`
 		AccessibleFor      int32                           `json:"accessible_for"`
-		Type               json.RawMessage                 `json:"type"`
+		Type               jsontext.Value                  `json:"type"`
 		Title              string                          `json:"title"`
 		Photo              *ChatPhotoInfo                  `json:"photo"`
 		AccentColorId      int32                           `json:"accent_color_id"`
@@ -18817,11 +18818,11 @@ func (entity *BasicGroup) MarshalJSON() ([]byte, error) {
 
 func (basicGroup *BasicGroup) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id                     int64           `json:"id"`
-		MemberCount            int32           `json:"member_count"`
-		Status                 json.RawMessage `json:"status"`
-		IsActive               bool            `json:"is_active"`
-		UpgradedToSupergroupId int64           `json:"upgraded_to_supergroup_id"`
+		Id                     int64          `json:"id"`
+		MemberCount            int32          `json:"member_count"`
+		Status                 jsontext.Value `json:"status"`
+		IsActive               bool           `json:"is_active"`
+		UpgradedToSupergroupId int64          `json:"upgraded_to_supergroup_id"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -18953,7 +18954,7 @@ func (supergroup *Supergroup) UnmarshalJSON(data []byte) error {
 		Id                                int64               `json:"id"`
 		Usernames                         *Usernames          `json:"usernames"`
 		Date                              int32               `json:"date"`
-		Status                            json.RawMessage     `json:"status"`
+		Status                            jsontext.Value      `json:"status"`
 		MemberCount                       int32               `json:"member_count"`
 		BoostLevel                        int32               `json:"boost_level"`
 		HasAutomaticTranslation           bool                `json:"has_automatic_translation"`
@@ -18974,7 +18975,7 @@ func (supergroup *Supergroup) UnmarshalJSON(data []byte) error {
 		HasForumTabs                      bool                `json:"has_forum_tabs"`
 		RestrictionInfo                   *RestrictionInfo    `json:"restriction_info"`
 		PaidMessageStarCount              int64               `json:"paid_message_star_count"`
-		ActiveStoryState                  json.RawMessage     `json:"active_story_state"`
+		ActiveStoryState                  jsontext.Value      `json:"active_story_state"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -19161,7 +19162,7 @@ func (supergroupFullInfo *SupergroupFullInfo) UnmarshalJSON(data []byte) error {
 		GuardBotUserId               int64            `json:"guard_bot_user_id"`
 		BotCommands                  []*BotCommands   `json:"bot_commands"`
 		BotVerification              *BotVerification `json:"bot_verification"`
-		MainProfileTab               json.RawMessage  `json:"main_profile_tab"`
+		MainProfileTab               jsontext.Value   `json:"main_profile_tab"`
 		UpgradedFromBasicGroupId     int64            `json:"upgraded_from_basic_group_id"`
 		UpgradedFromMaxMessageId     int64            `json:"upgraded_from_max_message_id"`
 	}
@@ -19329,12 +19330,12 @@ func (entity *SecretChat) MarshalJSON() ([]byte, error) {
 
 func (secretChat *SecretChat) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id         int32           `json:"id"`
-		UserId     int64           `json:"user_id"`
-		State      json.RawMessage `json:"state"`
-		IsOutbound bool            `json:"is_outbound"`
-		KeyHash    []byte          `json:"key_hash"`
-		Layer      int32           `json:"layer"`
+		Id         int32          `json:"id"`
+		UserId     int64          `json:"user_id"`
+		State      jsontext.Value `json:"state"`
+		IsOutbound bool           `json:"is_outbound"`
+		KeyHash    []byte         `json:"key_hash"`
+		Layer      int32          `json:"layer"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -19466,8 +19467,8 @@ func (entity *MessageSenders) MarshalJSON() ([]byte, error) {
 
 func (messageSenders *MessageSenders) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		TotalCount int32             `json:"total_count"`
-		Senders    []json.RawMessage `json:"senders"`
+		TotalCount int32            `json:"total_count"`
+		Senders    []jsontext.Value `json:"senders"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -19510,8 +19511,8 @@ func (entity *ChatMessageSender) MarshalJSON() ([]byte, error) {
 
 func (chatMessageSender *ChatMessageSender) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Sender       json.RawMessage `json:"sender"`
-		NeedsPremium bool            `json:"needs_premium"`
+		Sender       jsontext.Value `json:"sender"`
+		NeedsPremium bool           `json:"needs_premium"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -19577,8 +19578,8 @@ func (entity *PollVoter) MarshalJSON() ([]byte, error) {
 
 func (pollVoter *PollVoter) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		VoterId json.RawMessage `json:"voter_id"`
-		Date    int32           `json:"date"`
+		VoterId jsontext.Value `json:"voter_id"`
+		Date    int32          `json:"date"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -19943,12 +19944,12 @@ func (entity *ForwardSource) MarshalJSON() ([]byte, error) {
 
 func (forwardSource *ForwardSource) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ChatId     int64           `json:"chat_id"`
-		MessageId  int64           `json:"message_id"`
-		SenderId   json.RawMessage `json:"sender_id"`
-		SenderName string          `json:"sender_name"`
-		Date       int32           `json:"date"`
-		IsOutgoing bool            `json:"is_outgoing"`
+		ChatId     int64          `json:"chat_id"`
+		MessageId  int64          `json:"message_id"`
+		SenderId   jsontext.Value `json:"sender_id"`
+		SenderName string         `json:"sender_name"`
+		Date       int32          `json:"date"`
+		IsOutgoing bool           `json:"is_outgoing"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -20157,11 +20158,11 @@ func (entity *PaidReactor) MarshalJSON() ([]byte, error) {
 
 func (paidReactor *PaidReactor) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		SenderId    json.RawMessage `json:"sender_id"`
-		StarCount   int64           `json:"star_count"`
-		IsTop       bool            `json:"is_top"`
-		IsMe        bool            `json:"is_me"`
-		IsAnonymous bool            `json:"is_anonymous"`
+		SenderId    jsontext.Value `json:"sender_id"`
+		StarCount   int64          `json:"star_count"`
+		IsTop       bool           `json:"is_top"`
+		IsMe        bool           `json:"is_me"`
+		IsAnonymous bool           `json:"is_anonymous"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -20236,10 +20237,10 @@ func (entity *MessageForwardInfo) MarshalJSON() ([]byte, error) {
 
 func (messageForwardInfo *MessageForwardInfo) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Origin                        json.RawMessage `json:"origin"`
-		Date                          int32           `json:"date"`
-		Source                        *ForwardSource  `json:"source"`
-		PublicServiceAnnouncementType string          `json:"public_service_announcement_type"`
+		Origin                        jsontext.Value `json:"origin"`
+		Date                          int32          `json:"date"`
+		Source                        *ForwardSource `json:"source"`
+		PublicServiceAnnouncementType string         `json:"public_service_announcement_type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -20315,11 +20316,11 @@ func (entity *MessageReplyInfo) MarshalJSON() ([]byte, error) {
 
 func (messageReplyInfo *MessageReplyInfo) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ReplyCount              int32             `json:"reply_count"`
-		RecentReplierIds        []json.RawMessage `json:"recent_replier_ids"`
-		LastReadInboxMessageId  int64             `json:"last_read_inbox_message_id"`
-		LastReadOutboxMessageId int64             `json:"last_read_outbox_message_id"`
-		LastMessageId           int64             `json:"last_message_id"`
+		ReplyCount              int32            `json:"reply_count"`
+		RecentReplierIds        []jsontext.Value `json:"recent_replier_ids"`
+		LastReadInboxMessageId  int64            `json:"last_read_inbox_message_id"`
+		LastReadOutboxMessageId int64            `json:"last_read_outbox_message_id"`
+		LastMessageId           int64            `json:"last_message_id"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -20371,11 +20372,11 @@ func (entity *MessageReaction) MarshalJSON() ([]byte, error) {
 
 func (messageReaction *MessageReaction) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Type            json.RawMessage   `json:"type"`
-		TotalCount      int32             `json:"total_count"`
-		IsChosen        bool              `json:"is_chosen"`
-		UsedSenderId    json.RawMessage   `json:"used_sender_id"`
-		RecentSenderIds []json.RawMessage `json:"recent_sender_ids"`
+		Type            jsontext.Value   `json:"type"`
+		TotalCount      int32            `json:"total_count"`
+		IsChosen        bool             `json:"is_chosen"`
+		UsedSenderId    jsontext.Value   `json:"used_sender_id"`
+		RecentSenderIds []jsontext.Value `json:"recent_sender_ids"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -20485,9 +20486,9 @@ func (entity *UnreadReaction) MarshalJSON() ([]byte, error) {
 
 func (unreadReaction *UnreadReaction) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Type     json.RawMessage `json:"type"`
-		SenderId json.RawMessage `json:"sender_id"`
-		IsBig    bool            `json:"is_big"`
+		Type     jsontext.Value `json:"type"`
+		SenderId jsontext.Value `json:"sender_id"`
+		IsBig    bool           `json:"is_big"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -20703,11 +20704,11 @@ func (entity *MessageEffect) MarshalJSON() ([]byte, error) {
 
 func (messageEffect *MessageEffect) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id         JsonInt64       `json:"id"`
-		StaticIcon *Sticker        `json:"static_icon"`
-		Emoji      string          `json:"emoji"`
-		IsPremium  bool            `json:"is_premium"`
-		Type       json.RawMessage `json:"type"`
+		Id         JsonInt64      `json:"id"`
+		StaticIcon *Sticker       `json:"static_icon"`
+		Emoji      string         `json:"emoji"`
+		IsPremium  bool           `json:"is_premium"`
+		Type       jsontext.Value `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -20887,14 +20888,14 @@ func (entity *MessageReplyToMessage) MarshalJSON() ([]byte, error) {
 
 func (messageReplyToMessage *MessageReplyToMessage) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ChatId          int64           `json:"chat_id"`
-		MessageId       int64           `json:"message_id"`
-		Quote           *TextQuote      `json:"quote"`
-		ChecklistTaskId int32           `json:"checklist_task_id"`
-		PollOptionId    string          `json:"poll_option_id"`
-		Origin          json.RawMessage `json:"origin"`
-		OriginSendDate  int32           `json:"origin_send_date"`
-		Content         json.RawMessage `json:"content"`
+		ChatId          int64          `json:"chat_id"`
+		MessageId       int64          `json:"message_id"`
+		Quote           *TextQuote     `json:"quote"`
+		ChecklistTaskId int32          `json:"checklist_task_id"`
+		PollOptionId    string         `json:"poll_option_id"`
+		Origin          jsontext.Value `json:"origin"`
+		OriginSendDate  int32          `json:"origin_send_date"`
+		Content         jsontext.Value `json:"content"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -21127,10 +21128,10 @@ func (entity *EphemeralMessageContent) MarshalJSON() ([]byte, error) {
 
 func (ephemeralMessageContent *EphemeralMessageContent) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		CanBeSaved          bool            `json:"can_be_saved"`
-		HasTimestampedMedia bool            `json:"has_timestamped_media"`
-		Content             json.RawMessage `json:"content"`
-		ReplyMarkup         json.RawMessage `json:"reply_markup"`
+		CanBeSaved          bool           `json:"can_be_saved"`
+		HasTimestampedMedia bool           `json:"has_timestamped_media"`
+		Content             jsontext.Value `json:"content"`
+		ReplyMarkup         jsontext.Value `json:"reply_markup"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -21264,11 +21265,11 @@ func (entity *Message) MarshalJSON() ([]byte, error) {
 func (message *Message) UnmarshalJSON(data []byte) error {
 	var tmp struct {
 		Id                      int64                    `json:"id"`
-		SenderId                json.RawMessage          `json:"sender_id"`
-		ReceiverId              json.RawMessage          `json:"receiver_id"`
+		SenderId                jsontext.Value           `json:"sender_id"`
+		ReceiverId              jsontext.Value           `json:"receiver_id"`
 		ChatId                  int64                    `json:"chat_id"`
-		SendingState            json.RawMessage          `json:"sending_state"`
-		SchedulingState         json.RawMessage          `json:"scheduling_state"`
+		SendingState            jsontext.Value           `json:"sending_state"`
+		SchedulingState         jsontext.Value           `json:"scheduling_state"`
 		IsOutgoing              bool                     `json:"is_outgoing"`
 		IsPinned                bool                     `json:"is_pinned"`
 		IsFromOffline           bool                     `json:"is_from_offline"`
@@ -21287,13 +21288,13 @@ func (message *Message) UnmarshalJSON(data []byte) error {
 		UnreadReactions         []*UnreadReaction        `json:"unread_reactions"`
 		FactCheck               *FactCheck               `json:"fact_check"`
 		SuggestedPostInfo       *SuggestedPostInfo       `json:"suggested_post_info"`
-		ReplyTo                 json.RawMessage          `json:"reply_to"`
-		TopicId                 json.RawMessage          `json:"topic_id"`
-		SelfDestructType        json.RawMessage          `json:"self_destruct_type"`
+		ReplyTo                 jsontext.Value           `json:"reply_to"`
+		TopicId                 jsontext.Value           `json:"topic_id"`
+		SelfDestructType        jsontext.Value           `json:"self_destruct_type"`
 		SelfDestructIn          float64                  `json:"self_destruct_in"`
 		AutoDeleteIn            float64                  `json:"auto_delete_in"`
 		ViaBotUserId            int64                    `json:"via_bot_user_id"`
-		GuestBotCallerId        json.RawMessage          `json:"guest_bot_caller_id"`
+		GuestBotCallerId        jsontext.Value           `json:"guest_bot_caller_id"`
 		SenderBusinessBotUserId int64                    `json:"sender_business_bot_user_id"`
 		SenderBoostCount        int32                    `json:"sender_boost_count"`
 		SenderTag               string                   `json:"sender_tag"`
@@ -21303,9 +21304,9 @@ func (message *Message) UnmarshalJSON(data []byte) error {
 		EffectId                JsonInt64                `json:"effect_id"`
 		RestrictionInfo         *RestrictionInfo         `json:"restriction_info"`
 		SummaryLanguageCode     string                   `json:"summary_language_code"`
-		Content                 json.RawMessage          `json:"content"`
+		Content                 jsontext.Value           `json:"content"`
 		EphemeralContent        *EphemeralMessageContent `json:"ephemeral_content"`
-		ReplyMarkup             json.RawMessage          `json:"reply_markup"`
+		ReplyMarkup             jsontext.Value           `json:"reply_markup"`
 		EphemeralMessageId      int32                    `json:"ephemeral_message_id"`
 		ChatInstance            JsonInt64                `json:"chat_instance"`
 	}
@@ -21990,7 +21991,7 @@ func (sponsoredMessage *SponsoredMessage) UnmarshalJSON(data []byte) error {
 		MessageId               int64                 `json:"message_id"`
 		IsRecommended           bool                  `json:"is_recommended"`
 		CanBeReported           bool                  `json:"can_be_reported"`
-		Content                 json.RawMessage       `json:"content"`
+		Content                 jsontext.Value        `json:"content"`
 		Sponsor                 *AdvertisementSponsor `json:"sponsor"`
 		Title                   string                `json:"title"`
 		ButtonText              string                `json:"button_text"`
@@ -22675,11 +22676,11 @@ func (entity *ReactionNotificationSettings) MarshalJSON() ([]byte, error) {
 
 func (reactionNotificationSettings *ReactionNotificationSettings) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		MessageReactionSource json.RawMessage `json:"message_reaction_source"`
-		StoryReactionSource   json.RawMessage `json:"story_reaction_source"`
-		PollVoteSource        json.RawMessage `json:"poll_vote_source"`
-		SoundId               JsonInt64       `json:"sound_id"`
-		ShowPreview           bool            `json:"show_preview"`
+		MessageReactionSource jsontext.Value `json:"message_reaction_source"`
+		StoryReactionSource   jsontext.Value `json:"story_reaction_source"`
+		PollVoteSource        jsontext.Value `json:"poll_vote_source"`
+		SoundId               JsonInt64      `json:"sound_id"`
+		ShowPreview           bool           `json:"show_preview"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -22820,10 +22821,10 @@ func (entity *DraftMessageContentVideoNote) MarshalJSON() ([]byte, error) {
 
 func (draftMessageContentVideoNote *DraftMessageContentVideoNote) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		FilePath         string          `json:"file_path"`
-		Duration         int32           `json:"duration"`
-		Length           int32           `json:"length"`
-		SelfDestructType json.RawMessage `json:"self_destruct_type"`
+		FilePath         string         `json:"file_path"`
+		Duration         int32          `json:"duration"`
+		Length           int32          `json:"length"`
+		SelfDestructType jsontext.Value `json:"self_destruct_type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -22876,10 +22877,10 @@ func (entity *DraftMessageContentVoiceNote) MarshalJSON() ([]byte, error) {
 
 func (draftMessageContentVoiceNote *DraftMessageContentVoiceNote) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		FilePath         string          `json:"file_path"`
-		Duration         int32           `json:"duration"`
-		Waveform         []byte          `json:"waveform"`
-		SelfDestructType json.RawMessage `json:"self_destruct_type"`
+		FilePath         string         `json:"file_path"`
+		Duration         int32          `json:"duration"`
+		Waveform         []byte         `json:"waveform"`
+		SelfDestructType jsontext.Value `json:"self_destruct_type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -22930,9 +22931,9 @@ func (entity *DraftMessage) MarshalJSON() ([]byte, error) {
 
 func (draftMessage *DraftMessage) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ReplyTo           json.RawMessage         `json:"reply_to"`
+		ReplyTo           jsontext.Value          `json:"reply_to"`
 		Date              int32                   `json:"date"`
-		Content           json.RawMessage         `json:"content"`
+		Content           jsontext.Value          `json:"content"`
 		EffectId          JsonInt64               `json:"effect_id"`
 		SuggestedPostInfo *InputSuggestedPostInfo `json:"suggested_post_info"`
 	}
@@ -23453,7 +23454,7 @@ func (entity *ChatLists) MarshalJSON() ([]byte, error) {
 
 func (chatLists *ChatLists) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ChatLists []json.RawMessage `json:"chat_lists"`
+		ChatLists []jsontext.Value `json:"chat_lists"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -23552,10 +23553,10 @@ func (entity *ChatPosition) MarshalJSON() ([]byte, error) {
 
 func (chatPosition *ChatPosition) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		List     json.RawMessage `json:"list"`
-		Order    JsonInt64       `json:"order"`
-		IsPinned bool            `json:"is_pinned"`
-		Source   json.RawMessage `json:"source"`
+		List     jsontext.Value `json:"list"`
+		Order    JsonInt64      `json:"order"`
+		IsPinned bool           `json:"is_pinned"`
+		Source   jsontext.Value `json:"source"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -23633,8 +23634,8 @@ func (entity *ChatAvailableReactionsSome) MarshalJSON() ([]byte, error) {
 
 func (chatAvailableReactionsSome *ChatAvailableReactionsSome) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Reactions        []json.RawMessage `json:"reactions"`
-		MaxReactionCount int32             `json:"max_reaction_count"`
+		Reactions        []jsontext.Value `json:"reactions"`
+		MaxReactionCount int32            `json:"max_reaction_count"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -23679,9 +23680,9 @@ func (entity *SavedMessagesTag) MarshalJSON() ([]byte, error) {
 
 func (savedMessagesTag *SavedMessagesTag) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Tag   json.RawMessage `json:"tag"`
-		Label string          `json:"label"`
-		Count int32           `json:"count"`
+		Tag   jsontext.Value `json:"tag"`
+		Label string         `json:"label"`
+		Count int32          `json:"count"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -23779,9 +23780,9 @@ func (entity *VideoChat) MarshalJSON() ([]byte, error) {
 
 func (videoChat *VideoChat) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		GroupCallId          int32           `json:"group_call_id"`
-		HasParticipants      bool            `json:"has_participants"`
-		DefaultParticipantId json.RawMessage `json:"default_participant_id"`
+		GroupCallId          int32          `json:"group_call_id"`
+		HasParticipants      bool           `json:"has_participants"`
+		DefaultParticipantId jsontext.Value `json:"default_participant_id"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -23910,7 +23911,7 @@ func (entity *Chat) MarshalJSON() ([]byte, error) {
 func (chat *Chat) UnmarshalJSON(data []byte) error {
 	var tmp struct {
 		Id                             int64                     `json:"id"`
-		Type                           json.RawMessage           `json:"type"`
+		Type                           jsontext.Value            `json:"type"`
 		Title                          string                    `json:"title"`
 		Photo                          *ChatPhotoInfo            `json:"photo"`
 		AccentColorId                  int32                     `json:"accent_color_id"`
@@ -23921,9 +23922,9 @@ func (chat *Chat) UnmarshalJSON(data []byte) error {
 		Permissions                    *ChatPermissions          `json:"permissions"`
 		LastMessage                    *Message                  `json:"last_message"`
 		Positions                      []*ChatPosition           `json:"positions"`
-		ChatLists                      []json.RawMessage         `json:"chat_lists"`
-		MessageSenderId                json.RawMessage           `json:"message_sender_id"`
-		BlockList                      json.RawMessage           `json:"block_list"`
+		ChatLists                      []jsontext.Value          `json:"chat_lists"`
+		MessageSenderId                jsontext.Value            `json:"message_sender_id"`
+		BlockList                      jsontext.Value            `json:"block_list"`
 		HasProtectedContent            bool                      `json:"has_protected_content"`
 		IsTranslatable                 bool                      `json:"is_translatable"`
 		IsMarkedAsUnread               bool                      `json:"is_marked_as_unread"`
@@ -23941,12 +23942,12 @@ func (chat *Chat) UnmarshalJSON(data []byte) error {
 		UnreadReactionCount            int32                     `json:"unread_reaction_count"`
 		UnreadPollVoteCount            int32                     `json:"unread_poll_vote_count"`
 		NotificationSettings           *ChatNotificationSettings `json:"notification_settings"`
-		AvailableReactions             json.RawMessage           `json:"available_reactions"`
+		AvailableReactions             jsontext.Value            `json:"available_reactions"`
 		MessageAutoDeleteTime          int32                     `json:"message_auto_delete_time"`
 		EmojiStatus                    *EmojiStatus              `json:"emoji_status"`
 		Background                     *ChatBackground           `json:"background"`
-		Theme                          json.RawMessage           `json:"theme"`
-		ActionBar                      json.RawMessage           `json:"action_bar"`
+		Theme                          jsontext.Value            `json:"theme"`
+		ActionBar                      jsontext.Value            `json:"action_bar"`
 		BusinessBotManageBar           *BusinessBotManageBar     `json:"business_bot_manage_bar"`
 		VideoChat                      *VideoChat                `json:"video_chat"`
 		PendingJoinRequests            *ChatJoinRequestsInfo     `json:"pending_join_requests"`
@@ -24777,10 +24778,10 @@ func (entity *KeyboardButton) MarshalJSON() ([]byte, error) {
 
 func (keyboardButton *KeyboardButton) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text              string          `json:"text"`
-		IconCustomEmojiId JsonInt64       `json:"icon_custom_emoji_id"`
-		Style             json.RawMessage `json:"style"`
-		Type              json.RawMessage `json:"type"`
+		Text              string         `json:"text"`
+		IconCustomEmojiId JsonInt64      `json:"icon_custom_emoji_id"`
+		Style             jsontext.Value `json:"style"`
+		Type              jsontext.Value `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -24995,8 +24996,8 @@ func (entity *InlineKeyboardButtonTypeSwitchInline) MarshalJSON() ([]byte, error
 
 func (inlineKeyboardButtonTypeSwitchInline *InlineKeyboardButtonTypeSwitchInline) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Query      string          `json:"query"`
-		TargetChat json.RawMessage `json:"target_chat"`
+		Query      string         `json:"query"`
+		TargetChat jsontext.Value `json:"target_chat"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -25205,10 +25206,10 @@ func (entity *InlineKeyboardButton) MarshalJSON() ([]byte, error) {
 
 func (inlineKeyboardButton *InlineKeyboardButton) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text              string          `json:"text"`
-		IconCustomEmojiId JsonInt64       `json:"icon_custom_emoji_id"`
-		Style             json.RawMessage `json:"style"`
-		Type              json.RawMessage `json:"type"`
+		Text              string         `json:"text"`
+		IconCustomEmojiId JsonInt64      `json:"icon_custom_emoji_id"`
+		Style             jsontext.Value `json:"style"`
+		Type              jsontext.Value `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -25608,12 +25609,12 @@ func (entity *SavedMessagesTopic) MarshalJSON() ([]byte, error) {
 
 func (savedMessagesTopic *SavedMessagesTopic) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id           int64           `json:"id"`
-		Type         json.RawMessage `json:"type"`
-		IsPinned     bool            `json:"is_pinned"`
-		Order        JsonInt64       `json:"order"`
-		LastMessage  *Message        `json:"last_message"`
-		DraftMessage *DraftMessage   `json:"draft_message"`
+		Id           int64          `json:"id"`
+		Type         jsontext.Value `json:"type"`
+		IsPinned     bool           `json:"is_pinned"`
+		Order        JsonInt64      `json:"order"`
+		LastMessage  *Message       `json:"last_message"`
+		DraftMessage *DraftMessage  `json:"draft_message"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -25680,18 +25681,18 @@ func (entity *DirectMessagesChatTopic) MarshalJSON() ([]byte, error) {
 
 func (directMessagesChatTopic *DirectMessagesChatTopic) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ChatId                  int64           `json:"chat_id"`
-		Id                      int64           `json:"id"`
-		SenderId                json.RawMessage `json:"sender_id"`
-		Order                   JsonInt64       `json:"order"`
-		CanSendUnpaidMessages   bool            `json:"can_send_unpaid_messages"`
-		IsMarkedAsUnread        bool            `json:"is_marked_as_unread"`
-		UnreadCount             int64           `json:"unread_count"`
-		LastReadInboxMessageId  int64           `json:"last_read_inbox_message_id"`
-		LastReadOutboxMessageId int64           `json:"last_read_outbox_message_id"`
-		UnreadReactionCount     int64           `json:"unread_reaction_count"`
-		LastMessage             *Message        `json:"last_message"`
-		DraftMessage            *DraftMessage   `json:"draft_message"`
+		ChatId                  int64          `json:"chat_id"`
+		Id                      int64          `json:"id"`
+		SenderId                jsontext.Value `json:"sender_id"`
+		Order                   JsonInt64      `json:"order"`
+		CanSendUnpaidMessages   bool           `json:"can_send_unpaid_messages"`
+		IsMarkedAsUnread        bool           `json:"is_marked_as_unread"`
+		UnreadCount             int64          `json:"unread_count"`
+		LastReadInboxMessageId  int64          `json:"last_read_inbox_message_id"`
+		LastReadOutboxMessageId int64          `json:"last_read_outbox_message_id"`
+		UnreadReactionCount     int64          `json:"unread_reaction_count"`
+		LastMessage             *Message       `json:"last_message"`
+		DraftMessage            *DraftMessage  `json:"draft_message"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -25792,7 +25793,7 @@ func (forumTopicInfo *ForumTopicInfo) UnmarshalJSON(data []byte) error {
 		Name           string          `json:"name"`
 		Icon           *ForumTopicIcon `json:"icon"`
 		CreationDate   int32           `json:"creation_date"`
-		CreatorId      json.RawMessage `json:"creator_id"`
+		CreatorId      jsontext.Value  `json:"creator_id"`
 		IsGeneral      bool            `json:"is_general"`
 		IsOutgoing     bool            `json:"is_outgoing"`
 		IsClosed       bool            `json:"is_closed"`
@@ -26118,12 +26119,12 @@ func (entity *ThemeSettings) MarshalJSON() ([]byte, error) {
 
 func (themeSettings *ThemeSettings) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		BaseTheme                  json.RawMessage `json:"base_theme"`
-		AccentColor                int32           `json:"accent_color"`
-		Background                 *Background     `json:"background"`
-		OutgoingMessageFill        json.RawMessage `json:"outgoing_message_fill"`
-		AnimateOutgoingMessageFill bool            `json:"animate_outgoing_message_fill"`
-		OutgoingMessageAccentColor int32           `json:"outgoing_message_accent_color"`
+		BaseTheme                  jsontext.Value `json:"base_theme"`
+		AccentColor                int32          `json:"accent_color"`
+		Background                 *Background    `json:"background"`
+		OutgoingMessageFill        jsontext.Value `json:"outgoing_message_fill"`
+		AnimateOutgoingMessageFill bool           `json:"animate_outgoing_message_fill"`
+		OutgoingMessageAccentColor int32          `json:"outgoing_message_accent_color"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -26174,9 +26175,9 @@ func (entity *InlineButton) MarshalJSON() ([]byte, error) {
 
 func (inlineButton *InlineButton) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text  json.RawMessage `json:"text"`
-		Style json.RawMessage `json:"style"`
-		Type  json.RawMessage `json:"type"`
+		Text  jsontext.Value `json:"text"`
+		Style jsontext.Value `json:"style"`
+		Type  jsontext.Value `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -26252,7 +26253,7 @@ func (entity *RichTextBold) MarshalJSON() ([]byte, error) {
 
 func (richTextBold *RichTextBold) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text json.RawMessage `json:"text"`
+		Text jsontext.Value `json:"text"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -26295,7 +26296,7 @@ func (entity *RichTextItalic) MarshalJSON() ([]byte, error) {
 
 func (richTextItalic *RichTextItalic) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text json.RawMessage `json:"text"`
+		Text jsontext.Value `json:"text"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -26338,7 +26339,7 @@ func (entity *RichTextUnderline) MarshalJSON() ([]byte, error) {
 
 func (richTextUnderline *RichTextUnderline) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text json.RawMessage `json:"text"`
+		Text jsontext.Value `json:"text"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -26381,7 +26382,7 @@ func (entity *RichTextStrikethrough) MarshalJSON() ([]byte, error) {
 
 func (richTextStrikethrough *RichTextStrikethrough) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text json.RawMessage `json:"text"`
+		Text jsontext.Value `json:"text"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -26424,7 +26425,7 @@ func (entity *RichTextSpoiler) MarshalJSON() ([]byte, error) {
 
 func (richTextSpoiler *RichTextSpoiler) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text json.RawMessage `json:"text"`
+		Text jsontext.Value `json:"text"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -26467,7 +26468,7 @@ func (entity *RichTextSubscript) MarshalJSON() ([]byte, error) {
 
 func (richTextSubscript *RichTextSubscript) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text json.RawMessage `json:"text"`
+		Text jsontext.Value `json:"text"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -26510,7 +26511,7 @@ func (entity *RichTextSuperscript) MarshalJSON() ([]byte, error) {
 
 func (richTextSuperscript *RichTextSuperscript) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text json.RawMessage `json:"text"`
+		Text jsontext.Value `json:"text"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -26553,7 +26554,7 @@ func (entity *RichTextMarked) MarshalJSON() ([]byte, error) {
 
 func (richTextMarked *RichTextMarked) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text json.RawMessage `json:"text"`
+		Text jsontext.Value `json:"text"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -26600,9 +26601,9 @@ func (entity *RichTextDateTime) MarshalJSON() ([]byte, error) {
 
 func (richTextDateTime *RichTextDateTime) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text           json.RawMessage `json:"text"`
-		UnixTime       int32           `json:"unix_time"`
-		FormattingType json.RawMessage `json:"formatting_type"`
+		Text           jsontext.Value `json:"text"`
+		UnixTime       int32          `json:"unix_time"`
+		FormattingType jsontext.Value `json:"formatting_type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -26652,8 +26653,8 @@ func (entity *RichTextMention) MarshalJSON() ([]byte, error) {
 
 func (richTextMention *RichTextMention) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text     json.RawMessage `json:"text"`
-		Username string          `json:"username"`
+		Text     jsontext.Value `json:"text"`
+		Username string         `json:"username"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -26700,8 +26701,8 @@ func (entity *RichTextHashtag) MarshalJSON() ([]byte, error) {
 
 func (richTextHashtag *RichTextHashtag) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text    json.RawMessage `json:"text"`
-		Hashtag string          `json:"hashtag"`
+		Text    jsontext.Value `json:"text"`
+		Hashtag string         `json:"hashtag"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -26748,8 +26749,8 @@ func (entity *RichTextCashtag) MarshalJSON() ([]byte, error) {
 
 func (richTextCashtag *RichTextCashtag) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text    json.RawMessage `json:"text"`
-		Cashtag string          `json:"cashtag"`
+		Text    jsontext.Value `json:"text"`
+		Cashtag string         `json:"cashtag"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -26796,8 +26797,8 @@ func (entity *RichTextBankCardNumber) MarshalJSON() ([]byte, error) {
 
 func (richTextBankCardNumber *RichTextBankCardNumber) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text           json.RawMessage `json:"text"`
-		BankCardNumber string          `json:"bank_card_number"`
+		Text           jsontext.Value `json:"text"`
+		BankCardNumber string         `json:"bank_card_number"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -26844,8 +26845,8 @@ func (entity *RichTextBotCommand) MarshalJSON() ([]byte, error) {
 
 func (richTextBotCommand *RichTextBotCommand) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text       json.RawMessage `json:"text"`
-		BotCommand string          `json:"bot_command"`
+		Text       jsontext.Value `json:"text"`
+		BotCommand string         `json:"bot_command"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -26890,7 +26891,7 @@ func (entity *RichTextFixed) MarshalJSON() ([]byte, error) {
 
 func (richTextFixed *RichTextFixed) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text json.RawMessage `json:"text"`
+		Text jsontext.Value `json:"text"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -26935,8 +26936,8 @@ func (entity *RichTextMentionName) MarshalJSON() ([]byte, error) {
 
 func (richTextMentionName *RichTextMentionName) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text   json.RawMessage `json:"text"`
-		UserId int64           `json:"user_id"`
+		Text   jsontext.Value `json:"text"`
+		UserId int64          `json:"user_id"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -26985,9 +26986,9 @@ func (entity *RichTextUrl) MarshalJSON() ([]byte, error) {
 
 func (richTextUrl *RichTextUrl) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text     json.RawMessage `json:"text"`
-		Url      string          `json:"url"`
-		IsCached bool            `json:"is_cached"`
+		Text     jsontext.Value `json:"text"`
+		Url      string         `json:"url"`
+		IsCached bool           `json:"is_cached"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -27035,8 +27036,8 @@ func (entity *RichTextEmailAddress) MarshalJSON() ([]byte, error) {
 
 func (richTextEmailAddress *RichTextEmailAddress) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text         json.RawMessage `json:"text"`
-		EmailAddress string          `json:"email_address"`
+		Text         jsontext.Value `json:"text"`
+		EmailAddress string         `json:"email_address"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -27083,8 +27084,8 @@ func (entity *RichTextPhoneNumber) MarshalJSON() ([]byte, error) {
 
 func (richTextPhoneNumber *RichTextPhoneNumber) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text        json.RawMessage `json:"text"`
-		PhoneNumber string          `json:"phone_number"`
+		Text        jsontext.Value `json:"text"`
+		PhoneNumber string         `json:"phone_number"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -27245,8 +27246,8 @@ func (entity *RichTextDiff) MarshalJSON() ([]byte, error) {
 
 func (richTextDiff *RichTextDiff) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text    json.RawMessage `json:"text"`
-		OldText json.RawMessage `json:"old_text"`
+		Text    jsontext.Value `json:"text"`
+		OldText jsontext.Value `json:"old_text"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -27294,8 +27295,8 @@ func (entity *RichTextReference) MarshalJSON() ([]byte, error) {
 
 func (richTextReference *RichTextReference) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Name string          `json:"name"`
-		Text json.RawMessage `json:"text"`
+		Name string         `json:"name"`
+		Text jsontext.Value `json:"text"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -27344,9 +27345,9 @@ func (entity *RichTextReferenceLink) MarshalJSON() ([]byte, error) {
 
 func (richTextReferenceLink *RichTextReferenceLink) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text          json.RawMessage `json:"text"`
-		ReferenceName string          `json:"reference_name"`
-		Url           string          `json:"url"`
+		Text          jsontext.Value `json:"text"`
+		ReferenceName string         `json:"reference_name"`
+		Url           string         `json:"url"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -27423,9 +27424,9 @@ func (entity *RichTextAnchorLink) MarshalJSON() ([]byte, error) {
 
 func (richTextAnchorLink *RichTextAnchorLink) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text       json.RawMessage `json:"text"`
-		AnchorName string          `json:"anchor_name"`
-		Url        string          `json:"url"`
+		Text       jsontext.Value `json:"text"`
+		AnchorName string         `json:"anchor_name"`
+		Url        string         `json:"url"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -27471,7 +27472,7 @@ func (entity *RichTexts) MarshalJSON() ([]byte, error) {
 
 func (richTexts *RichTexts) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Texts []json.RawMessage `json:"texts"`
+		Texts []jsontext.Value `json:"texts"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -27512,8 +27513,8 @@ func (entity *PageBlockCaption) MarshalJSON() ([]byte, error) {
 
 func (pageBlockCaption *PageBlockCaption) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text   json.RawMessage `json:"text"`
-		Credit json.RawMessage `json:"credit"`
+		Text   jsontext.Value `json:"text"`
+		Credit jsontext.Value `json:"credit"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -27565,12 +27566,12 @@ func (entity *PageBlockListItem) MarshalJSON() ([]byte, error) {
 
 func (pageBlockListItem *PageBlockListItem) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Label       string            `json:"label"`
-		Blocks      []json.RawMessage `json:"blocks"`
-		HasCheckbox bool              `json:"has_checkbox"`
-		IsChecked   bool              `json:"is_checked"`
-		Value       int32             `json:"value"`
-		Type        string            `json:"type"`
+		Label       string           `json:"label"`
+		Blocks      []jsontext.Value `json:"blocks"`
+		HasCheckbox bool             `json:"has_checkbox"`
+		IsChecked   bool             `json:"is_checked"`
+		Value       int32            `json:"value"`
+		Type        string           `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -27623,11 +27624,11 @@ func (entity *InputPageBlockListItem) MarshalJSON() ([]byte, error) {
 
 func (inputPageBlockListItem *InputPageBlockListItem) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Blocks      []json.RawMessage `json:"blocks"`
-		HasCheckbox bool              `json:"has_checkbox"`
-		IsChecked   bool              `json:"is_checked"`
-		Value       int32             `json:"value"`
-		Type        string            `json:"type"`
+		Blocks      []jsontext.Value `json:"blocks"`
+		HasCheckbox bool             `json:"has_checkbox"`
+		IsChecked   bool             `json:"is_checked"`
+		Value       int32            `json:"value"`
+		Type        string           `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -27831,12 +27832,12 @@ func (entity *PageBlockTableCell) MarshalJSON() ([]byte, error) {
 
 func (pageBlockTableCell *PageBlockTableCell) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text     json.RawMessage `json:"text"`
-		IsHeader bool            `json:"is_header"`
-		Colspan  int32           `json:"colspan"`
-		Rowspan  int32           `json:"rowspan"`
-		Align    json.RawMessage `json:"align"`
-		Valign   json.RawMessage `json:"valign"`
+		Text     jsontext.Value `json:"text"`
+		IsHeader bool           `json:"is_header"`
+		Colspan  int32          `json:"colspan"`
+		Rowspan  int32          `json:"rowspan"`
+		Align    jsontext.Value `json:"align"`
+		Valign   jsontext.Value `json:"valign"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -27922,7 +27923,7 @@ func (entity *PageBlockTitle) MarshalJSON() ([]byte, error) {
 
 func (pageBlockTitle *PageBlockTitle) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Title json.RawMessage `json:"title"`
+		Title jsontext.Value `json:"title"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -27965,7 +27966,7 @@ func (entity *PageBlockSubtitle) MarshalJSON() ([]byte, error) {
 
 func (pageBlockSubtitle *PageBlockSubtitle) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Subtitle json.RawMessage `json:"subtitle"`
+		Subtitle jsontext.Value `json:"subtitle"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -28010,8 +28011,8 @@ func (entity *PageBlockAuthorDate) MarshalJSON() ([]byte, error) {
 
 func (pageBlockAuthorDate *PageBlockAuthorDate) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Author      json.RawMessage `json:"author"`
-		PublishDate int32           `json:"publish_date"`
+		Author      jsontext.Value `json:"author"`
+		PublishDate int32          `json:"publish_date"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -28056,7 +28057,7 @@ func (entity *PageBlockHeader) MarshalJSON() ([]byte, error) {
 
 func (pageBlockHeader *PageBlockHeader) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Header json.RawMessage `json:"header"`
+		Header jsontext.Value `json:"header"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -28099,7 +28100,7 @@ func (entity *PageBlockSubheader) MarshalJSON() ([]byte, error) {
 
 func (pageBlockSubheader *PageBlockSubheader) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Subheader json.RawMessage `json:"subheader"`
+		Subheader jsontext.Value `json:"subheader"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -28144,8 +28145,8 @@ func (entity *PageBlockSectionHeading) MarshalJSON() ([]byte, error) {
 
 func (pageBlockSectionHeading *PageBlockSectionHeading) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text json.RawMessage `json:"text"`
-		Size int32           `json:"size"`
+		Text jsontext.Value `json:"text"`
+		Size int32          `json:"size"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -28190,7 +28191,7 @@ func (entity *PageBlockKicker) MarshalJSON() ([]byte, error) {
 
 func (pageBlockKicker *PageBlockKicker) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Kicker json.RawMessage `json:"kicker"`
+		Kicker jsontext.Value `json:"kicker"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -28233,7 +28234,7 @@ func (entity *PageBlockParagraph) MarshalJSON() ([]byte, error) {
 
 func (pageBlockParagraph *PageBlockParagraph) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text json.RawMessage `json:"text"`
+		Text jsontext.Value `json:"text"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -28278,8 +28279,8 @@ func (entity *PageBlockPreformatted) MarshalJSON() ([]byte, error) {
 
 func (pageBlockPreformatted *PageBlockPreformatted) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text     json.RawMessage `json:"text"`
-		Language string          `json:"language"`
+		Text     jsontext.Value `json:"text"`
+		Language string         `json:"language"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -28324,7 +28325,7 @@ func (entity *PageBlockFooter) MarshalJSON() ([]byte, error) {
 
 func (pageBlockFooter *PageBlockFooter) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Footer json.RawMessage `json:"footer"`
+		Footer jsontext.Value `json:"footer"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -28367,7 +28368,7 @@ func (entity *PageBlockThinking) MarshalJSON() ([]byte, error) {
 
 func (pageBlockThinking *PageBlockThinking) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text json.RawMessage `json:"text"`
+		Text jsontext.Value `json:"text"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -28518,8 +28519,8 @@ func (entity *PageBlockBlockQuote) MarshalJSON() ([]byte, error) {
 
 func (pageBlockBlockQuote *PageBlockBlockQuote) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Blocks []json.RawMessage `json:"blocks"`
-		Credit json.RawMessage   `json:"credit"`
+		Blocks []jsontext.Value `json:"blocks"`
+		Credit jsontext.Value   `json:"credit"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -28567,8 +28568,8 @@ func (entity *PageBlockExpandableBlockQuote) MarshalJSON() ([]byte, error) {
 
 func (pageBlockExpandableBlockQuote *PageBlockExpandableBlockQuote) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text   json.RawMessage `json:"text"`
-		Credit json.RawMessage `json:"credit"`
+		Text   jsontext.Value `json:"text"`
+		Credit jsontext.Value `json:"credit"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -28616,8 +28617,8 @@ func (entity *PageBlockPullQuote) MarshalJSON() ([]byte, error) {
 
 func (pageBlockPullQuote *PageBlockPullQuote) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text   json.RawMessage `json:"text"`
-		Credit json.RawMessage `json:"credit"`
+		Text   jsontext.Value `json:"text"`
+		Credit jsontext.Value `json:"credit"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -28851,7 +28852,7 @@ func (entity *PageBlockCover) MarshalJSON() ([]byte, error) {
 
 func (pageBlockCover *PageBlockCover) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Cover json.RawMessage `json:"cover"`
+		Cover jsontext.Value `json:"cover"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -28949,7 +28950,7 @@ func (pageBlockEmbeddedPost *PageBlockEmbeddedPost) UnmarshalJSON(data []byte) e
 		Author      string            `json:"author"`
 		AuthorPhoto *Photo            `json:"author_photo"`
 		Date        int32             `json:"date"`
-		Blocks      []json.RawMessage `json:"blocks"`
+		Blocks      []jsontext.Value  `json:"blocks"`
 		Caption     *PageBlockCaption `json:"caption"`
 	}
 
@@ -29001,7 +29002,7 @@ func (entity *PageBlockCollage) MarshalJSON() ([]byte, error) {
 
 func (pageBlockCollage *PageBlockCollage) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Blocks  []json.RawMessage `json:"blocks"`
+		Blocks  []jsontext.Value  `json:"blocks"`
 		Caption *PageBlockCaption `json:"caption"`
 	}
 
@@ -29049,7 +29050,7 @@ func (entity *PageBlockSlideshow) MarshalJSON() ([]byte, error) {
 
 func (pageBlockSlideshow *PageBlockSlideshow) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Blocks  []json.RawMessage `json:"blocks"`
+		Blocks  []jsontext.Value  `json:"blocks"`
 		Caption *PageBlockCaption `json:"caption"`
 	}
 
@@ -29136,7 +29137,7 @@ func (entity *PageBlockTable) MarshalJSON() ([]byte, error) {
 
 func (pageBlockTable *PageBlockTable) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Caption    json.RawMessage         `json:"caption"`
+		Caption    jsontext.Value          `json:"caption"`
 		Cells      [][]*PageBlockTableCell `json:"cells"`
 		IsBordered bool                    `json:"is_bordered"`
 		IsStriped  bool                    `json:"is_striped"`
@@ -29192,9 +29193,9 @@ func (entity *PageBlockDetails) MarshalJSON() ([]byte, error) {
 
 func (pageBlockDetails *PageBlockDetails) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Header json.RawMessage   `json:"header"`
-		Blocks []json.RawMessage `json:"blocks"`
-		IsOpen bool              `json:"is_open"`
+		Header jsontext.Value   `json:"header"`
+		Blocks []jsontext.Value `json:"blocks"`
+		IsOpen bool             `json:"is_open"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -29244,7 +29245,7 @@ func (entity *PageBlockRelatedArticles) MarshalJSON() ([]byte, error) {
 
 func (pageBlockRelatedArticles *PageBlockRelatedArticles) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Header   json.RawMessage            `json:"header"`
+		Header   jsontext.Value             `json:"header"`
 		Articles []*PageBlockRelatedArticle `json:"articles"`
 	}
 
@@ -29328,7 +29329,7 @@ func (entity *PageBlockButtonRow) MarshalJSON() ([]byte, error) {
 func (pageBlockButtonRow *PageBlockButtonRow) UnmarshalJSON(data []byte) error {
 	var tmp struct {
 		Buttons []*InlineButton `json:"buttons"`
-		Align   json.RawMessage `json:"align"`
+		Align   jsontext.Value  `json:"align"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -29404,12 +29405,12 @@ func (entity *WebPageInstantView) MarshalJSON() ([]byte, error) {
 
 func (webPageInstantView *WebPageInstantView) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Blocks       []json.RawMessage `json:"blocks"`
-		ViewCount    int32             `json:"view_count"`
-		Version      int32             `json:"version"`
-		IsRtl        bool              `json:"is_rtl"`
-		IsFull       bool              `json:"is_full"`
-		FeedbackLink json.RawMessage   `json:"feedback_link"`
+		Blocks       []jsontext.Value `json:"blocks"`
+		ViewCount    int32            `json:"view_count"`
+		Version      int32            `json:"version"`
+		IsRtl        bool             `json:"is_rtl"`
+		IsFull       bool             `json:"is_full"`
+		FeedbackLink jsontext.Value   `json:"feedback_link"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -29516,8 +29517,8 @@ func (entity *LinkPreviewTypeAlbum) MarshalJSON() ([]byte, error) {
 
 func (linkPreviewTypeAlbum *LinkPreviewTypeAlbum) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Media   []json.RawMessage `json:"media"`
-		Caption string            `json:"caption"`
+		Media   []jsontext.Value `json:"media"`
+		Caption string           `json:"caption"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -29672,8 +29673,8 @@ func (entity *LinkPreviewTypeBackground) MarshalJSON() ([]byte, error) {
 
 func (linkPreviewTypeBackground *LinkPreviewTypeBackground) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Document       *Document       `json:"document"`
-		BackgroundType json.RawMessage `json:"background_type"`
+		Document       *Document      `json:"document"`
+		BackgroundType jsontext.Value `json:"background_type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -29749,9 +29750,9 @@ func (entity *LinkPreviewTypeChat) MarshalJSON() ([]byte, error) {
 
 func (linkPreviewTypeChat *LinkPreviewTypeChat) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Type               json.RawMessage `json:"type"`
-		Photo              *ChatPhoto      `json:"photo"`
-		CreatesJoinRequest bool            `json:"creates_join_request"`
+		Type               jsontext.Value `json:"type"`
+		Photo              *ChatPhoto     `json:"photo"`
+		CreatesJoinRequest bool           `json:"creates_join_request"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -30729,19 +30730,19 @@ func (entity *LinkPreview) MarshalJSON() ([]byte, error) {
 
 func (linkPreview *LinkPreview) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Url                       string          `json:"url"`
-		DisplayUrl                string          `json:"display_url"`
-		SiteName                  string          `json:"site_name"`
-		Title                     string          `json:"title"`
-		Description               *FormattedText  `json:"description"`
-		Author                    string          `json:"author"`
-		Type                      json.RawMessage `json:"type"`
-		HasLargeMedia             bool            `json:"has_large_media"`
-		ShowLargeMedia            bool            `json:"show_large_media"`
-		ShowMediaAboveDescription bool            `json:"show_media_above_description"`
-		SkipConfirmation          bool            `json:"skip_confirmation"`
-		ShowAboveText             bool            `json:"show_above_text"`
-		InstantViewVersion        int32           `json:"instant_view_version"`
+		Url                       string         `json:"url"`
+		DisplayUrl                string         `json:"display_url"`
+		SiteName                  string         `json:"site_name"`
+		Title                     string         `json:"title"`
+		Description               *FormattedText `json:"description"`
+		Author                    string         `json:"author"`
+		Type                      jsontext.Value `json:"type"`
+		HasLargeMedia             bool           `json:"has_large_media"`
+		ShowLargeMedia            bool           `json:"show_large_media"`
+		ShowMediaAboveDescription bool           `json:"show_media_above_description"`
+		SkipConfirmation          bool           `json:"skip_confirmation"`
+		ShowAboveText             bool           `json:"show_above_text"`
+		InstantViewVersion        int32          `json:"instant_view_version"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -31478,7 +31479,7 @@ func (paymentFormTypeRegular *PaymentFormTypeRegular) UnmarshalJSON(data []byte)
 	var tmp struct {
 		Invoice                  *Invoice            `json:"invoice"`
 		PaymentProviderUserId    int64               `json:"payment_provider_user_id"`
-		PaymentProvider          json.RawMessage     `json:"payment_provider"`
+		PaymentProvider          jsontext.Value      `json:"payment_provider"`
 		AdditionalPaymentOptions []*PaymentOption    `json:"additional_payment_options"`
 		SavedOrderInfo           *OrderInfo          `json:"saved_order_info"`
 		SavedCredentials         []*SavedCredentials `json:"saved_credentials"`
@@ -31590,10 +31591,10 @@ func (entity *PaymentForm) MarshalJSON() ([]byte, error) {
 
 func (paymentForm *PaymentForm) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id              JsonInt64       `json:"id"`
-		Type            json.RawMessage `json:"type"`
-		SellerBotUserId int64           `json:"seller_bot_user_id"`
-		ProductInfo     *ProductInfo    `json:"product_info"`
+		Id              JsonInt64      `json:"id"`
+		Type            jsontext.Value `json:"type"`
+		SellerBotUserId int64          `json:"seller_bot_user_id"`
+		ProductInfo     *ProductInfo   `json:"product_info"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -31758,10 +31759,10 @@ func (entity *PaymentReceipt) MarshalJSON() ([]byte, error) {
 
 func (paymentReceipt *PaymentReceipt) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ProductInfo     *ProductInfo    `json:"product_info"`
-		Date            int32           `json:"date"`
-		SellerBotUserId int64           `json:"seller_bot_user_id"`
-		Type            json.RawMessage `json:"type"`
+		ProductInfo     *ProductInfo   `json:"product_info"`
+		Date            int32          `json:"date"`
+		SellerBotUserId int64          `json:"seller_bot_user_id"`
+		Type            jsontext.Value `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -31864,7 +31865,7 @@ func (entity *InputInvoiceTelegram) MarshalJSON() ([]byte, error) {
 
 func (inputInvoiceTelegram *InputInvoiceTelegram) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Purpose json.RawMessage `json:"purpose"`
+		Purpose jsontext.Value `json:"purpose"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -32517,12 +32518,12 @@ func (entity *InputIdentityDocument) MarshalJSON() ([]byte, error) {
 
 func (inputIdentityDocument *InputIdentityDocument) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Number         string            `json:"number"`
-		ExpirationDate *Date             `json:"expiration_date"`
-		FrontSide      json.RawMessage   `json:"front_side"`
-		ReverseSide    json.RawMessage   `json:"reverse_side"`
-		Selfie         json.RawMessage   `json:"selfie"`
-		Translation    []json.RawMessage `json:"translation"`
+		Number         string           `json:"number"`
+		ExpirationDate *Date            `json:"expiration_date"`
+		FrontSide      jsontext.Value   `json:"front_side"`
+		ReverseSide    jsontext.Value   `json:"reverse_side"`
+		Selfie         jsontext.Value   `json:"selfie"`
+		Translation    []jsontext.Value `json:"translation"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -32600,8 +32601,8 @@ func (entity *InputPersonalDocument) MarshalJSON() ([]byte, error) {
 
 func (inputPersonalDocument *InputPersonalDocument) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Files       []json.RawMessage `json:"files"`
-		Translation []json.RawMessage `json:"translation"`
+		Files       []jsontext.Value `json:"files"`
+		Translation []jsontext.Value `json:"translation"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -33345,7 +33346,7 @@ func (entity *PassportElements) MarshalJSON() ([]byte, error) {
 
 func (passportElements *PassportElements) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Elements []json.RawMessage `json:"elements"`
+		Elements []jsontext.Value `json:"elements"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -33619,9 +33620,9 @@ func (entity *PassportElementError) MarshalJSON() ([]byte, error) {
 
 func (passportElementError *PassportElementError) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Type    json.RawMessage `json:"type"`
-		Message string          `json:"message"`
-		Source  json.RawMessage `json:"source"`
+		Type    jsontext.Value `json:"type"`
+		Message string         `json:"message"`
+		Source  jsontext.Value `json:"source"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -33671,10 +33672,10 @@ func (entity *PassportSuitableElement) MarshalJSON() ([]byte, error) {
 
 func (passportSuitableElement *PassportSuitableElement) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Type                  json.RawMessage `json:"type"`
-		IsSelfieRequired      bool            `json:"is_selfie_required"`
-		IsTranslationRequired bool            `json:"is_translation_required"`
-		IsNativeNameRequired  bool            `json:"is_native_name_required"`
+		Type                  jsontext.Value `json:"type"`
+		IsSelfieRequired      bool           `json:"is_selfie_required"`
+		IsTranslationRequired bool           `json:"is_translation_required"`
+		IsNativeNameRequired  bool           `json:"is_native_name_required"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -33769,7 +33770,7 @@ func (entity *PassportElementsWithErrors) MarshalJSON() ([]byte, error) {
 
 func (passportElementsWithErrors *PassportElementsWithErrors) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Elements []json.RawMessage       `json:"elements"`
+		Elements []jsontext.Value        `json:"elements"`
 		Errors   []*PassportElementError `json:"errors"`
 	}
 
@@ -33854,15 +33855,15 @@ func (entity *EncryptedPassportElement) MarshalJSON() ([]byte, error) {
 
 func (encryptedPassportElement *EncryptedPassportElement) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Type        json.RawMessage `json:"type"`
-		Data        []byte          `json:"data"`
-		FrontSide   *DatedFile      `json:"front_side"`
-		ReverseSide *DatedFile      `json:"reverse_side"`
-		Selfie      *DatedFile      `json:"selfie"`
-		Translation []*DatedFile    `json:"translation"`
-		Files       []*DatedFile    `json:"files"`
-		Value       string          `json:"value"`
-		Hash        string          `json:"hash"`
+		Type        jsontext.Value `json:"type"`
+		Data        []byte         `json:"data"`
+		FrontSide   *DatedFile     `json:"front_side"`
+		ReverseSide *DatedFile     `json:"reverse_side"`
+		Selfie      *DatedFile     `json:"selfie"`
+		Translation []*DatedFile   `json:"translation"`
+		Files       []*DatedFile   `json:"files"`
+		Value       string         `json:"value"`
+		Hash        string         `json:"hash"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -34159,9 +34160,9 @@ func (entity *InputPassportElementError) MarshalJSON() ([]byte, error) {
 
 func (inputPassportElementError *InputPassportElementError) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Type    json.RawMessage `json:"type"`
-		Message string          `json:"message"`
-		Source  json.RawMessage `json:"source"`
+		Type    jsontext.Value `json:"type"`
+		Message string         `json:"message"`
+		Source  jsontext.Value `json:"source"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -34621,10 +34622,10 @@ func (entity *MessagePaidMedia) MarshalJSON() ([]byte, error) {
 
 func (messagePaidMedia *MessagePaidMedia) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		StarCount             int64             `json:"star_count"`
-		Media                 []json.RawMessage `json:"media"`
-		Caption               *FormattedText    `json:"caption"`
-		ShowCaptionAboveMedia bool              `json:"show_caption_above_media"`
+		StarCount             int64            `json:"star_count"`
+		Media                 []jsontext.Value `json:"media"`
+		Caption               *FormattedText   `json:"caption"`
+		ShowCaptionAboveMedia bool             `json:"show_caption_above_media"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -35089,11 +35090,11 @@ func (entity *MessageDice) MarshalJSON() ([]byte, error) {
 
 func (messageDice *MessageDice) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		InitialState                json.RawMessage `json:"initial_state"`
-		FinalState                  json.RawMessage `json:"final_state"`
-		Emoji                       string          `json:"emoji"`
-		Value                       int32           `json:"value"`
-		SuccessAnimationFrameNumber int32           `json:"success_animation_frame_number"`
+		InitialState                jsontext.Value `json:"initial_state"`
+		FinalState                  jsontext.Value `json:"final_state"`
+		Emoji                       string         `json:"emoji"`
+		Value                       int32          `json:"value"`
+		SuccessAnimationFrameNumber int32          `json:"success_animation_frame_number"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -35176,10 +35177,10 @@ func (entity *MessagePoll) MarshalJSON() ([]byte, error) {
 
 func (messagePoll *MessagePoll) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Poll         *Poll           `json:"poll"`
-		Description  *FormattedText  `json:"description"`
-		Media        json.RawMessage `json:"media"`
-		CanAddOption bool            `json:"can_add_option"`
+		Poll         *Poll          `json:"poll"`
+		Description  *FormattedText `json:"description"`
+		Media        jsontext.Value `json:"media"`
+		CanAddOption bool           `json:"can_add_option"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -35234,11 +35235,11 @@ func (entity *MessageStakeDice) MarshalJSON() ([]byte, error) {
 
 func (messageStakeDice *MessageStakeDice) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		InitialState    json.RawMessage `json:"initial_state"`
-		FinalState      json.RawMessage `json:"final_state"`
-		Value           int32           `json:"value"`
-		StakeGramAmount int64           `json:"stake_gram_amount"`
-		PrizeGramAmount int64           `json:"prize_gram_amount"`
+		InitialState    jsontext.Value `json:"initial_state"`
+		FinalState      jsontext.Value `json:"final_state"`
+		Value           int32          `json:"value"`
+		StakeGramAmount int64          `json:"stake_gram_amount"`
+		PrizeGramAmount int64          `json:"prize_gram_amount"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -35362,15 +35363,15 @@ func (entity *MessageInvoice) MarshalJSON() ([]byte, error) {
 
 func (messageInvoice *MessageInvoice) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ProductInfo         *ProductInfo    `json:"product_info"`
-		Currency            string          `json:"currency"`
-		TotalAmount         int64           `json:"total_amount"`
-		StartParameter      string          `json:"start_parameter"`
-		IsTest              bool            `json:"is_test"`
-		NeedShippingAddress bool            `json:"need_shipping_address"`
-		ReceiptMessageId    int64           `json:"receipt_message_id"`
-		PaidMedia           json.RawMessage `json:"paid_media"`
-		PaidMediaCaption    *FormattedText  `json:"paid_media_caption"`
+		ProductInfo         *ProductInfo   `json:"product_info"`
+		Currency            string         `json:"currency"`
+		TotalAmount         int64          `json:"total_amount"`
+		StartParameter      string         `json:"start_parameter"`
+		IsTest              bool           `json:"is_test"`
+		NeedShippingAddress bool           `json:"need_shipping_address"`
+		ReceiptMessageId    int64          `json:"receipt_message_id"`
+		PaidMedia           jsontext.Value `json:"paid_media"`
+		PaidMediaCaption    *FormattedText `json:"paid_media_caption"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -35428,10 +35429,10 @@ func (entity *MessageCall) MarshalJSON() ([]byte, error) {
 
 func (messageCall *MessageCall) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		UniqueId      JsonInt64       `json:"unique_id"`
-		IsVideo       bool            `json:"is_video"`
-		DiscardReason json.RawMessage `json:"discard_reason"`
-		Duration      int32           `json:"duration"`
+		UniqueId      JsonInt64      `json:"unique_id"`
+		IsVideo       bool           `json:"is_video"`
+		DiscardReason jsontext.Value `json:"discard_reason"`
+		Duration      int32          `json:"duration"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -35488,12 +35489,12 @@ func (entity *MessageGroupCall) MarshalJSON() ([]byte, error) {
 
 func (messageGroupCall *MessageGroupCall) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		UniqueId            JsonInt64         `json:"unique_id"`
-		IsActive            bool              `json:"is_active"`
-		WasMissed           bool              `json:"was_missed"`
-		IsVideo             bool              `json:"is_video"`
-		Duration            int32             `json:"duration"`
-		OtherParticipantIds []json.RawMessage `json:"other_participant_ids"`
+		UniqueId            JsonInt64        `json:"unique_id"`
+		IsActive            bool             `json:"is_active"`
+		WasMissed           bool             `json:"was_missed"`
+		IsVideo             bool             `json:"is_video"`
+		Duration            int32            `json:"duration"`
+		OtherParticipantIds []jsontext.Value `json:"other_participant_ids"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -36285,7 +36286,7 @@ func (entity *MessageChatSetTheme) MarshalJSON() ([]byte, error) {
 
 func (messageChatSetTheme *MessageChatSetTheme) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Theme json.RawMessage `json:"theme"`
+		Theme jsontext.Value `json:"theme"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -36737,12 +36738,12 @@ func (entity *MessagePaymentRefunded) MarshalJSON() ([]byte, error) {
 
 func (messagePaymentRefunded *MessagePaymentRefunded) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		OwnerId                 json.RawMessage `json:"owner_id"`
-		Currency                string          `json:"currency"`
-		TotalAmount             int64           `json:"total_amount"`
-		InvoicePayload          []byte          `json:"invoice_payload"`
-		TelegramPaymentChargeId string          `json:"telegram_payment_charge_id"`
-		ProviderPaymentChargeId string          `json:"provider_payment_charge_id"`
+		OwnerId                 jsontext.Value `json:"owner_id"`
+		Currency                string         `json:"currency"`
+		TotalAmount             int64          `json:"total_amount"`
+		InvoicePayload          []byte         `json:"invoice_payload"`
+		TelegramPaymentChargeId string         `json:"telegram_payment_charge_id"`
+		ProviderPaymentChargeId string         `json:"provider_payment_charge_id"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -36858,18 +36859,18 @@ func (entity *MessagePremiumGiftCode) MarshalJSON() ([]byte, error) {
 
 func (messagePremiumGiftCode *MessagePremiumGiftCode) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		CreatorId            json.RawMessage `json:"creator_id"`
-		Text                 *FormattedText  `json:"text"`
-		IsFromGiveaway       bool            `json:"is_from_giveaway"`
-		IsUnclaimed          bool            `json:"is_unclaimed"`
-		Currency             string          `json:"currency"`
-		Amount               int64           `json:"amount"`
-		Cryptocurrency       string          `json:"cryptocurrency"`
-		CryptocurrencyAmount JsonInt64       `json:"cryptocurrency_amount"`
-		MonthCount           int32           `json:"month_count"`
-		DayCount             int32           `json:"day_count"`
-		Sticker              *Sticker        `json:"sticker"`
-		Code                 string          `json:"code"`
+		CreatorId            jsontext.Value `json:"creator_id"`
+		Text                 *FormattedText `json:"text"`
+		IsFromGiveaway       bool           `json:"is_from_giveaway"`
+		IsUnclaimed          bool           `json:"is_unclaimed"`
+		Currency             string         `json:"currency"`
+		Amount               int64          `json:"amount"`
+		Cryptocurrency       string         `json:"cryptocurrency"`
+		CryptocurrencyAmount JsonInt64      `json:"cryptocurrency_amount"`
+		MonthCount           int32          `json:"month_count"`
+		DayCount             int32          `json:"day_count"`
+		Sticker              *Sticker       `json:"sticker"`
+		Code                 string         `json:"code"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -36959,7 +36960,7 @@ func (messageGiveaway *MessageGiveaway) UnmarshalJSON(data []byte) error {
 	var tmp struct {
 		Parameters  *GiveawayParameters `json:"parameters"`
 		WinnerCount int32               `json:"winner_count"`
-		Prize       json.RawMessage     `json:"prize"`
+		Prize       jsontext.Value      `json:"prize"`
 		Sticker     *Sticker            `json:"sticker"`
 	}
 
@@ -37060,17 +37061,17 @@ func (entity *MessageGiveawayWinners) MarshalJSON() ([]byte, error) {
 
 func (messageGiveawayWinners *MessageGiveawayWinners) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		BoostedChatId              int64           `json:"boosted_chat_id"`
-		GiveawayMessageId          int64           `json:"giveaway_message_id"`
-		AdditionalChatCount        int32           `json:"additional_chat_count"`
-		ActualWinnersSelectionDate int32           `json:"actual_winners_selection_date"`
-		OnlyNewMembers             bool            `json:"only_new_members"`
-		WasRefunded                bool            `json:"was_refunded"`
-		Prize                      json.RawMessage `json:"prize"`
-		PrizeDescription           string          `json:"prize_description"`
-		WinnerCount                int32           `json:"winner_count"`
-		WinnerUserIds              []int64         `json:"winner_user_ids"`
-		UnclaimedPrizeCount        int32           `json:"unclaimed_prize_count"`
+		BoostedChatId              int64          `json:"boosted_chat_id"`
+		GiveawayMessageId          int64          `json:"giveaway_message_id"`
+		AdditionalChatCount        int32          `json:"additional_chat_count"`
+		ActualWinnersSelectionDate int32          `json:"actual_winners_selection_date"`
+		OnlyNewMembers             bool           `json:"only_new_members"`
+		WasRefunded                bool           `json:"was_refunded"`
+		Prize                      jsontext.Value `json:"prize"`
+		PrizeDescription           string         `json:"prize_description"`
+		WinnerCount                int32          `json:"winner_count"`
+		WinnerUserIds              []int64        `json:"winner_user_ids"`
+		UnclaimedPrizeCount        int32          `json:"unclaimed_prize_count"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -37275,25 +37276,25 @@ func (entity *MessageGift) MarshalJSON() ([]byte, error) {
 
 func (messageGift *MessageGift) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Gift                    *Gift           `json:"gift"`
-		SenderId                json.RawMessage `json:"sender_id"`
-		ReceiverId              json.RawMessage `json:"receiver_id"`
-		ReceivedGiftId          string          `json:"received_gift_id"`
-		Text                    *FormattedText  `json:"text"`
-		UniqueGiftNumber        int32           `json:"unique_gift_number"`
-		SellStarCount           int64           `json:"sell_star_count"`
-		PrepaidUpgradeStarCount int64           `json:"prepaid_upgrade_star_count"`
-		IsUpgradeSeparate       bool            `json:"is_upgrade_separate"`
-		IsFromAuction           bool            `json:"is_from_auction"`
-		IsPrivate               bool            `json:"is_private"`
-		IsSaved                 bool            `json:"is_saved"`
-		IsPrepaidUpgrade        bool            `json:"is_prepaid_upgrade"`
-		CanBeUpgraded           bool            `json:"can_be_upgraded"`
-		WasConverted            bool            `json:"was_converted"`
-		WasUpgraded             bool            `json:"was_upgraded"`
-		WasRefunded             bool            `json:"was_refunded"`
-		UpgradedReceivedGiftId  string          `json:"upgraded_received_gift_id"`
-		PrepaidUpgradeHash      string          `json:"prepaid_upgrade_hash"`
+		Gift                    *Gift          `json:"gift"`
+		SenderId                jsontext.Value `json:"sender_id"`
+		ReceiverId              jsontext.Value `json:"receiver_id"`
+		ReceivedGiftId          string         `json:"received_gift_id"`
+		Text                    *FormattedText `json:"text"`
+		UniqueGiftNumber        int32          `json:"unique_gift_number"`
+		SellStarCount           int64          `json:"sell_star_count"`
+		PrepaidUpgradeStarCount int64          `json:"prepaid_upgrade_star_count"`
+		IsUpgradeSeparate       bool           `json:"is_upgrade_separate"`
+		IsFromAuction           bool           `json:"is_from_auction"`
+		IsPrivate               bool           `json:"is_private"`
+		IsSaved                 bool           `json:"is_saved"`
+		IsPrepaidUpgrade        bool           `json:"is_prepaid_upgrade"`
+		CanBeUpgraded           bool           `json:"can_be_upgraded"`
+		WasConverted            bool           `json:"was_converted"`
+		WasUpgraded             bool           `json:"was_upgraded"`
+		WasRefunded             bool           `json:"was_refunded"`
+		UpgradedReceivedGiftId  string         `json:"upgraded_received_gift_id"`
+		PrepaidUpgradeHash      string         `json:"prepaid_upgrade_hash"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -37387,22 +37388,22 @@ func (entity *MessageUpgradedGift) MarshalJSON() ([]byte, error) {
 
 func (messageUpgradedGift *MessageUpgradedGift) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Gift                         *UpgradedGift   `json:"gift"`
-		SenderId                     json.RawMessage `json:"sender_id"`
-		ReceiverId                   json.RawMessage `json:"receiver_id"`
-		Origin                       json.RawMessage `json:"origin"`
-		ReceivedGiftId               string          `json:"received_gift_id"`
-		Text                         *FormattedText  `json:"text"`
-		IsPrivate                    bool            `json:"is_private"`
-		IsSaved                      bool            `json:"is_saved"`
-		CanBeTransferred             bool            `json:"can_be_transferred"`
-		WasTransferred               bool            `json:"was_transferred"`
-		TransferStarCount            int64           `json:"transfer_star_count"`
-		DropOriginalDetailsStarCount int64           `json:"drop_original_details_star_count"`
-		NextTransferDate             int32           `json:"next_transfer_date"`
-		NextResaleDate               int32           `json:"next_resale_date"`
-		ExportDate                   int32           `json:"export_date"`
-		CraftDate                    int32           `json:"craft_date"`
+		Gift                         *UpgradedGift  `json:"gift"`
+		SenderId                     jsontext.Value `json:"sender_id"`
+		ReceiverId                   jsontext.Value `json:"receiver_id"`
+		Origin                       jsontext.Value `json:"origin"`
+		ReceivedGiftId               string         `json:"received_gift_id"`
+		Text                         *FormattedText `json:"text"`
+		IsPrivate                    bool           `json:"is_private"`
+		IsSaved                      bool           `json:"is_saved"`
+		CanBeTransferred             bool           `json:"can_be_transferred"`
+		WasTransferred               bool           `json:"was_transferred"`
+		TransferStarCount            int64          `json:"transfer_star_count"`
+		DropOriginalDetailsStarCount int64          `json:"drop_original_details_star_count"`
+		NextTransferDate             int32          `json:"next_transfer_date"`
+		NextResaleDate               int32          `json:"next_resale_date"`
+		ExportDate                   int32          `json:"export_date"`
+		CraftDate                    int32          `json:"craft_date"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -37471,10 +37472,10 @@ func (entity *MessageRefundedUpgradedGift) MarshalJSON() ([]byte, error) {
 
 func (messageRefundedUpgradedGift *MessageRefundedUpgradedGift) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Gift       *Gift           `json:"gift"`
-		SenderId   json.RawMessage `json:"sender_id"`
-		ReceiverId json.RawMessage `json:"receiver_id"`
-		Origin     json.RawMessage `json:"origin"`
+		Gift       *Gift          `json:"gift"`
+		SenderId   jsontext.Value `json:"sender_id"`
+		ReceiverId jsontext.Value `json:"receiver_id"`
+		Origin     jsontext.Value `json:"origin"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -37531,10 +37532,10 @@ func (entity *MessageUpgradedGiftPurchaseOffer) MarshalJSON() ([]byte, error) {
 
 func (messageUpgradedGiftPurchaseOffer *MessageUpgradedGiftPurchaseOffer) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Gift           *UpgradedGift   `json:"gift"`
-		State          json.RawMessage `json:"state"`
-		Price          json.RawMessage `json:"price"`
-		ExpirationDate int32           `json:"expiration_date"`
+		Gift           *UpgradedGift  `json:"gift"`
+		State          jsontext.Value `json:"state"`
+		Price          jsontext.Value `json:"price"`
+		ExpirationDate int32          `json:"expiration_date"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -37589,10 +37590,10 @@ func (entity *MessageUpgradedGiftPurchaseOfferRejected) MarshalJSON() ([]byte, e
 
 func (messageUpgradedGiftPurchaseOfferRejected *MessageUpgradedGiftPurchaseOfferRejected) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Gift           *UpgradedGift   `json:"gift"`
-		Price          json.RawMessage `json:"price"`
-		OfferMessageId int64           `json:"offer_message_id"`
-		WasExpired     bool            `json:"was_expired"`
+		Gift           *UpgradedGift  `json:"gift"`
+		Price          jsontext.Value `json:"price"`
+		OfferMessageId int64          `json:"offer_message_id"`
+		WasExpired     bool           `json:"was_expired"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -37786,8 +37787,8 @@ func (entity *MessageSuggestedPostApprovalFailed) MarshalJSON() ([]byte, error) 
 
 func (messageSuggestedPostApprovalFailed *MessageSuggestedPostApprovalFailed) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		SuggestedPostMessageId int64           `json:"suggested_post_message_id"`
-		Price                  json.RawMessage `json:"price"`
+		SuggestedPostMessageId int64          `json:"suggested_post_message_id"`
+		Price                  jsontext.Value `json:"price"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -37836,9 +37837,9 @@ func (entity *MessageSuggestedPostApproved) MarshalJSON() ([]byte, error) {
 
 func (messageSuggestedPostApproved *MessageSuggestedPostApproved) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		SuggestedPostMessageId int64           `json:"suggested_post_message_id"`
-		Price                  json.RawMessage `json:"price"`
-		SendDate               int32           `json:"send_date"`
+		SuggestedPostMessageId int64          `json:"suggested_post_message_id"`
+		Price                  jsontext.Value `json:"price"`
+		SendDate               int32          `json:"send_date"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -37946,8 +37947,8 @@ func (entity *MessageSuggestedPostRefunded) MarshalJSON() ([]byte, error) {
 
 func (messageSuggestedPostRefunded *MessageSuggestedPostRefunded) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		SuggestedPostMessageId int64           `json:"suggested_post_message_id"`
-		Reason                 json.RawMessage `json:"reason"`
+		SuggestedPostMessageId int64          `json:"suggested_post_message_id"`
+		Reason                 jsontext.Value `json:"reason"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -38075,7 +38076,7 @@ func (entity *MessageBotWriteAccessAllowed) MarshalJSON() ([]byte, error) {
 
 func (messageBotWriteAccessAllowed *MessageBotWriteAccessAllowed) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Reason json.RawMessage `json:"reason"`
+		Reason jsontext.Value `json:"reason"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -38174,7 +38175,7 @@ func (entity *MessagePassportDataSent) MarshalJSON() ([]byte, error) {
 
 func (messagePassportDataSent *MessagePassportDataSent) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Types []json.RawMessage `json:"types"`
+		Types []jsontext.Value `json:"types"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -38250,9 +38251,9 @@ func (entity *MessageProximityAlertTriggered) MarshalJSON() ([]byte, error) {
 
 func (messageProximityAlertTriggered *MessageProximityAlertTriggered) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		TravelerId json.RawMessage `json:"traveler_id"`
-		WatcherId  json.RawMessage `json:"watcher_id"`
-		Distance   int32           `json:"distance"`
+		TravelerId jsontext.Value `json:"traveler_id"`
+		WatcherId  jsontext.Value `json:"watcher_id"`
+		Distance   int32          `json:"distance"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -38429,9 +38430,9 @@ func (entity *DateTimeFormattingTypeAbsolute) MarshalJSON() ([]byte, error) {
 
 func (dateTimeFormattingTypeAbsolute *DateTimeFormattingTypeAbsolute) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		TimePrecision json.RawMessage `json:"time_precision"`
-		DatePrecision json.RawMessage `json:"date_precision"`
-		ShowDayOfWeek bool            `json:"show_day_of_week"`
+		TimePrecision jsontext.Value `json:"time_precision"`
+		DatePrecision jsontext.Value `json:"date_precision"`
+		ShowDayOfWeek bool           `json:"show_day_of_week"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -39041,8 +39042,8 @@ func (entity *TextEntityTypeDateTime) MarshalJSON() ([]byte, error) {
 
 func (textEntityTypeDateTime *TextEntityTypeDateTime) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		UnixTime       int32           `json:"unix_time"`
-		FormattingType json.RawMessage `json:"formatting_type"`
+		UnixTime       int32          `json:"unix_time"`
+		FormattingType jsontext.Value `json:"formatting_type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -39164,9 +39165,9 @@ func (entity *InputThumbnail) MarshalJSON() ([]byte, error) {
 
 func (inputThumbnail *InputThumbnail) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Thumbnail json.RawMessage `json:"thumbnail"`
-		Width     int32           `json:"width"`
-		Height    int32           `json:"height"`
+		Thumbnail jsontext.Value `json:"thumbnail"`
+		Width     int32          `json:"width"`
+		Height    int32          `json:"height"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -39218,7 +39219,7 @@ func (entity *InputAnimation) MarshalJSON() ([]byte, error) {
 
 func (inputAnimation *InputAnimation) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Animation           json.RawMessage `json:"animation"`
+		Animation           jsontext.Value  `json:"animation"`
 		Thumbnail           *InputThumbnail `json:"thumbnail"`
 		AddedStickerFileIds []int32         `json:"added_sticker_file_ids"`
 		Duration            int32           `json:"duration"`
@@ -39276,7 +39277,7 @@ func (entity *InputAudio) MarshalJSON() ([]byte, error) {
 
 func (inputAudio *InputAudio) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Audio               json.RawMessage `json:"audio"`
+		Audio               jsontext.Value  `json:"audio"`
 		AlbumCoverThumbnail *InputThumbnail `json:"album_cover_thumbnail"`
 		Duration            int32           `json:"duration"`
 		Title               string          `json:"title"`
@@ -39328,7 +39329,7 @@ func (entity *InputDocument) MarshalJSON() ([]byte, error) {
 
 func (inputDocument *InputDocument) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Document                    json.RawMessage `json:"document"`
+		Document                    jsontext.Value  `json:"document"`
 		Thumbnail                   *InputThumbnail `json:"thumbnail"`
 		DisableContentTypeDetection bool            `json:"disable_content_type_detection"`
 	}
@@ -39382,9 +39383,9 @@ func (entity *InputPhoto) MarshalJSON() ([]byte, error) {
 
 func (inputPhoto *InputPhoto) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Photo               json.RawMessage `json:"photo"`
+		Photo               jsontext.Value  `json:"photo"`
 		Thumbnail           *InputThumbnail `json:"thumbnail"`
-		Video               json.RawMessage `json:"video"`
+		Video               jsontext.Value  `json:"video"`
 		AddedStickerFileIds []int32         `json:"added_sticker_file_ids"`
 		Width               int32           `json:"width"`
 		Height              int32           `json:"height"`
@@ -39440,7 +39441,7 @@ func (entity *InputSticker) MarshalJSON() ([]byte, error) {
 
 func (inputSticker *InputSticker) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Sticker   json.RawMessage `json:"sticker"`
+		Sticker   jsontext.Value  `json:"sticker"`
 		Thumbnail *InputThumbnail `json:"thumbnail"`
 		Width     int32           `json:"width"`
 		Height    int32           `json:"height"`
@@ -39502,9 +39503,9 @@ func (entity *InputVideo) MarshalJSON() ([]byte, error) {
 
 func (inputVideo *InputVideo) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Video               json.RawMessage `json:"video"`
+		Video               jsontext.Value  `json:"video"`
 		Thumbnail           *InputThumbnail `json:"thumbnail"`
-		Cover               json.RawMessage `json:"cover"`
+		Cover               jsontext.Value  `json:"cover"`
 		StartTimestamp      int32           `json:"start_timestamp"`
 		AddedStickerFileIds []int32         `json:"added_sticker_file_ids"`
 		Duration            int32           `json:"duration"`
@@ -39566,7 +39567,7 @@ func (entity *InputVideoNote) MarshalJSON() ([]byte, error) {
 
 func (inputVideoNote *InputVideoNote) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		VideoNote json.RawMessage `json:"video_note"`
+		VideoNote jsontext.Value  `json:"video_note"`
 		Thumbnail *InputThumbnail `json:"thumbnail"`
 		Duration  int32           `json:"duration"`
 		Length    int32           `json:"length"`
@@ -39616,9 +39617,9 @@ func (entity *InputVoiceNote) MarshalJSON() ([]byte, error) {
 
 func (inputVoiceNote *InputVoiceNote) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		VoiceNote json.RawMessage `json:"voice_note"`
-		Duration  int32           `json:"duration"`
-		Waveform  []byte          `json:"waveform"`
+		VoiceNote jsontext.Value `json:"voice_note"`
+		Duration  int32          `json:"duration"`
+		Waveform  []byte         `json:"waveform"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -39664,7 +39665,7 @@ func (entity *InputPaidMediaTypePhoto) MarshalJSON() ([]byte, error) {
 
 func (inputPaidMediaTypePhoto *InputPaidMediaTypePhoto) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Video json.RawMessage `json:"video"`
+		Video jsontext.Value `json:"video"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -39713,10 +39714,10 @@ func (entity *InputPaidMediaTypeVideo) MarshalJSON() ([]byte, error) {
 
 func (inputPaidMediaTypeVideo *InputPaidMediaTypeVideo) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Cover             json.RawMessage `json:"cover"`
-		StartTimestamp    int32           `json:"start_timestamp"`
-		Duration          int32           `json:"duration"`
-		SupportsStreaming bool            `json:"supports_streaming"`
+		Cover             jsontext.Value `json:"cover"`
+		StartTimestamp    int32          `json:"start_timestamp"`
+		Duration          int32          `json:"duration"`
+		SupportsStreaming bool           `json:"supports_streaming"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -39769,8 +39770,8 @@ func (entity *InputPaidMedia) MarshalJSON() ([]byte, error) {
 
 func (inputPaidMedia *InputPaidMedia) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Type                json.RawMessage `json:"type"`
-		Media               json.RawMessage `json:"media"`
+		Type                jsontext.Value  `json:"type"`
+		Media               jsontext.Value  `json:"media"`
 		Thumbnail           *InputThumbnail `json:"thumbnail"`
 		AddedStickerFileIds []int32         `json:"added_sticker_file_ids"`
 		Width               int32           `json:"width"`
@@ -39981,7 +39982,7 @@ func (messageSendOptions *MessageSendOptions) UnmarshalJSON(data []byte) error {
 		AllowPaidBroadcast                bool                    `json:"allow_paid_broadcast"`
 		PaidMessageStarCount              int64                   `json:"paid_message_star_count"`
 		UpdateOrderOfInstalledStickerSets bool                    `json:"update_order_of_installed_sticker_sets"`
-		SchedulingState                   json.RawMessage         `json:"scheduling_state"`
+		SchedulingState                   jsontext.Value          `json:"scheduling_state"`
 		EffectId                          JsonInt64               `json:"effect_id"`
 		SendingId                         int32                   `json:"sending_id"`
 		OnlyPreview                       bool                    `json:"only_preview"`
@@ -40312,8 +40313,8 @@ func (entity *InputPageBlockSectionHeading) MarshalJSON() ([]byte, error) {
 
 func (inputPageBlockSectionHeading *InputPageBlockSectionHeading) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text json.RawMessage `json:"text"`
-		Size int32           `json:"size"`
+		Text jsontext.Value `json:"text"`
+		Size int32          `json:"size"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -40358,7 +40359,7 @@ func (entity *InputPageBlockParagraph) MarshalJSON() ([]byte, error) {
 
 func (inputPageBlockParagraph *InputPageBlockParagraph) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text json.RawMessage `json:"text"`
+		Text jsontext.Value `json:"text"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -40403,8 +40404,8 @@ func (entity *InputPageBlockPreformatted) MarshalJSON() ([]byte, error) {
 
 func (inputPageBlockPreformatted *InputPageBlockPreformatted) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text     json.RawMessage `json:"text"`
-		Language string          `json:"language"`
+		Text     jsontext.Value `json:"text"`
+		Language string         `json:"language"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -40449,7 +40450,7 @@ func (entity *InputPageBlockFooter) MarshalJSON() ([]byte, error) {
 
 func (inputPageBlockFooter *InputPageBlockFooter) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Footer json.RawMessage `json:"footer"`
+		Footer jsontext.Value `json:"footer"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -40492,7 +40493,7 @@ func (entity *InputPageBlockThinking) MarshalJSON() ([]byte, error) {
 
 func (inputPageBlockThinking *InputPageBlockThinking) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text json.RawMessage `json:"text"`
+		Text jsontext.Value `json:"text"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -40643,8 +40644,8 @@ func (entity *InputPageBlockBlockQuote) MarshalJSON() ([]byte, error) {
 
 func (inputPageBlockBlockQuote *InputPageBlockBlockQuote) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Blocks []json.RawMessage `json:"blocks"`
-		Credit json.RawMessage   `json:"credit"`
+		Blocks []jsontext.Value `json:"blocks"`
+		Credit jsontext.Value   `json:"credit"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -40692,8 +40693,8 @@ func (entity *InputPageBlockExpandableBlockQuote) MarshalJSON() ([]byte, error) 
 
 func (inputPageBlockExpandableBlockQuote *InputPageBlockExpandableBlockQuote) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text   json.RawMessage `json:"text"`
-		Credit json.RawMessage `json:"credit"`
+		Text   jsontext.Value `json:"text"`
+		Credit jsontext.Value `json:"credit"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -40741,8 +40742,8 @@ func (entity *InputPageBlockPullQuote) MarshalJSON() ([]byte, error) {
 
 func (inputPageBlockPullQuote *InputPageBlockPullQuote) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text   json.RawMessage `json:"text"`
-		Credit json.RawMessage `json:"credit"`
+		Text   jsontext.Value `json:"text"`
+		Credit jsontext.Value `json:"credit"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -40970,7 +40971,7 @@ func (entity *InputPageBlockCollage) MarshalJSON() ([]byte, error) {
 
 func (inputPageBlockCollage *InputPageBlockCollage) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Blocks  []json.RawMessage `json:"blocks"`
+		Blocks  []jsontext.Value  `json:"blocks"`
 		Caption *PageBlockCaption `json:"caption"`
 	}
 
@@ -41018,7 +41019,7 @@ func (entity *InputPageBlockSlideshow) MarshalJSON() ([]byte, error) {
 
 func (inputPageBlockSlideshow *InputPageBlockSlideshow) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Blocks  []json.RawMessage `json:"blocks"`
+		Blocks  []jsontext.Value  `json:"blocks"`
 		Caption *PageBlockCaption `json:"caption"`
 	}
 
@@ -41072,7 +41073,7 @@ func (entity *InputPageBlockTable) MarshalJSON() ([]byte, error) {
 
 func (inputPageBlockTable *InputPageBlockTable) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Caption    json.RawMessage         `json:"caption"`
+		Caption    jsontext.Value          `json:"caption"`
 		Cells      [][]*PageBlockTableCell `json:"cells"`
 		IsBordered bool                    `json:"is_bordered"`
 		IsStriped  bool                    `json:"is_striped"`
@@ -41128,9 +41129,9 @@ func (entity *InputPageBlockDetails) MarshalJSON() ([]byte, error) {
 
 func (inputPageBlockDetails *InputPageBlockDetails) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Header json.RawMessage   `json:"header"`
-		Blocks []json.RawMessage `json:"blocks"`
-		IsOpen bool              `json:"is_open"`
+		Header jsontext.Value   `json:"header"`
+		Blocks []jsontext.Value `json:"blocks"`
+		IsOpen bool             `json:"is_open"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -41216,7 +41217,7 @@ func (entity *InputPageBlockButtonRow) MarshalJSON() ([]byte, error) {
 func (inputPageBlockButtonRow *InputPageBlockButtonRow) UnmarshalJSON(data []byte) error {
 	var tmp struct {
 		Buttons []*InlineButton `json:"buttons"`
-		Align   json.RawMessage `json:"align"`
+		Align   jsontext.Value  `json:"align"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -41455,11 +41456,11 @@ func (entity *InputMessagePhoto) MarshalJSON() ([]byte, error) {
 
 func (inputMessagePhoto *InputMessagePhoto) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Photo                 *InputPhoto     `json:"photo"`
-		Caption               *FormattedText  `json:"caption"`
-		ShowCaptionAboveMedia bool            `json:"show_caption_above_media"`
-		SelfDestructType      json.RawMessage `json:"self_destruct_type"`
-		HasSpoiler            bool            `json:"has_spoiler"`
+		Photo                 *InputPhoto    `json:"photo"`
+		Caption               *FormattedText `json:"caption"`
+		ShowCaptionAboveMedia bool           `json:"show_caption_above_media"`
+		SelfDestructType      jsontext.Value `json:"self_destruct_type"`
+		HasSpoiler            bool           `json:"has_spoiler"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -41544,11 +41545,11 @@ func (entity *InputMessageVideo) MarshalJSON() ([]byte, error) {
 
 func (inputMessageVideo *InputMessageVideo) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Video                 *InputVideo     `json:"video"`
-		Caption               *FormattedText  `json:"caption"`
-		ShowCaptionAboveMedia bool            `json:"show_caption_above_media"`
-		SelfDestructType      json.RawMessage `json:"self_destruct_type"`
-		HasSpoiler            bool            `json:"has_spoiler"`
+		Video                 *InputVideo    `json:"video"`
+		Caption               *FormattedText `json:"caption"`
+		ShowCaptionAboveMedia bool           `json:"show_caption_above_media"`
+		SelfDestructType      jsontext.Value `json:"self_destruct_type"`
+		HasSpoiler            bool           `json:"has_spoiler"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -41599,7 +41600,7 @@ func (entity *InputMessageVideoNote) MarshalJSON() ([]byte, error) {
 func (inputMessageVideoNote *InputMessageVideoNote) UnmarshalJSON(data []byte) error {
 	var tmp struct {
 		VideoNote        *InputVideoNote `json:"video_note"`
-		SelfDestructType json.RawMessage `json:"self_destruct_type"`
+		SelfDestructType jsontext.Value  `json:"self_destruct_type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -41650,7 +41651,7 @@ func (inputMessageVoiceNote *InputMessageVoiceNote) UnmarshalJSON(data []byte) e
 	var tmp struct {
 		VoiceNote        *InputVoiceNote `json:"voice_note"`
 		Caption          *FormattedText  `json:"caption"`
-		SelfDestructType json.RawMessage `json:"self_destruct_type"`
+		SelfDestructType jsontext.Value  `json:"self_destruct_type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -41944,7 +41945,7 @@ func (inputMessagePoll *InputMessagePoll) UnmarshalJSON(data []byte) error {
 		Question               *FormattedText     `json:"question"`
 		Options                []*InputPollOption `json:"options"`
 		Description            *FormattedText     `json:"description"`
-		Media                  json.RawMessage    `json:"media"`
+		Media                  jsontext.Value     `json:"media"`
 		IsAnonymous            bool               `json:"is_anonymous"`
 		AllowsMultipleAnswers  bool               `json:"allows_multiple_answers"`
 		AllowsRevoting         bool               `json:"allows_revoting"`
@@ -41952,7 +41953,7 @@ func (inputMessagePoll *InputMessagePoll) UnmarshalJSON(data []byte) error {
 		CountryCodes           []string           `json:"country_codes"`
 		ShuffleOptions         bool               `json:"shuffle_options"`
 		HideResultsUntilCloses bool               `json:"hide_results_until_closes"`
-		Type                   json.RawMessage    `json:"type"`
+		Type                   jsontext.Value     `json:"type"`
 		OpenPeriod             int32              `json:"open_period"`
 		CloseDate              int32              `json:"close_date"`
 		IsClosed               bool               `json:"is_closed"`
@@ -43559,21 +43560,21 @@ func (entity *StickerSet) MarshalJSON() ([]byte, error) {
 
 func (stickerSet *StickerSet) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id                         JsonInt64       `json:"id"`
-		Title                      string          `json:"title"`
-		Name                       string          `json:"name"`
-		Thumbnail                  *Thumbnail      `json:"thumbnail"`
-		ThumbnailOutline           *Outline        `json:"thumbnail_outline"`
-		IsOwned                    bool            `json:"is_owned"`
-		IsInstalled                bool            `json:"is_installed"`
-		IsArchived                 bool            `json:"is_archived"`
-		IsOfficial                 bool            `json:"is_official"`
-		StickerType                json.RawMessage `json:"sticker_type"`
-		NeedsRepainting            bool            `json:"needs_repainting"`
-		IsAllowedAsChatEmojiStatus bool            `json:"is_allowed_as_chat_emoji_status"`
-		IsViewed                   bool            `json:"is_viewed"`
-		Stickers                   []*Sticker      `json:"stickers"`
-		Emojis                     []*Emojis       `json:"emojis"`
+		Id                         JsonInt64      `json:"id"`
+		Title                      string         `json:"title"`
+		Name                       string         `json:"name"`
+		Thumbnail                  *Thumbnail     `json:"thumbnail"`
+		ThumbnailOutline           *Outline       `json:"thumbnail_outline"`
+		IsOwned                    bool           `json:"is_owned"`
+		IsInstalled                bool           `json:"is_installed"`
+		IsArchived                 bool           `json:"is_archived"`
+		IsOfficial                 bool           `json:"is_official"`
+		StickerType                jsontext.Value `json:"sticker_type"`
+		NeedsRepainting            bool           `json:"needs_repainting"`
+		IsAllowedAsChatEmojiStatus bool           `json:"is_allowed_as_chat_emoji_status"`
+		IsViewed                   bool           `json:"is_viewed"`
+		Stickers                   []*Sticker     `json:"stickers"`
+		Emojis                     []*Emojis      `json:"emojis"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -43655,21 +43656,21 @@ func (entity *StickerSetInfo) MarshalJSON() ([]byte, error) {
 
 func (stickerSetInfo *StickerSetInfo) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id                         JsonInt64       `json:"id"`
-		Title                      string          `json:"title"`
-		Name                       string          `json:"name"`
-		Thumbnail                  *Thumbnail      `json:"thumbnail"`
-		ThumbnailOutline           *Outline        `json:"thumbnail_outline"`
-		IsOwned                    bool            `json:"is_owned"`
-		IsInstalled                bool            `json:"is_installed"`
-		IsArchived                 bool            `json:"is_archived"`
-		IsOfficial                 bool            `json:"is_official"`
-		StickerType                json.RawMessage `json:"sticker_type"`
-		NeedsRepainting            bool            `json:"needs_repainting"`
-		IsAllowedAsChatEmojiStatus bool            `json:"is_allowed_as_chat_emoji_status"`
-		IsViewed                   bool            `json:"is_viewed"`
-		Size                       int32           `json:"size"`
-		Covers                     []*Sticker      `json:"covers"`
+		Id                         JsonInt64      `json:"id"`
+		Title                      string         `json:"title"`
+		Name                       string         `json:"name"`
+		Thumbnail                  *Thumbnail     `json:"thumbnail"`
+		ThumbnailOutline           *Outline       `json:"thumbnail_outline"`
+		IsOwned                    bool           `json:"is_owned"`
+		IsInstalled                bool           `json:"is_installed"`
+		IsArchived                 bool           `json:"is_archived"`
+		IsOfficial                 bool           `json:"is_official"`
+		StickerType                jsontext.Value `json:"sticker_type"`
+		NeedsRepainting            bool           `json:"needs_repainting"`
+		IsAllowedAsChatEmojiStatus bool           `json:"is_allowed_as_chat_emoji_status"`
+		IsViewed                   bool           `json:"is_viewed"`
+		Size                       int32          `json:"size"`
+		Covers                     []*Sticker     `json:"covers"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -43833,10 +43834,10 @@ func (entity *EmojiCategory) MarshalJSON() ([]byte, error) {
 
 func (emojiCategory *EmojiCategory) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Name       string          `json:"name"`
-		Icon       *Sticker        `json:"icon"`
-		Source     json.RawMessage `json:"source"`
-		IsGreeting bool            `json:"is_greeting"`
+		Name       string         `json:"name"`
+		Icon       *Sticker       `json:"icon"`
+		Source     jsontext.Value `json:"source"`
+		IsGreeting bool           `json:"is_greeting"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -44126,10 +44127,10 @@ func (entity *StoryAreaTypeSuggestedReaction) MarshalJSON() ([]byte, error) {
 
 func (storyAreaTypeSuggestedReaction *StoryAreaTypeSuggestedReaction) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ReactionType json.RawMessage `json:"reaction_type"`
-		TotalCount   int32           `json:"total_count"`
-		IsDark       bool            `json:"is_dark"`
-		IsFlipped    bool            `json:"is_flipped"`
+		ReactionType jsontext.Value `json:"reaction_type"`
+		TotalCount   int32          `json:"total_count"`
+		IsDark       bool           `json:"is_dark"`
+		IsFlipped    bool           `json:"is_flipped"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -44289,7 +44290,7 @@ func (entity *StoryArea) MarshalJSON() ([]byte, error) {
 func (storyArea *StoryArea) UnmarshalJSON(data []byte) error {
 	var tmp struct {
 		Position *StoryAreaPosition `json:"position"`
-		Type     json.RawMessage    `json:"type"`
+		Type     jsontext.Value     `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -44425,9 +44426,9 @@ func (entity *InputStoryAreaTypeSuggestedReaction) MarshalJSON() ([]byte, error)
 
 func (inputStoryAreaTypeSuggestedReaction *InputStoryAreaTypeSuggestedReaction) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ReactionType json.RawMessage `json:"reaction_type"`
-		IsDark       bool            `json:"is_dark"`
-		IsFlipped    bool            `json:"is_flipped"`
+		ReactionType jsontext.Value `json:"reaction_type"`
+		IsDark       bool           `json:"is_dark"`
+		IsFlipped    bool           `json:"is_flipped"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -44586,7 +44587,7 @@ func (entity *InputStoryArea) MarshalJSON() ([]byte, error) {
 func (inputStoryArea *InputStoryArea) UnmarshalJSON(data []byte) error {
 	var tmp struct {
 		Position *StoryAreaPosition `json:"position"`
-		Type     json.RawMessage    `json:"type"`
+		Type     jsontext.Value     `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -44907,8 +44908,8 @@ func (entity *InputStoryContentPhoto) MarshalJSON() ([]byte, error) {
 
 func (inputStoryContentPhoto *InputStoryContentPhoto) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Photo               json.RawMessage `json:"photo"`
-		AddedStickerFileIds []int32         `json:"added_sticker_file_ids"`
+		Photo               jsontext.Value `json:"photo"`
+		AddedStickerFileIds []int32        `json:"added_sticker_file_ids"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -44961,11 +44962,11 @@ func (entity *InputStoryContentVideo) MarshalJSON() ([]byte, error) {
 
 func (inputStoryContentVideo *InputStoryContentVideo) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Video               json.RawMessage `json:"video"`
-		AddedStickerFileIds []int32         `json:"added_sticker_file_ids"`
-		Duration            float64         `json:"duration"`
-		CoverFrameTimestamp float64         `json:"cover_frame_timestamp"`
-		IsAnimation         bool            `json:"is_animation"`
+		Video               jsontext.Value `json:"video"`
+		AddedStickerFileIds []int32        `json:"added_sticker_file_ids"`
+		Duration            float64        `json:"duration"`
+		CoverFrameTimestamp float64        `json:"cover_frame_timestamp"`
+		IsAnimation         bool           `json:"is_animation"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -45117,8 +45118,8 @@ func (entity *StoryRepostInfo) MarshalJSON() ([]byte, error) {
 
 func (storyRepostInfo *StoryRepostInfo) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Origin            json.RawMessage `json:"origin"`
-		IsContentModified bool            `json:"is_content_modified"`
+		Origin            jsontext.Value `json:"origin"`
+		IsContentModified bool           `json:"is_content_modified"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -45242,7 +45243,7 @@ func (story *Story) UnmarshalJSON(data []byte) error {
 	var tmp struct {
 		Id                          int32                 `json:"id"`
 		PosterChatId                int64                 `json:"poster_chat_id"`
-		PosterId                    json.RawMessage       `json:"poster_id"`
+		PosterId                    jsontext.Value        `json:"poster_id"`
 		Date                        int32                 `json:"date"`
 		IsBeingPosted               bool                  `json:"is_being_posted"`
 		IsBeingEdited               bool                  `json:"is_being_edited"`
@@ -45261,9 +45262,9 @@ func (story *Story) UnmarshalJSON(data []byte) error {
 		HasExpiredViewers           bool                  `json:"has_expired_viewers"`
 		RepostInfo                  *StoryRepostInfo      `json:"repost_info"`
 		InteractionInfo             *StoryInteractionInfo `json:"interaction_info"`
-		ChosenReactionType          json.RawMessage       `json:"chosen_reaction_type"`
-		PrivacySettings             json.RawMessage       `json:"privacy_settings"`
-		Content                     json.RawMessage       `json:"content"`
+		ChosenReactionType          jsontext.Value        `json:"chosen_reaction_type"`
+		PrivacySettings             jsontext.Value        `json:"privacy_settings"`
+		Content                     jsontext.Value        `json:"content"`
 		Areas                       []*StoryArea          `json:"areas"`
 		Caption                     *FormattedText        `json:"caption"`
 		AlbumIds                    []int32               `json:"album_ids"`
@@ -45508,12 +45509,12 @@ func (entity *ChatActiveStories) MarshalJSON() ([]byte, error) {
 
 func (chatActiveStories *ChatActiveStories) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ChatId         int64           `json:"chat_id"`
-		List           json.RawMessage `json:"list"`
-		Order          int64           `json:"order"`
-		CanBeArchived  bool            `json:"can_be_archived"`
-		MaxReadStoryId int32           `json:"max_read_story_id"`
-		Stories        []*StoryInfo    `json:"stories"`
+		ChatId         int64          `json:"chat_id"`
+		List           jsontext.Value `json:"list"`
+		Order          int64          `json:"order"`
+		CanBeArchived  bool           `json:"can_be_archived"`
+		MaxReadStoryId int32          `json:"max_read_story_id"`
+		Stories        []*StoryInfo   `json:"stories"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -45562,7 +45563,7 @@ func (entity *StoryInteractionTypeView) MarshalJSON() ([]byte, error) {
 
 func (storyInteractionTypeView *StoryInteractionTypeView) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ChosenReactionType json.RawMessage `json:"chosen_reaction_type"`
+		ChosenReactionType jsontext.Value `json:"chosen_reaction_type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -45661,10 +45662,10 @@ func (entity *StoryInteraction) MarshalJSON() ([]byte, error) {
 
 func (storyInteraction *StoryInteraction) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ActorId         json.RawMessage `json:"actor_id"`
-		InteractionDate int32           `json:"interaction_date"`
-		BlockList       json.RawMessage `json:"block_list"`
-		Type            json.RawMessage `json:"type"`
+		ActorId         jsontext.Value `json:"actor_id"`
+		InteractionDate int32          `json:"interaction_date"`
+		BlockList       jsontext.Value `json:"block_list"`
+		Type            jsontext.Value `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -45756,14 +45757,14 @@ func (entity *QuickReplyMessage) MarshalJSON() ([]byte, error) {
 
 func (quickReplyMessage *QuickReplyMessage) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id               int64           `json:"id"`
-		SendingState     json.RawMessage `json:"sending_state"`
-		CanBeEdited      bool            `json:"can_be_edited"`
-		ReplyToMessageId int64           `json:"reply_to_message_id"`
-		ViaBotUserId     int64           `json:"via_bot_user_id"`
-		MediaAlbumId     JsonInt64       `json:"media_album_id"`
-		Content          json.RawMessage `json:"content"`
-		ReplyMarkup      json.RawMessage `json:"reply_markup"`
+		Id               int64          `json:"id"`
+		SendingState     jsontext.Value `json:"sending_state"`
+		CanBeEdited      bool           `json:"can_be_edited"`
+		ReplyToMessageId int64          `json:"reply_to_message_id"`
+		ViaBotUserId     int64          `json:"via_bot_user_id"`
+		MediaAlbumId     JsonInt64      `json:"media_album_id"`
+		Content          jsontext.Value `json:"content"`
+		ReplyMarkup      jsontext.Value `json:"reply_markup"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -45868,8 +45869,8 @@ func (entity *WelcomeMessage) MarshalJSON() ([]byte, error) {
 
 func (welcomeMessage *WelcomeMessage) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id      int32           `json:"id"`
-		Content json.RawMessage `json:"content"`
+		Id      int32          `json:"id"`
+		Content jsontext.Value `json:"content"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -45968,9 +45969,9 @@ func (entity *PublicForwards) MarshalJSON() ([]byte, error) {
 
 func (publicForwards *PublicForwards) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		TotalCount int32             `json:"total_count"`
-		Forwards   []json.RawMessage `json:"forwards"`
-		NextOffset string            `json:"next_offset"`
+		TotalCount int32            `json:"total_count"`
+		Forwards   []jsontext.Value `json:"forwards"`
+		NextOffset string           `json:"next_offset"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -46014,8 +46015,8 @@ func (entity *BotMediaPreview) MarshalJSON() ([]byte, error) {
 
 func (botMediaPreview *BotMediaPreview) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Date    int32           `json:"date"`
-		Content json.RawMessage `json:"content"`
+		Date    int32          `json:"date"`
+		Content jsontext.Value `json:"content"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -46295,11 +46296,11 @@ func (entity *PrepaidGiveaway) MarshalJSON() ([]byte, error) {
 
 func (prepaidGiveaway *PrepaidGiveaway) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id          JsonInt64       `json:"id"`
-		WinnerCount int32           `json:"winner_count"`
-		Prize       json.RawMessage `json:"prize"`
-		BoostCount  int32           `json:"boost_count"`
-		PaymentDate int32           `json:"payment_date"`
+		Id          JsonInt64      `json:"id"`
+		WinnerCount int32          `json:"winner_count"`
+		Prize       jsontext.Value `json:"prize"`
+		BoostCount  int32          `json:"boost_count"`
+		PaymentDate int32          `json:"payment_date"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -46392,11 +46393,11 @@ func (entity *ChatBoost) MarshalJSON() ([]byte, error) {
 
 func (chatBoost *ChatBoost) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id             string          `json:"id"`
-		Count          int32           `json:"count"`
-		Source         json.RawMessage `json:"source"`
-		StartDate      int32           `json:"start_date"`
-		ExpirationDate int32           `json:"expiration_date"`
+		Id             string         `json:"id"`
+		Count          int32          `json:"count"`
+		Source         jsontext.Value `json:"source"`
+		StartDate      int32          `json:"start_date"`
+		ExpirationDate int32          `json:"expiration_date"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -46826,11 +46827,11 @@ func (entity *CallServer) MarshalJSON() ([]byte, error) {
 
 func (callServer *CallServer) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id          JsonInt64       `json:"id"`
-		IpAddress   string          `json:"ip_address"`
-		Ipv6Address string          `json:"ipv6_address"`
-		Port        int32           `json:"port"`
-		Type        json.RawMessage `json:"type"`
+		Id          JsonInt64      `json:"id"`
+		IpAddress   string         `json:"ip_address"`
+		Ipv6Address string         `json:"ipv6_address"`
+		Port        int32          `json:"port"`
+		Type        jsontext.Value `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -47106,10 +47107,10 @@ func (entity *CallStateDiscarded) MarshalJSON() ([]byte, error) {
 
 func (callStateDiscarded *CallStateDiscarded) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Reason               json.RawMessage `json:"reason"`
-		NeedRating           bool            `json:"need_rating"`
-		NeedDebugInformation bool            `json:"need_debug_information"`
-		NeedLog              bool            `json:"need_log"`
+		Reason               jsontext.Value `json:"reason"`
+		NeedRating           bool           `json:"need_rating"`
+		NeedDebugInformation bool           `json:"need_debug_information"`
+		NeedLog              bool           `json:"need_log"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -47360,8 +47361,8 @@ func (entity *GroupCallRecentSpeaker) MarshalJSON() ([]byte, error) {
 
 func (groupCallRecentSpeaker *GroupCallRecentSpeaker) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ParticipantId json.RawMessage `json:"participant_id"`
-		IsSpeaking    bool            `json:"is_speaking"`
+		ParticipantId jsontext.Value `json:"participant_id"`
+		IsSpeaking    bool           `json:"is_speaking"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -47482,7 +47483,7 @@ func (groupCall *GroupCall) UnmarshalJSON(data []byte) error {
 		ParticipantCount             int32                     `json:"participant_count"`
 		HasHiddenListeners           bool                      `json:"has_hidden_listeners"`
 		LoadedAllParticipants        bool                      `json:"loaded_all_participants"`
-		MessageSenderId              json.RawMessage           `json:"message_sender_id"`
+		MessageSenderId              jsontext.Value            `json:"message_sender_id"`
 		RecentSpeakers               []*GroupCallRecentSpeaker `json:"recent_speakers"`
 		IsMyVideoEnabled             bool                      `json:"is_my_video_enabled"`
 		IsMyVideoPaused              bool                      `json:"is_my_video_paused"`
@@ -47652,7 +47653,7 @@ func (entity *GroupCallParticipant) MarshalJSON() ([]byte, error) {
 
 func (groupCallParticipant *GroupCallParticipant) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ParticipantId              json.RawMessage                `json:"participant_id"`
+		ParticipantId              jsontext.Value                 `json:"participant_id"`
 		AudioSourceId              int32                          `json:"audio_source_id"`
 		ScreenSharingAudioSourceId int32                          `json:"screen_sharing_audio_source_id"`
 		VideoInfo                  *GroupCallParticipantVideoInfo `json:"video_info"`
@@ -47728,8 +47729,8 @@ func (entity *GroupCallParticipants) MarshalJSON() ([]byte, error) {
 
 func (groupCallParticipants *GroupCallParticipants) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		TotalCount     int32             `json:"total_count"`
-		ParticipantIds []json.RawMessage `json:"participant_ids"`
+		TotalCount     int32            `json:"total_count"`
+		ParticipantIds []jsontext.Value `json:"participant_ids"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -47807,13 +47808,13 @@ func (entity *GroupCallMessage) MarshalJSON() ([]byte, error) {
 
 func (groupCallMessage *GroupCallMessage) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		MessageId            int32           `json:"message_id"`
-		SenderId             json.RawMessage `json:"sender_id"`
-		Date                 int32           `json:"date"`
-		Text                 *FormattedText  `json:"text"`
-		PaidMessageStarCount int64           `json:"paid_message_star_count"`
-		IsFromOwner          bool            `json:"is_from_owner"`
-		CanBeDeleted         bool            `json:"can_be_deleted"`
+		MessageId            int32          `json:"message_id"`
+		SenderId             jsontext.Value `json:"sender_id"`
+		Date                 int32          `json:"date"`
+		Text                 *FormattedText `json:"text"`
+		PaidMessageStarCount int64          `json:"paid_message_star_count"`
+		IsFromOwner          bool           `json:"is_from_owner"`
+		CanBeDeleted         bool           `json:"can_be_deleted"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -48339,12 +48340,12 @@ func (entity *Call) MarshalJSON() ([]byte, error) {
 
 func (call *Call) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id         int32           `json:"id"`
-		UniqueId   JsonInt64       `json:"unique_id"`
-		UserId     int64           `json:"user_id"`
-		IsOutgoing bool            `json:"is_outgoing"`
-		IsVideo    bool            `json:"is_video"`
-		State      json.RawMessage `json:"state"`
+		Id         int32          `json:"id"`
+		UniqueId   JsonInt64      `json:"unique_id"`
+		UserId     int64          `json:"user_id"`
+		IsOutgoing bool           `json:"is_outgoing"`
+		IsVideo    bool           `json:"is_video"`
+		State      jsontext.Value `json:"state"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -48455,13 +48456,13 @@ func (entity *PhoneNumberAuthenticationSettings) MarshalJSON() ([]byte, error) {
 
 func (phoneNumberAuthenticationSettings *PhoneNumberAuthenticationSettings) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		AllowFlashCall                 bool            `json:"allow_flash_call"`
-		AllowMissedCall                bool            `json:"allow_missed_call"`
-		IsCurrentPhoneNumber           bool            `json:"is_current_phone_number"`
-		HasUnknownPhoneNumber          bool            `json:"has_unknown_phone_number"`
-		AllowSmsRetrieverApi           bool            `json:"allow_sms_retriever_api"`
-		FirebaseAuthenticationSettings json.RawMessage `json:"firebase_authentication_settings"`
-		AuthenticationTokens           []string        `json:"authentication_tokens"`
+		AllowFlashCall                 bool           `json:"allow_flash_call"`
+		AllowMissedCall                bool           `json:"allow_missed_call"`
+		IsCurrentPhoneNumber           bool           `json:"is_current_phone_number"`
+		HasUnknownPhoneNumber          bool           `json:"has_unknown_phone_number"`
+		AllowSmsRetrieverApi           bool           `json:"allow_sms_retriever_api"`
+		FirebaseAuthenticationSettings jsontext.Value `json:"firebase_authentication_settings"`
+		AuthenticationTokens           []string       `json:"authentication_tokens"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -48513,10 +48514,10 @@ func (entity *AddedReaction) MarshalJSON() ([]byte, error) {
 
 func (addedReaction *AddedReaction) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Type       json.RawMessage `json:"type"`
-		SenderId   json.RawMessage `json:"sender_id"`
-		IsOutgoing bool            `json:"is_outgoing"`
-		Date       int32           `json:"date"`
+		Type       jsontext.Value `json:"type"`
+		SenderId   jsontext.Value `json:"sender_id"`
+		IsOutgoing bool           `json:"is_outgoing"`
+		Date       int32          `json:"date"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -48590,8 +48591,8 @@ func (entity *AvailableReaction) MarshalJSON() ([]byte, error) {
 
 func (availableReaction *AvailableReaction) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Type         json.RawMessage `json:"type"`
-		NeedsPremium bool            `json:"needs_premium"`
+		Type         jsontext.Value `json:"type"`
+		NeedsPremium bool           `json:"needs_premium"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -48647,7 +48648,7 @@ func (availableReactions *AvailableReactions) UnmarshalJSON(data []byte) error {
 		PopularReactions     []*AvailableReaction `json:"popular_reactions"`
 		AllowCustomEmoji     bool                 `json:"allow_custom_emoji"`
 		AreTags              bool                 `json:"are_tags"`
-		UnavailabilityReason json.RawMessage      `json:"unavailability_reason"`
+		UnavailabilityReason jsontext.Value       `json:"unavailability_reason"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -49390,7 +49391,7 @@ func (entity *TargetChatInternalLink) MarshalJSON() ([]byte, error) {
 
 func (targetChatInternalLink *TargetChatInternalLink) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Link json.RawMessage `json:"link"`
+		Link jsontext.Value `json:"link"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -49453,17 +49454,17 @@ func (entity *InputInlineQueryResultAnimation) MarshalJSON() ([]byte, error) {
 
 func (inputInlineQueryResultAnimation *InputInlineQueryResultAnimation) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id                  string          `json:"id"`
-		Title               string          `json:"title"`
-		ThumbnailUrl        string          `json:"thumbnail_url"`
-		ThumbnailMimeType   string          `json:"thumbnail_mime_type"`
-		VideoUrl            string          `json:"video_url"`
-		VideoMimeType       string          `json:"video_mime_type"`
-		VideoDuration       int32           `json:"video_duration"`
-		VideoWidth          int32           `json:"video_width"`
-		VideoHeight         int32           `json:"video_height"`
-		ReplyMarkup         json.RawMessage `json:"reply_markup"`
-		InputMessageContent json.RawMessage `json:"input_message_content"`
+		Id                  string         `json:"id"`
+		Title               string         `json:"title"`
+		ThumbnailUrl        string         `json:"thumbnail_url"`
+		ThumbnailMimeType   string         `json:"thumbnail_mime_type"`
+		VideoUrl            string         `json:"video_url"`
+		VideoMimeType       string         `json:"video_mime_type"`
+		VideoDuration       int32          `json:"video_duration"`
+		VideoWidth          int32          `json:"video_width"`
+		VideoHeight         int32          `json:"video_height"`
+		ReplyMarkup         jsontext.Value `json:"reply_markup"`
+		InputMessageContent jsontext.Value `json:"input_message_content"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -49535,15 +49536,15 @@ func (entity *InputInlineQueryResultArticle) MarshalJSON() ([]byte, error) {
 
 func (inputInlineQueryResultArticle *InputInlineQueryResultArticle) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id                  string          `json:"id"`
-		Url                 string          `json:"url"`
-		Title               string          `json:"title"`
-		Description         string          `json:"description"`
-		ThumbnailUrl        string          `json:"thumbnail_url"`
-		ThumbnailWidth      int32           `json:"thumbnail_width"`
-		ThumbnailHeight     int32           `json:"thumbnail_height"`
-		ReplyMarkup         json.RawMessage `json:"reply_markup"`
-		InputMessageContent json.RawMessage `json:"input_message_content"`
+		Id                  string         `json:"id"`
+		Url                 string         `json:"url"`
+		Title               string         `json:"title"`
+		Description         string         `json:"description"`
+		ThumbnailUrl        string         `json:"thumbnail_url"`
+		ThumbnailWidth      int32          `json:"thumbnail_width"`
+		ThumbnailHeight     int32          `json:"thumbnail_height"`
+		ReplyMarkup         jsontext.Value `json:"reply_markup"`
+		InputMessageContent jsontext.Value `json:"input_message_content"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -49609,13 +49610,13 @@ func (entity *InputInlineQueryResultAudio) MarshalJSON() ([]byte, error) {
 
 func (inputInlineQueryResultAudio *InputInlineQueryResultAudio) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id                  string          `json:"id"`
-		Title               string          `json:"title"`
-		Performer           string          `json:"performer"`
-		AudioUrl            string          `json:"audio_url"`
-		AudioDuration       int32           `json:"audio_duration"`
-		ReplyMarkup         json.RawMessage `json:"reply_markup"`
-		InputMessageContent json.RawMessage `json:"input_message_content"`
+		Id                  string         `json:"id"`
+		Title               string         `json:"title"`
+		Performer           string         `json:"performer"`
+		AudioUrl            string         `json:"audio_url"`
+		AudioDuration       int32          `json:"audio_duration"`
+		ReplyMarkup         jsontext.Value `json:"reply_markup"`
+		InputMessageContent jsontext.Value `json:"input_message_content"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -49679,13 +49680,13 @@ func (entity *InputInlineQueryResultContact) MarshalJSON() ([]byte, error) {
 
 func (inputInlineQueryResultContact *InputInlineQueryResultContact) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id                  string          `json:"id"`
-		Contact             *Contact        `json:"contact"`
-		ThumbnailUrl        string          `json:"thumbnail_url"`
-		ThumbnailWidth      int32           `json:"thumbnail_width"`
-		ThumbnailHeight     int32           `json:"thumbnail_height"`
-		ReplyMarkup         json.RawMessage `json:"reply_markup"`
-		InputMessageContent json.RawMessage `json:"input_message_content"`
+		Id                  string         `json:"id"`
+		Contact             *Contact       `json:"contact"`
+		ThumbnailUrl        string         `json:"thumbnail_url"`
+		ThumbnailWidth      int32          `json:"thumbnail_width"`
+		ThumbnailHeight     int32          `json:"thumbnail_height"`
+		ReplyMarkup         jsontext.Value `json:"reply_markup"`
+		InputMessageContent jsontext.Value `json:"input_message_content"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -49755,16 +49756,16 @@ func (entity *InputInlineQueryResultDocument) MarshalJSON() ([]byte, error) {
 
 func (inputInlineQueryResultDocument *InputInlineQueryResultDocument) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id                  string          `json:"id"`
-		Title               string          `json:"title"`
-		Description         string          `json:"description"`
-		DocumentUrl         string          `json:"document_url"`
-		MimeType            string          `json:"mime_type"`
-		ThumbnailUrl        string          `json:"thumbnail_url"`
-		ThumbnailWidth      int32           `json:"thumbnail_width"`
-		ThumbnailHeight     int32           `json:"thumbnail_height"`
-		ReplyMarkup         json.RawMessage `json:"reply_markup"`
-		InputMessageContent json.RawMessage `json:"input_message_content"`
+		Id                  string         `json:"id"`
+		Title               string         `json:"title"`
+		Description         string         `json:"description"`
+		DocumentUrl         string         `json:"document_url"`
+		MimeType            string         `json:"mime_type"`
+		ThumbnailUrl        string         `json:"thumbnail_url"`
+		ThumbnailWidth      int32          `json:"thumbnail_width"`
+		ThumbnailHeight     int32          `json:"thumbnail_height"`
+		ReplyMarkup         jsontext.Value `json:"reply_markup"`
+		InputMessageContent jsontext.Value `json:"input_message_content"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -49823,9 +49824,9 @@ func (entity *InputInlineQueryResultGame) MarshalJSON() ([]byte, error) {
 
 func (inputInlineQueryResultGame *InputInlineQueryResultGame) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id            string          `json:"id"`
-		GameShortName string          `json:"game_short_name"`
-		ReplyMarkup   json.RawMessage `json:"reply_markup"`
+		Id            string         `json:"id"`
+		GameShortName string         `json:"game_short_name"`
+		ReplyMarkup   jsontext.Value `json:"reply_markup"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -49887,15 +49888,15 @@ func (entity *InputInlineQueryResultLocation) MarshalJSON() ([]byte, error) {
 
 func (inputInlineQueryResultLocation *InputInlineQueryResultLocation) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id                  string          `json:"id"`
-		Location            *Location       `json:"location"`
-		LivePeriod          int32           `json:"live_period"`
-		Title               string          `json:"title"`
-		ThumbnailUrl        string          `json:"thumbnail_url"`
-		ThumbnailWidth      int32           `json:"thumbnail_width"`
-		ThumbnailHeight     int32           `json:"thumbnail_height"`
-		ReplyMarkup         json.RawMessage `json:"reply_markup"`
-		InputMessageContent json.RawMessage `json:"input_message_content"`
+		Id                  string         `json:"id"`
+		Location            *Location      `json:"location"`
+		LivePeriod          int32          `json:"live_period"`
+		Title               string         `json:"title"`
+		ThumbnailUrl        string         `json:"thumbnail_url"`
+		ThumbnailWidth      int32          `json:"thumbnail_width"`
+		ThumbnailHeight     int32          `json:"thumbnail_height"`
+		ReplyMarkup         jsontext.Value `json:"reply_markup"`
+		InputMessageContent jsontext.Value `json:"input_message_content"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -49965,15 +49966,15 @@ func (entity *InputInlineQueryResultPhoto) MarshalJSON() ([]byte, error) {
 
 func (inputInlineQueryResultPhoto *InputInlineQueryResultPhoto) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id                  string          `json:"id"`
-		Title               string          `json:"title"`
-		Description         string          `json:"description"`
-		ThumbnailUrl        string          `json:"thumbnail_url"`
-		PhotoUrl            string          `json:"photo_url"`
-		PhotoWidth          int32           `json:"photo_width"`
-		PhotoHeight         int32           `json:"photo_height"`
-		ReplyMarkup         json.RawMessage `json:"reply_markup"`
-		InputMessageContent json.RawMessage `json:"input_message_content"`
+		Id                  string         `json:"id"`
+		Title               string         `json:"title"`
+		Description         string         `json:"description"`
+		ThumbnailUrl        string         `json:"thumbnail_url"`
+		PhotoUrl            string         `json:"photo_url"`
+		PhotoWidth          int32          `json:"photo_width"`
+		PhotoHeight         int32          `json:"photo_height"`
+		ReplyMarkup         jsontext.Value `json:"reply_markup"`
+		InputMessageContent jsontext.Value `json:"input_message_content"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -50039,13 +50040,13 @@ func (entity *InputInlineQueryResultSticker) MarshalJSON() ([]byte, error) {
 
 func (inputInlineQueryResultSticker *InputInlineQueryResultSticker) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id                  string          `json:"id"`
-		ThumbnailUrl        string          `json:"thumbnail_url"`
-		StickerUrl          string          `json:"sticker_url"`
-		StickerWidth        int32           `json:"sticker_width"`
-		StickerHeight       int32           `json:"sticker_height"`
-		ReplyMarkup         json.RawMessage `json:"reply_markup"`
-		InputMessageContent json.RawMessage `json:"input_message_content"`
+		Id                  string         `json:"id"`
+		ThumbnailUrl        string         `json:"thumbnail_url"`
+		StickerUrl          string         `json:"sticker_url"`
+		StickerWidth        int32          `json:"sticker_width"`
+		StickerHeight       int32          `json:"sticker_height"`
+		ReplyMarkup         jsontext.Value `json:"reply_markup"`
+		InputMessageContent jsontext.Value `json:"input_message_content"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -50109,13 +50110,13 @@ func (entity *InputInlineQueryResultVenue) MarshalJSON() ([]byte, error) {
 
 func (inputInlineQueryResultVenue *InputInlineQueryResultVenue) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id                  string          `json:"id"`
-		Venue               *Venue          `json:"venue"`
-		ThumbnailUrl        string          `json:"thumbnail_url"`
-		ThumbnailWidth      int32           `json:"thumbnail_width"`
-		ThumbnailHeight     int32           `json:"thumbnail_height"`
-		ReplyMarkup         json.RawMessage `json:"reply_markup"`
-		InputMessageContent json.RawMessage `json:"input_message_content"`
+		Id                  string         `json:"id"`
+		Venue               *Venue         `json:"venue"`
+		ThumbnailUrl        string         `json:"thumbnail_url"`
+		ThumbnailWidth      int32          `json:"thumbnail_width"`
+		ThumbnailHeight     int32          `json:"thumbnail_height"`
+		ReplyMarkup         jsontext.Value `json:"reply_markup"`
+		InputMessageContent jsontext.Value `json:"input_message_content"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -50187,17 +50188,17 @@ func (entity *InputInlineQueryResultVideo) MarshalJSON() ([]byte, error) {
 
 func (inputInlineQueryResultVideo *InputInlineQueryResultVideo) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id                  string          `json:"id"`
-		Title               string          `json:"title"`
-		Description         string          `json:"description"`
-		ThumbnailUrl        string          `json:"thumbnail_url"`
-		VideoUrl            string          `json:"video_url"`
-		MimeType            string          `json:"mime_type"`
-		VideoWidth          int32           `json:"video_width"`
-		VideoHeight         int32           `json:"video_height"`
-		VideoDuration       int32           `json:"video_duration"`
-		ReplyMarkup         json.RawMessage `json:"reply_markup"`
-		InputMessageContent json.RawMessage `json:"input_message_content"`
+		Id                  string         `json:"id"`
+		Title               string         `json:"title"`
+		Description         string         `json:"description"`
+		ThumbnailUrl        string         `json:"thumbnail_url"`
+		VideoUrl            string         `json:"video_url"`
+		MimeType            string         `json:"mime_type"`
+		VideoWidth          int32          `json:"video_width"`
+		VideoHeight         int32          `json:"video_height"`
+		VideoDuration       int32          `json:"video_duration"`
+		ReplyMarkup         jsontext.Value `json:"reply_markup"`
+		InputMessageContent jsontext.Value `json:"input_message_content"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -50263,12 +50264,12 @@ func (entity *InputInlineQueryResultVoiceNote) MarshalJSON() ([]byte, error) {
 
 func (inputInlineQueryResultVoiceNote *InputInlineQueryResultVoiceNote) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id                  string          `json:"id"`
-		Title               string          `json:"title"`
-		VoiceNoteUrl        string          `json:"voice_note_url"`
-		VoiceNoteDuration   int32           `json:"voice_note_duration"`
-		ReplyMarkup         json.RawMessage `json:"reply_markup"`
-		InputMessageContent json.RawMessage `json:"input_message_content"`
+		Id                  string         `json:"id"`
+		Title               string         `json:"title"`
+		VoiceNoteUrl        string         `json:"voice_note_url"`
+		VoiceNoteDuration   int32          `json:"voice_note_duration"`
+		ReplyMarkup         jsontext.Value `json:"reply_markup"`
+		InputMessageContent jsontext.Value `json:"input_message_content"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -50749,8 +50750,8 @@ func (entity *InlineQueryResultsButton) MarshalJSON() ([]byte, error) {
 
 func (inlineQueryResultsButton *InlineQueryResultsButton) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Text string          `json:"text"`
-		Type json.RawMessage `json:"type"`
+		Text string         `json:"text"`
+		Type jsontext.Value `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -50799,7 +50800,7 @@ func (inlineQueryResults *InlineQueryResults) UnmarshalJSON(data []byte) error {
 	var tmp struct {
 		InlineQueryId JsonInt64                 `json:"inline_query_id"`
 		Button        *InlineQueryResultsButton `json:"button"`
-		Results       []json.RawMessage         `json:"results"`
+		Results       []jsontext.Value          `json:"results"`
 		NextOffset    string                    `json:"next_offset"`
 	}
 
@@ -50896,7 +50897,7 @@ func (entity *PreparedInlineMessage) MarshalJSON() ([]byte, error) {
 func (preparedInlineMessage *PreparedInlineMessage) UnmarshalJSON(data []byte) error {
 	var tmp struct {
 		InlineQueryId JsonInt64        `json:"inline_query_id"`
-		Result        json.RawMessage  `json:"result"`
+		Result        jsontext.Value   `json:"result"`
 		ChatTypes     *TargetChatTypes `json:"chat_types"`
 	}
 
@@ -51350,8 +51351,8 @@ func (entity *ChatEventMemberInvited) MarshalJSON() ([]byte, error) {
 
 func (chatEventMemberInvited *ChatEventMemberInvited) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		UserId int64           `json:"user_id"`
-		Status json.RawMessage `json:"status"`
+		UserId int64          `json:"user_id"`
+		Status jsontext.Value `json:"status"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -51425,9 +51426,9 @@ func (entity *ChatEventMemberPromoted) MarshalJSON() ([]byte, error) {
 
 func (chatEventMemberPromoted *ChatEventMemberPromoted) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		UserId    int64           `json:"user_id"`
-		OldStatus json.RawMessage `json:"old_status"`
-		NewStatus json.RawMessage `json:"new_status"`
+		UserId    int64          `json:"user_id"`
+		OldStatus jsontext.Value `json:"old_status"`
+		NewStatus jsontext.Value `json:"new_status"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -51479,9 +51480,9 @@ func (entity *ChatEventMemberRestricted) MarshalJSON() ([]byte, error) {
 
 func (chatEventMemberRestricted *ChatEventMemberRestricted) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		MemberId  json.RawMessage `json:"member_id"`
-		OldStatus json.RawMessage `json:"old_status"`
-		NewStatus json.RawMessage `json:"new_status"`
+		MemberId  jsontext.Value `json:"member_id"`
+		OldStatus jsontext.Value `json:"old_status"`
+		NewStatus jsontext.Value `json:"new_status"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -51565,9 +51566,9 @@ func (entity *ChatEventMemberSubscriptionExtended) MarshalJSON() ([]byte, error)
 
 func (chatEventMemberSubscriptionExtended *ChatEventMemberSubscriptionExtended) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		UserId    int64           `json:"user_id"`
-		OldStatus json.RawMessage `json:"old_status"`
-		NewStatus json.RawMessage `json:"new_status"`
+		UserId    int64          `json:"user_id"`
+		OldStatus jsontext.Value `json:"old_status"`
+		NewStatus jsontext.Value `json:"new_status"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -51617,8 +51618,8 @@ func (entity *ChatEventAvailableReactionsChanged) MarshalJSON() ([]byte, error) 
 
 func (chatEventAvailableReactionsChanged *ChatEventAvailableReactionsChanged) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		OldAvailableReactions json.RawMessage `json:"old_available_reactions"`
-		NewAvailableReactions json.RawMessage `json:"new_available_reactions"`
+		OldAvailableReactions jsontext.Value `json:"old_available_reactions"`
+		NewAvailableReactions jsontext.Value `json:"new_available_reactions"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -52491,8 +52492,8 @@ func (entity *ChatEventVideoChatParticipantIsMutedToggled) MarshalJSON() ([]byte
 
 func (chatEventVideoChatParticipantIsMutedToggled *ChatEventVideoChatParticipantIsMutedToggled) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ParticipantId json.RawMessage `json:"participant_id"`
-		IsMuted       bool            `json:"is_muted"`
+		ParticipantId jsontext.Value `json:"participant_id"`
+		IsMuted       bool           `json:"is_muted"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -52539,8 +52540,8 @@ func (entity *ChatEventVideoChatParticipantVolumeLevelChanged) MarshalJSON() ([]
 
 func (chatEventVideoChatParticipantVolumeLevelChanged *ChatEventVideoChatParticipantVolumeLevelChanged) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ParticipantId json.RawMessage `json:"participant_id"`
-		VolumeLevel   int32           `json:"volume_level"`
+		ParticipantId jsontext.Value `json:"participant_id"`
+		VolumeLevel   int32          `json:"volume_level"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -52780,10 +52781,10 @@ func (entity *ChatEvent) MarshalJSON() ([]byte, error) {
 
 func (chatEvent *ChatEvent) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id       JsonInt64       `json:"id"`
-		Date     int32           `json:"date"`
-		MemberId json.RawMessage `json:"member_id"`
-		Action   json.RawMessage `json:"action"`
+		Id       JsonInt64      `json:"id"`
+		Date     int32          `json:"date"`
+		MemberId jsontext.Value `json:"member_id"`
+		Action   jsontext.Value `json:"action"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -52993,8 +52994,8 @@ func (entity *LanguagePackString) MarshalJSON() ([]byte, error) {
 
 func (languagePackString *LanguagePackString) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Key   string          `json:"key"`
-		Value json.RawMessage `json:"value"`
+		Key   string         `json:"key"`
+		Value jsontext.Value `json:"value"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -54857,9 +54858,9 @@ func (entity *PremiumLimit) MarshalJSON() ([]byte, error) {
 
 func (premiumLimit *PremiumLimit) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Type         json.RawMessage `json:"type"`
-		DefaultValue int32           `json:"default_value"`
-		PremiumValue int32           `json:"premium_value"`
+		Type         jsontext.Value `json:"type"`
+		DefaultValue int32          `json:"default_value"`
+		PremiumValue int32          `json:"premium_value"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -54905,9 +54906,9 @@ func (entity *PremiumFeatures) MarshalJSON() ([]byte, error) {
 
 func (premiumFeatures *PremiumFeatures) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Features    []json.RawMessage `json:"features"`
-		Limits      []*PremiumLimit   `json:"limits"`
-		PaymentLink json.RawMessage   `json:"payment_link"`
+		Features    []jsontext.Value `json:"features"`
+		Limits      []*PremiumLimit  `json:"limits"`
+		PaymentLink jsontext.Value   `json:"payment_link"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -54951,7 +54952,7 @@ func (entity *BusinessFeatures) MarshalJSON() ([]byte, error) {
 
 func (businessFeatures *BusinessFeatures) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Features []json.RawMessage `json:"features"`
+		Features []jsontext.Value `json:"features"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -54994,7 +54995,7 @@ func (entity *PremiumSourceLimitExceeded) MarshalJSON() ([]byte, error) {
 
 func (premiumSourceLimitExceeded *PremiumSourceLimitExceeded) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		LimitType json.RawMessage `json:"limit_type"`
+		LimitType jsontext.Value `json:"limit_type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -55037,7 +55038,7 @@ func (entity *PremiumSourceFeature) MarshalJSON() ([]byte, error) {
 
 func (premiumSourceFeature *PremiumSourceFeature) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Feature json.RawMessage `json:"feature"`
+		Feature jsontext.Value `json:"feature"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -55080,7 +55081,7 @@ func (entity *PremiumSourceBusinessFeature) MarshalJSON() ([]byte, error) {
 
 func (premiumSourceBusinessFeature *PremiumSourceBusinessFeature) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Feature json.RawMessage `json:"feature"`
+		Feature jsontext.Value `json:"feature"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -55123,7 +55124,7 @@ func (entity *PremiumSourceStoryFeature) MarshalJSON() ([]byte, error) {
 
 func (premiumSourceStoryFeature *PremiumSourceStoryFeature) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Feature json.RawMessage `json:"feature"`
+		Feature jsontext.Value `json:"feature"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -55216,8 +55217,8 @@ func (entity *PremiumFeaturePromotionAnimation) MarshalJSON() ([]byte, error) {
 
 func (premiumFeaturePromotionAnimation *PremiumFeaturePromotionAnimation) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Feature   json.RawMessage `json:"feature"`
-		Animation *Animation      `json:"animation"`
+		Feature   jsontext.Value `json:"feature"`
+		Animation *Animation     `json:"animation"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -55260,8 +55261,8 @@ func (entity *BusinessFeaturePromotionAnimation) MarshalJSON() ([]byte, error) {
 
 func (businessFeaturePromotionAnimation *BusinessFeaturePromotionAnimation) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Feature   json.RawMessage `json:"feature"`
-		Animation *Animation      `json:"animation"`
+		Feature   jsontext.Value `json:"feature"`
+		Animation *Animation     `json:"animation"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -56338,10 +56339,10 @@ func (entity *BackgroundTypePattern) MarshalJSON() ([]byte, error) {
 
 func (backgroundTypePattern *BackgroundTypePattern) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Fill       json.RawMessage `json:"fill"`
-		Intensity  int32           `json:"intensity"`
-		IsInverted bool            `json:"is_inverted"`
-		IsMoving   bool            `json:"is_moving"`
+		Fill       jsontext.Value `json:"fill"`
+		Intensity  int32          `json:"intensity"`
+		IsInverted bool           `json:"is_inverted"`
+		IsMoving   bool           `json:"is_moving"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -56388,7 +56389,7 @@ func (entity *BackgroundTypeFill) MarshalJSON() ([]byte, error) {
 
 func (backgroundTypeFill *BackgroundTypeFill) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Fill json.RawMessage `json:"fill"`
+		Fill jsontext.Value `json:"fill"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -56458,7 +56459,7 @@ func (entity *InputBackgroundLocal) MarshalJSON() ([]byte, error) {
 
 func (inputBackgroundLocal *InputBackgroundLocal) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Background json.RawMessage `json:"background"`
+		Background jsontext.Value `json:"background"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -57025,7 +57026,7 @@ func (entity *StartLiveStoryResultFail) MarshalJSON() ([]byte, error) {
 
 func (startLiveStoryResultFail *StartLiveStoryResultFail) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ErrorType json.RawMessage `json:"error_type"`
+		ErrorType jsontext.Value `json:"error_type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -57969,9 +57970,9 @@ func (entity *PushMessageContentGiveaway) MarshalJSON() ([]byte, error) {
 
 func (pushMessageContentGiveaway *PushMessageContentGiveaway) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		WinnerCount int32           `json:"winner_count"`
-		Prize       json.RawMessage `json:"prize"`
-		IsPinned    bool            `json:"is_pinned"`
+		WinnerCount int32          `json:"winner_count"`
+		Prize       jsontext.Value `json:"prize"`
+		IsPinned    bool           `json:"is_pinned"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -58965,11 +58966,11 @@ func (entity *NotificationTypeNewPushMessage) MarshalJSON() ([]byte, error) {
 
 func (notificationTypeNewPushMessage *NotificationTypeNewPushMessage) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		MessageId  int64           `json:"message_id"`
-		SenderId   json.RawMessage `json:"sender_id"`
-		SenderName string          `json:"sender_name"`
-		IsOutgoing bool            `json:"is_outgoing"`
-		Content    json.RawMessage `json:"content"`
+		MessageId  int64          `json:"message_id"`
+		SenderId   jsontext.Value `json:"sender_id"`
+		SenderName string         `json:"sender_name"`
+		IsOutgoing bool           `json:"is_outgoing"`
+		Content    jsontext.Value `json:"content"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -59177,10 +59178,10 @@ func (entity *Notification) MarshalJSON() ([]byte, error) {
 
 func (notification *Notification) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id       int32           `json:"id"`
-		Date     int32           `json:"date"`
-		IsSilent bool            `json:"is_silent"`
-		Type     json.RawMessage `json:"type"`
+		Id       int32          `json:"id"`
+		Date     int32          `json:"date"`
+		IsSilent bool           `json:"is_silent"`
+		Type     jsontext.Value `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -59232,7 +59233,7 @@ func (entity *NotificationGroup) MarshalJSON() ([]byte, error) {
 func (notificationGroup *NotificationGroup) UnmarshalJSON(data []byte) error {
 	var tmp struct {
 		Id            int32           `json:"id"`
-		Type          json.RawMessage `json:"type"`
+		Type          jsontext.Value  `json:"type"`
 		ChatId        int64           `json:"chat_id"`
 		TotalCount    int32           `json:"total_count"`
 		Notifications []*Notification `json:"notifications"`
@@ -59283,9 +59284,9 @@ func (entity *Proxy) MarshalJSON() ([]byte, error) {
 
 func (proxy *Proxy) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Server string          `json:"server"`
-		Port   int32           `json:"port"`
-		Type   json.RawMessage `json:"type"`
+		Server string         `json:"server"`
+		Port   int32          `json:"port"`
+		Type   jsontext.Value `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -59435,8 +59436,8 @@ func (entity *JsonObjectMember) MarshalJSON() ([]byte, error) {
 
 func (jsonObjectMember *JsonObjectMember) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Key   string          `json:"key"`
-		Value json.RawMessage `json:"value"`
+		Key   string         `json:"key"`
+		Value jsontext.Value `json:"value"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -59587,7 +59588,7 @@ func (entity *JsonValueArray) MarshalJSON() ([]byte, error) {
 
 func (jsonValueArray *JsonValueArray) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Values []json.RawMessage `json:"values"`
+		Values []jsontext.Value `json:"values"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -60042,7 +60043,7 @@ func (entity *UserPrivacySettingRules) MarshalJSON() ([]byte, error) {
 
 func (userPrivacySettingRules *UserPrivacySettingRules) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Rules []json.RawMessage `json:"rules"`
+		Rules []jsontext.Value `json:"rules"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -61140,24 +61141,24 @@ func (entity *Session) MarshalJSON() ([]byte, error) {
 
 func (session *Session) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id                    JsonInt64       `json:"id"`
-		IsCurrent             bool            `json:"is_current"`
-		IsPasswordPending     bool            `json:"is_password_pending"`
-		IsUnconfirmed         bool            `json:"is_unconfirmed"`
-		CanAcceptSecretChats  bool            `json:"can_accept_secret_chats"`
-		CanAcceptCalls        bool            `json:"can_accept_calls"`
-		DeviceType            json.RawMessage `json:"device_type"`
-		ApiId                 int32           `json:"api_id"`
-		ApplicationName       string          `json:"application_name"`
-		ApplicationVersion    string          `json:"application_version"`
-		IsOfficialApplication bool            `json:"is_official_application"`
-		DeviceModel           string          `json:"device_model"`
-		Platform              string          `json:"platform"`
-		SystemVersion         string          `json:"system_version"`
-		LogInDate             int32           `json:"log_in_date"`
-		LastActiveDate        int32           `json:"last_active_date"`
-		IpAddress             string          `json:"ip_address"`
-		Location              string          `json:"location"`
+		Id                    JsonInt64      `json:"id"`
+		IsCurrent             bool           `json:"is_current"`
+		IsPasswordPending     bool           `json:"is_password_pending"`
+		IsUnconfirmed         bool           `json:"is_unconfirmed"`
+		CanAcceptSecretChats  bool           `json:"can_accept_secret_chats"`
+		CanAcceptCalls        bool           `json:"can_accept_calls"`
+		DeviceType            jsontext.Value `json:"device_type"`
+		ApiId                 int32          `json:"api_id"`
+		ApplicationName       string         `json:"application_name"`
+		ApplicationVersion    string         `json:"application_version"`
+		IsOfficialApplication bool           `json:"is_official_application"`
+		DeviceModel           string         `json:"device_model"`
+		Platform              string         `json:"platform"`
+		SystemVersion         string         `json:"system_version"`
+		LogInDate             int32          `json:"log_in_date"`
+		LastActiveDate        int32          `json:"last_active_date"`
+		IpAddress             string         `json:"ip_address"`
+		Location              string         `json:"location"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -61245,10 +61246,10 @@ func (entity *UnconfirmedSession) MarshalJSON() ([]byte, error) {
 
 func (unconfirmedSession *UnconfirmedSession) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Type        json.RawMessage `json:"type"`
-		Date        int32           `json:"date"`
-		DeviceModel string          `json:"device_model"`
-		Location    string          `json:"location"`
+		Type        jsontext.Value `json:"type"`
+		Date        int32          `json:"date"`
+		DeviceModel string         `json:"device_model"`
+		Location    string         `json:"location"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -62355,9 +62356,9 @@ func (entity *InternalLinkTypeAttachmentMenuBot) MarshalJSON() ([]byte, error) {
 
 func (internalLinkTypeAttachmentMenuBot *InternalLinkTypeAttachmentMenuBot) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		TargetChat  json.RawMessage `json:"target_chat"`
-		BotUsername string          `json:"bot_username"`
-		Url         string          `json:"url"`
+		TargetChat  jsontext.Value `json:"target_chat"`
+		BotUsername string         `json:"bot_username"`
+		Url         string         `json:"url"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -63017,9 +63018,9 @@ func (entity *InternalLinkTypeMainWebApp) MarshalJSON() ([]byte, error) {
 
 func (internalLinkTypeMainWebApp *InternalLinkTypeMainWebApp) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		BotUsername    string          `json:"bot_username"`
-		StartParameter string          `json:"start_parameter"`
-		Mode           json.RawMessage `json:"mode"`
+		BotUsername    string         `json:"bot_username"`
+		StartParameter string         `json:"start_parameter"`
+		Mode           jsontext.Value `json:"mode"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -63223,7 +63224,7 @@ func (entity *InternalLinkTypeNewStory) MarshalJSON() ([]byte, error) {
 
 func (internalLinkTypeNewStory *InternalLinkTypeNewStory) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ContentType json.RawMessage `json:"content_type"`
+		ContentType jsontext.Value `json:"content_type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -63627,7 +63628,7 @@ func (entity *InternalLinkTypeSettings) MarshalJSON() ([]byte, error) {
 
 func (internalLinkTypeSettings *InternalLinkTypeSettings) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Section json.RawMessage `json:"section"`
+		Section jsontext.Value `json:"section"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -63989,10 +63990,10 @@ func (entity *InternalLinkTypeWebApp) MarshalJSON() ([]byte, error) {
 
 func (internalLinkTypeWebApp *InternalLinkTypeWebApp) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		BotUsername     string          `json:"bot_username"`
-		WebAppShortName string          `json:"web_app_short_name"`
-		StartParameter  string          `json:"start_parameter"`
-		Mode            json.RawMessage `json:"mode"`
+		BotUsername     string         `json:"bot_username"`
+		WebAppShortName string         `json:"web_app_short_name"`
+		StartParameter  string         `json:"start_parameter"`
+		Mode            jsontext.Value `json:"mode"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -64074,14 +64075,14 @@ func (entity *MessageLinkInfo) MarshalJSON() ([]byte, error) {
 
 func (messageLinkInfo *MessageLinkInfo) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		IsPublic        bool            `json:"is_public"`
-		ChatId          int64           `json:"chat_id"`
-		TopicId         json.RawMessage `json:"topic_id"`
-		Message         *Message        `json:"message"`
-		MediaTimestamp  int32           `json:"media_timestamp"`
-		ChecklistTaskId int32           `json:"checklist_task_id"`
-		PollOptionId    string          `json:"poll_option_id"`
-		ForAlbum        bool            `json:"for_album"`
+		IsPublic        bool           `json:"is_public"`
+		ChatId          int64          `json:"chat_id"`
+		TopicId         jsontext.Value `json:"topic_id"`
+		Message         *Message       `json:"message"`
+		MediaTimestamp  int32          `json:"media_timestamp"`
+		ChecklistTaskId int32          `json:"checklist_task_id"`
+		PollOptionId    string         `json:"poll_option_id"`
+		ForAlbum        bool           `json:"for_album"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -64857,9 +64858,9 @@ func (entity *StorageStatisticsByFileType) MarshalJSON() ([]byte, error) {
 
 func (storageStatisticsByFileType *StorageStatisticsByFileType) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		FileType json.RawMessage `json:"file_type"`
-		Size     int64           `json:"size"`
-		Count    int32           `json:"count"`
+		FileType jsontext.Value `json:"file_type"`
+		Size     int64          `json:"size"`
+		Count    int32          `json:"count"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -65146,10 +65147,10 @@ func (entity *NetworkStatisticsEntryFile) MarshalJSON() ([]byte, error) {
 
 func (networkStatisticsEntryFile *NetworkStatisticsEntryFile) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		FileType      json.RawMessage `json:"file_type"`
-		NetworkType   json.RawMessage `json:"network_type"`
-		SentBytes     int64           `json:"sent_bytes"`
-		ReceivedBytes int64           `json:"received_bytes"`
+		FileType      jsontext.Value `json:"file_type"`
+		NetworkType   jsontext.Value `json:"network_type"`
+		SentBytes     int64          `json:"sent_bytes"`
+		ReceivedBytes int64          `json:"received_bytes"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -65204,10 +65205,10 @@ func (entity *NetworkStatisticsEntryCall) MarshalJSON() ([]byte, error) {
 
 func (networkStatisticsEntryCall *NetworkStatisticsEntryCall) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		NetworkType   json.RawMessage `json:"network_type"`
-		SentBytes     int64           `json:"sent_bytes"`
-		ReceivedBytes int64           `json:"received_bytes"`
-		Duration      float64         `json:"duration"`
+		NetworkType   jsontext.Value `json:"network_type"`
+		SentBytes     int64          `json:"sent_bytes"`
+		ReceivedBytes int64          `json:"received_bytes"`
+		Duration      float64        `json:"duration"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -65252,8 +65253,8 @@ func (entity *NetworkStatistics) MarshalJSON() ([]byte, error) {
 
 func (networkStatistics *NetworkStatistics) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		SinceDate int32             `json:"since_date"`
-		Entries   []json.RawMessage `json:"entries"`
+		SinceDate int32            `json:"since_date"`
+		Entries   []jsontext.Value `json:"entries"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -66186,8 +66187,8 @@ func (entity *TMeUrl) MarshalJSON() ([]byte, error) {
 
 func (tMeUrl *TMeUrl) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Url  string          `json:"url"`
-		Type json.RawMessage `json:"type"`
+		Url  string         `json:"url"`
+		Type jsontext.Value `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -67056,11 +67057,11 @@ func (entity *NewSticker) MarshalJSON() ([]byte, error) {
 
 func (newSticker *NewSticker) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Sticker      json.RawMessage `json:"sticker"`
-		Format       json.RawMessage `json:"format"`
-		Emojis       string          `json:"emojis"`
-		MaskPosition *MaskPosition   `json:"mask_position"`
-		Keywords     []string        `json:"keywords"`
+		Sticker      jsontext.Value `json:"sticker"`
+		Format       jsontext.Value `json:"format"`
+		Emojis       string         `json:"emojis"`
+		MaskPosition *MaskPosition  `json:"mask_position"`
+		Keywords     []string       `json:"keywords"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -67301,10 +67302,10 @@ func (entity *ChatStatisticsInteractionInfo) MarshalJSON() ([]byte, error) {
 
 func (chatStatisticsInteractionInfo *ChatStatisticsInteractionInfo) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ObjectType    json.RawMessage `json:"object_type"`
-		ViewCount     int32           `json:"view_count"`
-		ForwardCount  int32           `json:"forward_count"`
-		ReactionCount int32           `json:"reaction_count"`
+		ObjectType    jsontext.Value `json:"object_type"`
+		ViewCount     int32          `json:"view_count"`
+		ForwardCount  int32          `json:"forward_count"`
+		ReactionCount int32          `json:"reaction_count"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -67467,14 +67468,14 @@ func (chatStatisticsSupergroup *ChatStatisticsSupergroup) UnmarshalJSON(data []b
 		MessageCount        *StatisticalValue                         `json:"message_count"`
 		ViewerCount         *StatisticalValue                         `json:"viewer_count"`
 		SenderCount         *StatisticalValue                         `json:"sender_count"`
-		MemberCountGraph    json.RawMessage                           `json:"member_count_graph"`
-		JoinGraph           json.RawMessage                           `json:"join_graph"`
-		JoinBySourceGraph   json.RawMessage                           `json:"join_by_source_graph"`
-		LanguageGraph       json.RawMessage                           `json:"language_graph"`
-		MessageContentGraph json.RawMessage                           `json:"message_content_graph"`
-		ActionGraph         json.RawMessage                           `json:"action_graph"`
-		DayGraph            json.RawMessage                           `json:"day_graph"`
-		WeekGraph           json.RawMessage                           `json:"week_graph"`
+		MemberCountGraph    jsontext.Value                            `json:"member_count_graph"`
+		JoinGraph           jsontext.Value                            `json:"join_graph"`
+		JoinBySourceGraph   jsontext.Value                            `json:"join_by_source_graph"`
+		LanguageGraph       jsontext.Value                            `json:"language_graph"`
+		MessageContentGraph jsontext.Value                            `json:"message_content_graph"`
+		ActionGraph         jsontext.Value                            `json:"action_graph"`
+		DayGraph            jsontext.Value                            `json:"day_graph"`
+		WeekGraph           jsontext.Value                            `json:"week_graph"`
 		TopSenders          []*ChatStatisticsMessageSenderInfo        `json:"top_senders"`
 		TopAdministrators   []*ChatStatisticsAdministratorActionsInfo `json:"top_administrators"`
 		TopInviters         []*ChatStatisticsInviterInfo              `json:"top_inviters"`
@@ -67601,18 +67602,18 @@ func (chatStatisticsChannel *ChatStatisticsChannel) UnmarshalJSON(data []byte) e
 		MeanStoryShareCount            *StatisticalValue                `json:"mean_story_share_count"`
 		MeanStoryReactionCount         *StatisticalValue                `json:"mean_story_reaction_count"`
 		EnabledNotificationsPercentage float64                          `json:"enabled_notifications_percentage"`
-		MemberCountGraph               json.RawMessage                  `json:"member_count_graph"`
-		JoinGraph                      json.RawMessage                  `json:"join_graph"`
-		MuteGraph                      json.RawMessage                  `json:"mute_graph"`
-		ViewCountByHourGraph           json.RawMessage                  `json:"view_count_by_hour_graph"`
-		ViewCountBySourceGraph         json.RawMessage                  `json:"view_count_by_source_graph"`
-		JoinBySourceGraph              json.RawMessage                  `json:"join_by_source_graph"`
-		LanguageGraph                  json.RawMessage                  `json:"language_graph"`
-		MessageInteractionGraph        json.RawMessage                  `json:"message_interaction_graph"`
-		MessageReactionGraph           json.RawMessage                  `json:"message_reaction_graph"`
-		StoryInteractionGraph          json.RawMessage                  `json:"story_interaction_graph"`
-		StoryReactionGraph             json.RawMessage                  `json:"story_reaction_graph"`
-		InstantViewInteractionGraph    json.RawMessage                  `json:"instant_view_interaction_graph"`
+		MemberCountGraph               jsontext.Value                   `json:"member_count_graph"`
+		JoinGraph                      jsontext.Value                   `json:"join_graph"`
+		MuteGraph                      jsontext.Value                   `json:"mute_graph"`
+		ViewCountByHourGraph           jsontext.Value                   `json:"view_count_by_hour_graph"`
+		ViewCountBySourceGraph         jsontext.Value                   `json:"view_count_by_source_graph"`
+		JoinBySourceGraph              jsontext.Value                   `json:"join_by_source_graph"`
+		LanguageGraph                  jsontext.Value                   `json:"language_graph"`
+		MessageInteractionGraph        jsontext.Value                   `json:"message_interaction_graph"`
+		MessageReactionGraph           jsontext.Value                   `json:"message_reaction_graph"`
+		StoryInteractionGraph          jsontext.Value                   `json:"story_interaction_graph"`
+		StoryReactionGraph             jsontext.Value                   `json:"story_reaction_graph"`
+		InstantViewInteractionGraph    jsontext.Value                   `json:"instant_view_interaction_graph"`
 		RecentInteractions             []*ChatStatisticsInteractionInfo `json:"recent_interactions"`
 	}
 
@@ -67733,8 +67734,8 @@ func (entity *ChatRevenueStatistics) MarshalJSON() ([]byte, error) {
 
 func (chatRevenueStatistics *ChatRevenueStatistics) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		RevenueByHourGraph json.RawMessage    `json:"revenue_by_hour_graph"`
-		RevenueGraph       json.RawMessage    `json:"revenue_graph"`
+		RevenueByHourGraph jsontext.Value     `json:"revenue_by_hour_graph"`
+		RevenueGraph       jsontext.Value     `json:"revenue_graph"`
 		RevenueAmount      *ChatRevenueAmount `json:"revenue_amount"`
 		UsdRate            float64            `json:"usd_rate"`
 	}
@@ -67783,8 +67784,8 @@ func (entity *MessageStatistics) MarshalJSON() ([]byte, error) {
 
 func (messageStatistics *MessageStatistics) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		MessageInteractionGraph json.RawMessage `json:"message_interaction_graph"`
-		MessageReactionGraph    json.RawMessage `json:"message_reaction_graph"`
+		MessageInteractionGraph jsontext.Value `json:"message_interaction_graph"`
+		MessageReactionGraph    jsontext.Value `json:"message_reaction_graph"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -67828,8 +67829,8 @@ func (entity *StoryStatistics) MarshalJSON() ([]byte, error) {
 
 func (storyStatistics *StoryStatistics) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		StoryInteractionGraph json.RawMessage `json:"story_interaction_graph"`
-		StoryReactionGraph    json.RawMessage `json:"story_reaction_graph"`
+		StoryInteractionGraph jsontext.Value `json:"story_interaction_graph"`
+		StoryReactionGraph    jsontext.Value `json:"story_reaction_graph"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -67871,7 +67872,7 @@ func (entity *PollVoteStatistics) MarshalJSON() ([]byte, error) {
 
 func (pollVoteStatistics *PollVoteStatistics) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		VoteGraph json.RawMessage `json:"vote_graph"`
+		VoteGraph jsontext.Value `json:"vote_graph"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -68076,8 +68077,8 @@ func (entity *ChatRevenueTransactionTypeFragmentWithdrawal) MarshalJSON() ([]byt
 
 func (chatRevenueTransactionTypeFragmentWithdrawal *ChatRevenueTransactionTypeFragmentWithdrawal) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		WithdrawalDate int32           `json:"withdrawal_date"`
-		State          json.RawMessage `json:"state"`
+		WithdrawalDate int32          `json:"withdrawal_date"`
+		State          jsontext.Value `json:"state"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -68149,9 +68150,9 @@ func (entity *ChatRevenueTransaction) MarshalJSON() ([]byte, error) {
 
 func (chatRevenueTransaction *ChatRevenueTransaction) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Cryptocurrency       string          `json:"cryptocurrency"`
-		CryptocurrencyAmount JsonInt64       `json:"cryptocurrency_amount"`
-		Type                 json.RawMessage `json:"type"`
+		Cryptocurrency       string         `json:"cryptocurrency"`
+		CryptocurrencyAmount JsonInt64      `json:"cryptocurrency_amount"`
+		Type                 jsontext.Value `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -68255,7 +68256,7 @@ func (entity *StarRevenueStatistics) MarshalJSON() ([]byte, error) {
 
 func (starRevenueStatistics *StarRevenueStatistics) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		RevenueByDayGraph json.RawMessage    `json:"revenue_by_day_graph"`
+		RevenueByDayGraph jsontext.Value     `json:"revenue_by_day_graph"`
 		Status            *StarRevenueStatus `json:"status"`
 		UsdRate           float64            `json:"usd_rate"`
 	}
@@ -68332,7 +68333,7 @@ func (entity *GramRevenueStatistics) MarshalJSON() ([]byte, error) {
 
 func (gramRevenueStatistics *GramRevenueStatistics) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		RevenueByDayGraph json.RawMessage    `json:"revenue_by_day_graph"`
+		RevenueByDayGraph jsontext.Value     `json:"revenue_by_day_graph"`
 		Status            *GramRevenueStatus `json:"status"`
 		UsdRate           float64            `json:"usd_rate"`
 	}
@@ -68723,7 +68724,7 @@ func (entity *UpdateAuthorizationState) MarshalJSON() ([]byte, error) {
 
 func (updateAuthorizationState *UpdateAuthorizationState) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		AuthorizationState json.RawMessage `json:"authorization_state"`
+		AuthorizationState jsontext.Value `json:"authorization_state"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -68886,9 +68887,9 @@ func (entity *UpdateMessageContent) MarshalJSON() ([]byte, error) {
 
 func (updateMessageContent *UpdateMessageContent) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ChatId     int64           `json:"chat_id"`
-		MessageId  int64           `json:"message_id"`
-		NewContent json.RawMessage `json:"new_content"`
+		ChatId     int64          `json:"chat_id"`
+		MessageId  int64          `json:"message_id"`
+		NewContent jsontext.Value `json:"new_content"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -68971,10 +68972,10 @@ func (entity *UpdateMessageEdited) MarshalJSON() ([]byte, error) {
 
 func (updateMessageEdited *UpdateMessageEdited) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ChatId      int64           `json:"chat_id"`
-		MessageId   int64           `json:"message_id"`
-		EditDate    int32           `json:"edit_date"`
-		ReplyMarkup json.RawMessage `json:"reply_markup"`
+		ChatId      int64          `json:"chat_id"`
+		MessageId   int64          `json:"message_id"`
+		EditDate    int32          `json:"edit_date"`
+		ReplyMarkup jsontext.Value `json:"reply_markup"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -69542,8 +69543,8 @@ func (entity *UpdateChatAddedToList) MarshalJSON() ([]byte, error) {
 
 func (updateChatAddedToList *UpdateChatAddedToList) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ChatId   int64           `json:"chat_id"`
-		ChatList json.RawMessage `json:"chat_list"`
+		ChatId   int64          `json:"chat_id"`
+		ChatList jsontext.Value `json:"chat_list"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -69590,8 +69591,8 @@ func (entity *UpdateChatRemovedFromList) MarshalJSON() ([]byte, error) {
 
 func (updateChatRemovedFromList *UpdateChatRemovedFromList) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ChatId   int64           `json:"chat_id"`
-		ChatList json.RawMessage `json:"chat_list"`
+		ChatId   int64          `json:"chat_id"`
+		ChatList jsontext.Value `json:"chat_list"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -69698,8 +69699,8 @@ func (entity *UpdateChatActionBar) MarshalJSON() ([]byte, error) {
 
 func (updateChatActionBar *UpdateChatActionBar) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ChatId    int64           `json:"chat_id"`
-		ActionBar json.RawMessage `json:"action_bar"`
+		ChatId    int64          `json:"chat_id"`
+		ActionBar jsontext.Value `json:"action_bar"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -69775,8 +69776,8 @@ func (entity *UpdateChatAvailableReactions) MarshalJSON() ([]byte, error) {
 
 func (updateChatAvailableReactions *UpdateChatAvailableReactions) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ChatId             int64           `json:"chat_id"`
-		AvailableReactions json.RawMessage `json:"available_reactions"`
+		ChatId             int64          `json:"chat_id"`
+		AvailableReactions jsontext.Value `json:"available_reactions"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -69883,8 +69884,8 @@ func (entity *UpdateChatMessageSender) MarshalJSON() ([]byte, error) {
 
 func (updateChatMessageSender *UpdateChatMessageSender) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ChatId          int64           `json:"chat_id"`
-		MessageSenderId json.RawMessage `json:"message_sender_id"`
+		ChatId          int64          `json:"chat_id"`
+		MessageSenderId jsontext.Value `json:"message_sender_id"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -70076,8 +70077,8 @@ func (entity *UpdateChatTheme) MarshalJSON() ([]byte, error) {
 
 func (updateChatTheme *UpdateChatTheme) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ChatId int64           `json:"chat_id"`
-		Theme  json.RawMessage `json:"theme"`
+		ChatId int64          `json:"chat_id"`
+		Theme  jsontext.Value `json:"theme"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -70385,8 +70386,8 @@ func (entity *UpdateChatBlockList) MarshalJSON() ([]byte, error) {
 
 func (updateChatBlockList *UpdateChatBlockList) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ChatId    int64           `json:"chat_id"`
-		BlockList json.RawMessage `json:"block_list"`
+		ChatId    int64          `json:"chat_id"`
+		BlockList jsontext.Value `json:"block_list"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -70634,9 +70635,9 @@ func (entity *UpdateTopicMessageCount) MarshalJSON() ([]byte, error) {
 
 func (updateTopicMessageCount *UpdateTopicMessageCount) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ChatId       int64           `json:"chat_id"`
-		TopicId      json.RawMessage `json:"topic_id"`
-		MessageCount int32           `json:"message_count"`
+		ChatId       int64          `json:"chat_id"`
+		TopicId      jsontext.Value `json:"topic_id"`
+		MessageCount int32          `json:"message_count"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -70895,7 +70896,7 @@ func (entity *UpdateScopeNotificationSettings) MarshalJSON() ([]byte, error) {
 
 func (updateScopeNotificationSettings *UpdateScopeNotificationSettings) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Scope                json.RawMessage            `json:"scope"`
+		Scope                jsontext.Value             `json:"scope"`
 		NotificationSettings *ScopeNotificationSettings `json:"notification_settings"`
 	}
 
@@ -71012,7 +71013,7 @@ func (entity *UpdateNotificationGroup) MarshalJSON() ([]byte, error) {
 func (updateNotificationGroup *UpdateNotificationGroup) UnmarshalJSON(data []byte) error {
 	var tmp struct {
 		NotificationGroupId        int32           `json:"notification_group_id"`
-		Type                       json.RawMessage `json:"type"`
+		Type                       jsontext.Value  `json:"type"`
 		ChatId                     int64           `json:"chat_id"`
 		NotificationSettingsChatId int64           `json:"notification_settings_chat_id"`
 		NotificationSoundId        JsonInt64       `json:"notification_sound_id"`
@@ -71164,10 +71165,10 @@ func (entity *UpdateChatAction) MarshalJSON() ([]byte, error) {
 
 func (updateChatAction *UpdateChatAction) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ChatId   int64           `json:"chat_id"`
-		TopicId  json.RawMessage `json:"topic_id"`
-		SenderId json.RawMessage `json:"sender_id"`
-		Action   json.RawMessage `json:"action"`
+		ChatId   int64          `json:"chat_id"`
+		TopicId  jsontext.Value `json:"topic_id"`
+		SenderId jsontext.Value `json:"sender_id"`
+		Action   jsontext.Value `json:"action"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -71228,12 +71229,12 @@ func (entity *UpdatePendingMessage) MarshalJSON() ([]byte, error) {
 
 func (updatePendingMessage *UpdatePendingMessage) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ChatId       int64           `json:"chat_id"`
-		ForumTopicId int32           `json:"forum_topic_id"`
-		DraftId      JsonInt64       `json:"draft_id"`
-		CanStop      bool            `json:"can_stop"`
-		KeepOnStop   bool            `json:"keep_on_stop"`
-		Content      json.RawMessage `json:"content"`
+		ChatId       int64          `json:"chat_id"`
+		ForumTopicId int32          `json:"forum_topic_id"`
+		DraftId      JsonInt64      `json:"draft_id"`
+		CanStop      bool           `json:"can_stop"`
+		KeepOnStop   bool           `json:"keep_on_stop"`
+		Content      jsontext.Value `json:"content"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -71342,8 +71343,8 @@ func (entity *UpdateUserStatus) MarshalJSON() ([]byte, error) {
 
 func (updateUserStatus *UpdateUserStatus) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		UserId int64           `json:"user_id"`
-		Status json.RawMessage `json:"status"`
+		UserId int64          `json:"user_id"`
+		Status jsontext.Value `json:"status"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -71614,8 +71615,8 @@ func (entity *UpdateServiceNotification) MarshalJSON() ([]byte, error) {
 
 func (updateServiceNotification *UpdateServiceNotification) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Type    string          `json:"type"`
-		Content json.RawMessage `json:"content"`
+		Type    string         `json:"type"`
+		Content jsontext.Value `json:"content"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -72138,9 +72139,9 @@ func (entity *UpdateNewGroupCallPaidReaction) MarshalJSON() ([]byte, error) {
 
 func (updateNewGroupCallPaidReaction *UpdateNewGroupCallPaidReaction) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		GroupCallId int32           `json:"group_call_id"`
-		SenderId    json.RawMessage `json:"sender_id"`
-		StarCount   int64           `json:"star_count"`
+		GroupCallId int32          `json:"group_call_id"`
+		SenderId    jsontext.Value `json:"sender_id"`
+		StarCount   int64          `json:"star_count"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -72360,7 +72361,7 @@ func (entity *UpdateUserPrivacySettingRules) MarshalJSON() ([]byte, error) {
 
 func (updateUserPrivacySettingRules *UpdateUserPrivacySettingRules) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Setting json.RawMessage          `json:"setting"`
+		Setting jsontext.Value           `json:"setting"`
 		Rules   *UserPrivacySettingRules `json:"rules"`
 	}
 
@@ -72410,9 +72411,9 @@ func (entity *UpdateUnreadMessageCount) MarshalJSON() ([]byte, error) {
 
 func (updateUnreadMessageCount *UpdateUnreadMessageCount) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ChatList           json.RawMessage `json:"chat_list"`
-		UnreadCount        int32           `json:"unread_count"`
-		UnreadUnmutedCount int32           `json:"unread_unmuted_count"`
+		ChatList           jsontext.Value `json:"chat_list"`
+		UnreadCount        int32          `json:"unread_count"`
+		UnreadUnmutedCount int32          `json:"unread_unmuted_count"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -72468,12 +72469,12 @@ func (entity *UpdateUnreadChatCount) MarshalJSON() ([]byte, error) {
 
 func (updateUnreadChatCount *UpdateUnreadChatCount) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ChatList                   json.RawMessage `json:"chat_list"`
-		TotalCount                 int32           `json:"total_count"`
-		UnreadCount                int32           `json:"unread_count"`
-		UnreadUnmutedCount         int32           `json:"unread_unmuted_count"`
-		MarkedAsUnreadCount        int32           `json:"marked_as_unread_count"`
-		MarkedAsUnreadUnmutedCount int32           `json:"marked_as_unread_unmuted_count"`
+		ChatList                   jsontext.Value `json:"chat_list"`
+		TotalCount                 int32          `json:"total_count"`
+		UnreadCount                int32          `json:"unread_count"`
+		UnreadUnmutedCount         int32          `json:"unread_unmuted_count"`
+		MarkedAsUnreadCount        int32          `json:"marked_as_unread_count"`
+		MarkedAsUnreadUnmutedCount int32          `json:"marked_as_unread_unmuted_count"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -72526,9 +72527,9 @@ func (entity *UpdateChatJoinResult) MarshalJSON() ([]byte, error) {
 
 func (updateChatJoinResult *UpdateChatJoinResult) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		QueryId JsonInt64       `json:"query_id"`
-		ChatId  int64           `json:"chat_id"`
-		Result  json.RawMessage `json:"result"`
+		QueryId JsonInt64      `json:"query_id"`
+		ChatId  int64          `json:"chat_id"`
+		Result  jsontext.Value `json:"result"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -72663,9 +72664,9 @@ func (entity *UpdateStoryPostFailed) MarshalJSON() ([]byte, error) {
 
 func (updateStoryPostFailed *UpdateStoryPostFailed) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Story     *Story          `json:"story"`
-		Error     *Error          `json:"error"`
-		ErrorType json.RawMessage `json:"error_type"`
+		Story     *Story         `json:"story"`
+		Error     *Error         `json:"error"`
+		ErrorType jsontext.Value `json:"error_type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -72740,8 +72741,8 @@ func (entity *UpdateStoryListChatCount) MarshalJSON() ([]byte, error) {
 
 func (updateStoryListChatCount *UpdateStoryListChatCount) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		StoryList json.RawMessage `json:"story_list"`
-		ChatCount int32           `json:"chat_count"`
+		StoryList jsontext.Value `json:"story_list"`
+		ChatCount int32          `json:"chat_count"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -72844,8 +72845,8 @@ func (entity *UpdateOption) MarshalJSON() ([]byte, error) {
 
 func (updateOption *UpdateOption) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Name  string          `json:"name"`
-		Value json.RawMessage `json:"value"`
+		Name  string         `json:"name"`
+		Value jsontext.Value `json:"value"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -72919,8 +72920,8 @@ func (entity *UpdateInstalledStickerSets) MarshalJSON() ([]byte, error) {
 
 func (updateInstalledStickerSets *UpdateInstalledStickerSets) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		StickerType   json.RawMessage `json:"sticker_type"`
-		StickerSetIds []JsonInt64     `json:"sticker_set_ids"`
+		StickerType   jsontext.Value `json:"sticker_type"`
+		StickerSetIds []JsonInt64    `json:"sticker_set_ids"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -72967,7 +72968,7 @@ func (entity *UpdateTrendingStickerSets) MarshalJSON() ([]byte, error) {
 
 func (updateTrendingStickerSets *UpdateTrendingStickerSets) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		StickerType json.RawMessage      `json:"sticker_type"`
+		StickerType jsontext.Value       `json:"sticker_type"`
 		StickerSets *TrendingStickerSets `json:"sticker_sets"`
 	}
 
@@ -73295,7 +73296,7 @@ func (entity *UpdateConnectionState) MarshalJSON() ([]byte, error) {
 
 func (updateConnectionState *UpdateConnectionState) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		State json.RawMessage `json:"state"`
+		State jsontext.Value `json:"state"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -73566,7 +73567,7 @@ func (entity *UpdateDefaultReactionType) MarshalJSON() ([]byte, error) {
 
 func (updateDefaultReactionType *UpdateDefaultReactionType) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ReactionType json.RawMessage `json:"reaction_type"`
+		ReactionType jsontext.Value `json:"reaction_type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -73609,7 +73610,7 @@ func (entity *UpdateDefaultPaidReactionType) MarshalJSON() ([]byte, error) {
 
 func (updateDefaultPaidReactionType *UpdateDefaultPaidReactionType) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Type json.RawMessage `json:"type"`
+		Type jsontext.Value `json:"type"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -73793,7 +73794,7 @@ func (entity *UpdateStarRevenueStatus) MarshalJSON() ([]byte, error) {
 
 func (updateStarRevenueStatus *UpdateStarRevenueStatus) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		OwnerId json.RawMessage    `json:"owner_id"`
+		OwnerId jsontext.Value     `json:"owner_id"`
 		Status  *StarRevenueStatus `json:"status"`
 	}
 
@@ -74069,8 +74070,8 @@ func (entity *UpdateSuggestedActions) MarshalJSON() ([]byte, error) {
 
 func (updateSuggestedActions *UpdateSuggestedActions) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		AddedActions   []json.RawMessage `json:"added_actions"`
-		RemovedActions []json.RawMessage `json:"removed_actions"`
+		AddedActions   []jsontext.Value `json:"added_actions"`
+		RemovedActions []jsontext.Value `json:"removed_actions"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -74172,7 +74173,7 @@ func (entity *UpdateAutosaveSettings) MarshalJSON() ([]byte, error) {
 
 func (updateAutosaveSettings *UpdateAutosaveSettings) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Scope    json.RawMessage        `json:"scope"`
+		Scope    jsontext.Value         `json:"scope"`
 		Settings *ScopeAutosaveSettings `json:"settings"`
 	}
 
@@ -74344,12 +74345,12 @@ func (entity *UpdateNewInlineQuery) MarshalJSON() ([]byte, error) {
 
 func (updateNewInlineQuery *UpdateNewInlineQuery) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id           JsonInt64       `json:"id"`
-		SenderUserId int64           `json:"sender_user_id"`
-		UserLocation *Location       `json:"user_location"`
-		ChatType     json.RawMessage `json:"chat_type"`
-		Query        string          `json:"query"`
-		Offset       string          `json:"offset"`
+		Id           JsonInt64      `json:"id"`
+		SenderUserId int64          `json:"sender_user_id"`
+		UserLocation *Location      `json:"user_location"`
+		ChatType     jsontext.Value `json:"chat_type"`
+		Query        string         `json:"query"`
+		Offset       string         `json:"offset"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -74474,12 +74475,12 @@ func (entity *UpdateNewCallbackQuery) MarshalJSON() ([]byte, error) {
 
 func (updateNewCallbackQuery *UpdateNewCallbackQuery) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id           JsonInt64       `json:"id"`
-		SenderUserId int64           `json:"sender_user_id"`
-		ChatId       int64           `json:"chat_id"`
-		MessageId    int64           `json:"message_id"`
-		ChatInstance JsonInt64       `json:"chat_instance"`
-		Payload      json.RawMessage `json:"payload"`
+		Id           JsonInt64      `json:"id"`
+		SenderUserId int64          `json:"sender_user_id"`
+		ChatId       int64          `json:"chat_id"`
+		MessageId    int64          `json:"message_id"`
+		ChatInstance JsonInt64      `json:"chat_instance"`
+		Payload      jsontext.Value `json:"payload"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -74536,11 +74537,11 @@ func (entity *UpdateNewInlineCallbackQuery) MarshalJSON() ([]byte, error) {
 
 func (updateNewInlineCallbackQuery *UpdateNewInlineCallbackQuery) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Id              JsonInt64       `json:"id"`
-		SenderUserId    int64           `json:"sender_user_id"`
-		InlineMessageId string          `json:"inline_message_id"`
-		ChatInstance    JsonInt64       `json:"chat_instance"`
-		Payload         json.RawMessage `json:"payload"`
+		Id              JsonInt64      `json:"id"`
+		SenderUserId    int64          `json:"sender_user_id"`
+		InlineMessageId string         `json:"inline_message_id"`
+		ChatInstance    JsonInt64      `json:"chat_instance"`
+		Payload         jsontext.Value `json:"payload"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -74603,7 +74604,7 @@ func (updateNewBusinessCallbackQuery *UpdateNewBusinessCallbackQuery) UnmarshalJ
 		ConnectionId string           `json:"connection_id"`
 		Message      *BusinessMessage `json:"message"`
 		ChatInstance JsonInt64        `json:"chat_instance"`
-		Payload      json.RawMessage  `json:"payload"`
+		Payload      jsontext.Value   `json:"payload"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -74850,10 +74851,10 @@ func (entity *UpdatePollAnswer) MarshalJSON() ([]byte, error) {
 
 func (updatePollAnswer *UpdatePollAnswer) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		PollId          JsonInt64       `json:"poll_id"`
-		VoterId         json.RawMessage `json:"voter_id"`
-		OptionIds       []string        `json:"option_ids"`
-		OptionPositions []int32         `json:"option_positions"`
+		PollId          JsonInt64      `json:"poll_id"`
+		VoterId         jsontext.Value `json:"voter_id"`
+		OptionIds       []string       `json:"option_ids"`
+		OptionPositions []int32        `json:"option_positions"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -75044,12 +75045,12 @@ func (entity *UpdateMessageReaction) MarshalJSON() ([]byte, error) {
 
 func (updateMessageReaction *UpdateMessageReaction) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		ChatId           int64             `json:"chat_id"`
-		MessageId        int64             `json:"message_id"`
-		ActorId          json.RawMessage   `json:"actor_id"`
-		Date             int32             `json:"date"`
-		OldReactionTypes []json.RawMessage `json:"old_reaction_types"`
-		NewReactionTypes []json.RawMessage `json:"new_reaction_types"`
+		ChatId           int64            `json:"chat_id"`
+		MessageId        int64            `json:"message_id"`
+		ActorId          jsontext.Value   `json:"actor_id"`
+		Date             int32            `json:"date"`
+		OldReactionTypes []jsontext.Value `json:"old_reaction_types"`
+		NewReactionTypes []jsontext.Value `json:"new_reaction_types"`
 	}
 
 	err := json.Unmarshal(data, &tmp)
@@ -75160,7 +75161,7 @@ func (entity *Updates) MarshalJSON() ([]byte, error) {
 
 func (updates *Updates) UnmarshalJSON(data []byte) error {
 	var tmp struct {
-		Updates []json.RawMessage `json:"updates"`
+		Updates []jsontext.Value `json:"updates"`
 	}
 
 	err := json.Unmarshal(data, &tmp)

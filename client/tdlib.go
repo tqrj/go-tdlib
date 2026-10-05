@@ -15,7 +15,8 @@ static inline void setLogMessageCallback(int maxVerbosityLevel, td_log_message_c
 import "C"
 
 import (
-	"encoding/json"
+	"encoding/json/jsontext"
+	"encoding/json/v2"
 	"errors"
 	"fmt"
 	"strconv"
@@ -218,7 +219,7 @@ func (req *request) GetType() string {
 
 type Response struct {
 	meta
-	Data json.RawMessage
+	Data jsontext.Value
 }
 
 type ResponseError struct {
@@ -229,7 +230,7 @@ func (responseError ResponseError) Error() string {
 	return fmt.Sprintf("%d %s", responseError.Err.Code, responseError.Err.Message)
 }
 
-func buildResponseError(data json.RawMessage) error {
+func buildResponseError(data jsontext.Value) error {
 	respErr, err := UnmarshalError(data)
 	if err != nil {
 		return err
