@@ -3,6 +3,7 @@ package client
 import (
 	"context"
 	"fmt"
+	"sync"
 	"time"
 )
 
@@ -68,11 +69,18 @@ type clientAuthorizer struct {
 	Code            chan string
 	State           chan AuthorizationState
 	Password        chan string
+	ctx             context.Context
+	cancel          context.CancelFunc
+	stateMu         sync.Mutex // protects State send/close, never held across input or RPC waits
+	closeOnce       sync.Once
 }
 
 func ClientAuthorizer(tdlibParameters *SetTdlibParametersRequest) *clientAuthorizer {
+	ctx, cancel := context.WithCancel(context.Background())
 	return &clientAuthorizer{
 		TdlibParameters: tdlibParameters,
+		ctx:             ctx,
+		cancel:          cancel,
 		PhoneNumber:     make(chan string),
 		Code:            make(chan string),
 		State:           make(chan AuthorizationState),
@@ -81,16 +89,22 @@ func ClientAuthorizer(tdlibParameters *SetTdlibParametersRequest) *clientAuthori
 }
 
 func (stateHandler *clientAuthorizer) Handle(client *Client, state AuthorizationState) error {
-	stateHandler.State <- state
+	if err := stateHandler.sendState(state); err != nil {
+		return err
+	}
 
 	switch state.AuthorizationStateConstructor() {
 	case ConstructorAuthorizationStateWaitTdlibParameters:
-		_, err := client.SetTdlibParameters(context.Background(), stateHandler.TdlibParameters)
+		_, err := client.SetTdlibParameters(stateHandler.ctx, stateHandler.TdlibParameters)
 		return err
 
 	case ConstructorAuthorizationStateWaitPhoneNumber:
-		_, err := client.SetAuthenticationPhoneNumber(context.Background(), &SetAuthenticationPhoneNumberRequest{
-			PhoneNumber: <-stateHandler.PhoneNumber,
+		value, err := stateHandler.input(stateHandler.PhoneNumber)
+		if err != nil {
+			return err
+		}
+		_, err = client.SetAuthenticationPhoneNumber(stateHandler.ctx, &SetAuthenticationPhoneNumberRequest{
+			PhoneNumber: value,
 			Settings: &PhoneNumberAuthenticationSettings{
 				AllowFlashCall:       false,
 				IsCurrentPhoneNumber: false,
@@ -106,8 +120,12 @@ func (stateHandler *clientAuthorizer) Handle(client *Client, state Authorization
 		return NotSupportedAuthorizationState(state)
 
 	case ConstructorAuthorizationStateWaitCode:
-		_, err := client.CheckAuthenticationCode(context.Background(), &CheckAuthenticationCodeRequest{
-			Code: <-stateHandler.Code,
+		value, err := stateHandler.input(stateHandler.Code)
+		if err != nil {
+			return err
+		}
+		_, err = client.CheckAuthenticationCode(stateHandler.ctx, &CheckAuthenticationCodeRequest{
+			Code: value,
 		})
 		return err
 
@@ -118,8 +136,12 @@ func (stateHandler *clientAuthorizer) Handle(client *Client, state Authorization
 		return NotSupportedAuthorizationState(state)
 
 	case ConstructorAuthorizationStateWaitPassword:
-		_, err := client.CheckAuthenticationPassword(context.Background(), &CheckAuthenticationPasswordRequest{
-			Password: <-stateHandler.Password,
+		value, err := stateHandler.input(stateHandler.Password)
+		if err != nil {
+			return err
+		}
+		_, err = client.CheckAuthenticationPassword(stateHandler.ctx, &CheckAuthenticationPasswordRequest{
+			Password: value,
 		})
 		return err
 
@@ -139,16 +161,55 @@ func (stateHandler *clientAuthorizer) Handle(client *Client, state Authorization
 	return NotSupportedAuthorizationState(state)
 }
 
+// Done closes when this login attempt ends. Input senders must select on it;
+// PhoneNumber, Code and Password remain open to avoid racing their senders.
+func (stateHandler *clientAuthorizer) Done() <-chan struct{} {
+	return stateHandler.ctx.Done()
+}
+
+func (stateHandler *clientAuthorizer) sendState(state AuthorizationState) error {
+	stateHandler.stateMu.Lock()
+	defer stateHandler.stateMu.Unlock()
+	// Close cancels before taking this lock. Check before select because a send
+	// to a closed State must never be considered, even when Done is also ready.
+	if err := stateHandler.ctx.Err(); err != nil {
+		return err
+	}
+	select {
+	case stateHandler.State <- state:
+		return nil
+	case <-stateHandler.Done():
+		return stateHandler.ctx.Err()
+	}
+}
+
+func (stateHandler *clientAuthorizer) input(ch <-chan string) (string, error) {
+	select {
+	case value, ok := <-ch:
+		if !ok {
+			return "", context.Canceled
+		}
+		return value, stateHandler.ctx.Err()
+	case <-stateHandler.Done():
+		return "", stateHandler.ctx.Err()
+	}
+}
+
 func (stateHandler *clientAuthorizer) Close() {
-	close(stateHandler.PhoneNumber)
-	close(stateHandler.Code)
-	close(stateHandler.State)
-	close(stateHandler.Password)
+	// Wake a blocked state send before waiting for its lock.
+	stateHandler.cancel()
+	stateHandler.closeOnce.Do(func() {
+		stateHandler.stateMu.Lock()
+		defer stateHandler.stateMu.Unlock()
+		close(stateHandler.State)
+	})
 }
 
 func CliInteractor(clientAuthorizer *clientAuthorizer) {
 	for {
 		select {
+		case <-clientAuthorizer.Done():
+			return
 		case state, ok := <-clientAuthorizer.State:
 			if !ok {
 				return
@@ -160,7 +221,11 @@ func CliInteractor(clientAuthorizer *clientAuthorizer) {
 				var phoneNumber string
 				fmt.Scanln(&phoneNumber)
 
-				clientAuthorizer.PhoneNumber <- phoneNumber
+				select {
+				case clientAuthorizer.PhoneNumber <- phoneNumber:
+				case <-clientAuthorizer.Done():
+					return
+				}
 
 			case ConstructorAuthorizationStateWaitCode:
 				var code string
@@ -168,14 +233,22 @@ func CliInteractor(clientAuthorizer *clientAuthorizer) {
 				fmt.Println("Enter code: ")
 				fmt.Scanln(&code)
 
-				clientAuthorizer.Code <- code
+				select {
+				case clientAuthorizer.Code <- code:
+				case <-clientAuthorizer.Done():
+					return
+				}
 
 			case ConstructorAuthorizationStateWaitPassword:
 				fmt.Println("Enter password: ")
 				var password string
 				fmt.Scanln(&password)
 
-				clientAuthorizer.Password <- password
+				select {
+				case clientAuthorizer.Password <- password:
+				case <-clientAuthorizer.Done():
+					return
+				}
 
 			case ConstructorAuthorizationStateReady:
 				return
