@@ -241,7 +241,7 @@ func (req ResendAuthenticationCodeRequest) GetFunctionName() string {
 	return "resendAuthenticationCode"
 }
 
-// Resends an authentication code to the user. Works only when the current authorization state is authorizationStateWaitCode, the next_code_type of the result is not null and the server-specified timeout has passed, or when the current authorization state is authorizationStateWaitEmailCode
+// Resends an authentication code to the user. Works only when the current authorization state is authorizationStateWaitCode, authorization_state.code_info.next_type is not null and the server-specified timeout has passed, or when the current authorization state is authorizationStateWaitEmailCode
 func (client *Client) ResendAuthenticationCode(ctx context.Context, req *ResendAuthenticationCodeRequest) (*Ok, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -444,7 +444,7 @@ func (req ResetAuthenticationEmailAddressRequest) GetFunctionName() string {
 	return "resetAuthenticationEmailAddress"
 }
 
-// Resets the login email address. May return an error with a message "TASK_ALREADY_EXISTS" if reset is still pending. Works only when the current authorization state is authorizationStateWaitEmailCode and authorization_state.can_reset_email_address == true
+// Resets the login email address. May return an error with a message "TASK_ALREADY_EXISTS" if reset is still pending. Works only when the current authorization state is authorizationStateWaitEmailCode and authorization_state.email_address_reset_state != null
 func (client *Client) ResetAuthenticationEmailAddress(ctx context.Context) (*Ok, error) {
 	req := &ResetAuthenticationEmailAddressRequest{}
 	result, err := client.Send(ctx, req)
@@ -1184,7 +1184,7 @@ func (req CreateTemporaryPasswordRequest) GetFunctionName() string {
 	return "createTemporaryPassword"
 }
 
-// Creates a new temporary password for processing payments
+// Creates a new temporary password for processing payments and withdrawal of upgraded gifts
 func (client *Client) CreateTemporaryPassword(ctx context.Context, req *CreateTemporaryPasswordRequest) (*TemporaryPasswordState, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -1524,7 +1524,7 @@ func (req GetChatPinnedMessageRequest) GetFunctionName() string {
 	return "getChatPinnedMessage"
 }
 
-// Returns information about a newest pinned message in the chat. Returns a 404 error if the message doesn't exist
+// Returns information about the newest pinned message in the chat. Returns a 404 error if the message doesn't exist
 func (client *Client) GetChatPinnedMessage(ctx context.Context, req *GetChatPinnedMessageRequest) (*Message, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -1594,7 +1594,7 @@ func (client *Client) GetMessages(ctx context.Context, req *GetMessagesRequest) 
 
 type GetFullRichMessageRequest struct {
 	request
-	// Identifier of the chat the messages belong to
+	// Identifier of the chat the message belongs to
 	ChatId int64 `json:"chat_id"`
 	// Identifier of the message
 	MessageId int64 `json:"message_id"`
@@ -1856,7 +1856,7 @@ func (req LoadChatsRequest) GetFunctionName() string {
 	return "loadChats"
 }
 
-// Loads more chats from a chat list. The loaded chats and their positions in the chat list will be sent through updates. Chats are sorted by the pair (chat.position.order, chat.id) in descending order. Returns a 404 error if all chats have been loaded
+// Loads more chats from a chat list. The loaded chats and their positions in the chat list will be sent through updates. Chats are sorted by the pair (chatPosition.order, chat.id) in descending order. Returns a 404 error if all chats have been loaded
 func (client *Client) LoadChats(ctx context.Context, req *LoadChatsRequest) (*Ok, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -2516,6 +2516,29 @@ func (client *Client) GetSuitablePersonalChats(ctx context.Context) (*Chats, err
 	return UnmarshalChats(result.Data)
 }
 
+type GetSuitableCommunityChatsRequest struct {
+	request
+}
+
+func (req GetSuitableCommunityChatsRequest) GetFunctionName() string {
+	return "getSuitableCommunityChats"
+}
+
+// Returns a list of supergroup and channel chats owned by the current user, which can be added to a community
+func (client *Client) GetSuitableCommunityChats(ctx context.Context) (*Chats, error) {
+	req := &GetSuitableCommunityChatsRequest{}
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalChats(result.Data)
+}
+
 type LoadDirectMessagesChatTopicsRequest struct {
 	request
 	// Chat identifier of the channel direct messages chat
@@ -2586,7 +2609,7 @@ func (req GetDirectMessagesChatTopicHistoryRequest) GetFunctionName() string {
 	return "getDirectMessagesChatTopicHistory"
 }
 
-// Returns messages in the topic in a channel direct messages chat administered by the current user. The messages are returned in reverse chronological order (i.e., in order of decreasing message_id)
+// Returns messages in the topic in a channel direct messages chat administered by the current user. The messages are returned in reverse chronological order (i.e., in order of decreasing message.id)
 func (client *Client) GetDirectMessagesChatTopicHistory(ctx context.Context, req *GetDirectMessagesChatTopicHistoryRequest) (*Messages, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -2860,7 +2883,7 @@ func (req GetSavedMessagesTopicHistoryRequest) GetFunctionName() string {
 	return "getSavedMessagesTopicHistory"
 }
 
-// Returns messages in a Saved Messages topic. The messages are returned in reverse chronological order (i.e., in order of decreasing message_id)
+// Returns messages in a Saved Messages topic. The messages are returned in reverse chronological order (i.e., in order of decreasing message.id)
 func (client *Client) GetSavedMessagesTopicHistory(ctx context.Context, req *GetSavedMessagesTopicHistoryRequest) (*Messages, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -3002,18 +3025,18 @@ func (client *Client) SetPinnedSavedMessagesTopics(ctx context.Context, req *Set
 	return UnmarshalOk(result.Data)
 }
 
-type LoadCommunityFullInfoRequest struct {
+type GetCommunityFullInfoRequest struct {
 	request
 	// Community identifier
 	CommunityId int64 `json:"community_id"`
 }
 
-func (req LoadCommunityFullInfoRequest) GetFunctionName() string {
-	return "loadCommunityFullInfo"
+func (req GetCommunityFullInfoRequest) GetFunctionName() string {
+	return "getCommunityFullInfo"
 }
 
-// Returns full information about a community. The data will be sent through update.
-func (client *Client) LoadCommunityFullInfo(ctx context.Context, req *LoadCommunityFullInfoRequest) (*Ok, error) {
+// Returns full information about a community
+func (client *Client) GetCommunityFullInfo(ctx context.Context, req *GetCommunityFullInfoRequest) (*CommunityFullInfo, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
 		return nil, err
@@ -3023,7 +3046,30 @@ func (client *Client) LoadCommunityFullInfo(ctx context.Context, req *LoadCommun
 		return nil, buildResponseError(result.Data)
 	}
 
-	return UnmarshalOk(result.Data)
+	return UnmarshalCommunityFullInfo(result.Data)
+}
+
+type GetJoinedCommunitiesRequest struct {
+	request
+}
+
+func (req GetJoinedCommunitiesRequest) GetFunctionName() string {
+	return "getJoinedCommunities"
+}
+
+// Returns the list of communities joined by the current user
+func (client *Client) GetJoinedCommunities(ctx context.Context) (*Communities, error) {
+	req := &GetJoinedCommunitiesRequest{}
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalCommunities(result.Data)
 }
 
 type CreateCommunityRequest struct {
@@ -3068,6 +3114,324 @@ func (req SetCommunityNameRequest) GetFunctionName() string {
 
 // Changes name of the given community; requires can_change_info administrator right in the community
 func (client *Client) SetCommunityName(ctx context.Context, req *SetCommunityNameRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type SetCommunityPhotoRequest struct {
+	request
+	// Identifier of the community
+	CommunityId int64 `json:"community_id"`
+	// New community photo; pass null to delete the community photo
+	Photo InputChatPhoto `json:"photo"`
+}
+
+func (req SetCommunityPhotoRequest) GetFunctionName() string {
+	return "setCommunityPhoto"
+}
+
+// Changes the photo of a community; requires can_change_info administrator right in the community
+func (client *Client) SetCommunityPhoto(ctx context.Context, req *SetCommunityPhotoRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type SetCommunityPermissionsRequest struct {
+	request
+	// Identifier of the community
+	CommunityId int64 `json:"community_id"`
+	// New permissions of the community
+	Permissions *CommunityPermissions `json:"permissions"`
+}
+
+func (req SetCommunityPermissionsRequest) GetFunctionName() string {
+	return "setCommunityPermissions"
+}
+
+// Changes permissions of regular members in the given community; requires can_ban_members administrator right in the community
+func (client *Client) SetCommunityPermissions(ctx context.Context, req *SetCommunityPermissionsRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type SetCommunityNotificationSettingsRequest struct {
+	request
+	// Identifier of the community
+	CommunityId int64 `json:"community_id"`
+	// New notification settings for the community
+	NotificationSettings *ChatNotificationSettings `json:"notification_settings"`
+}
+
+func (req SetCommunityNotificationSettingsRequest) GetFunctionName() string {
+	return "setCommunityNotificationSettings"
+}
+
+// Changes notification settings of a community
+func (client *Client) SetCommunityNotificationSettings(ctx context.Context, req *SetCommunityNotificationSettingsRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type AddCommunityChatRequest struct {
+	request
+	// Identifier of the community
+	CommunityId int64 `json:"community_id"`
+	// Identifier of the chat to add; only chats with owned bots and owned basic group, supergroup and channel chats are allowed; basic group chats will be automatically upgraded to supergroup chats. A community can have up to getOption("community_chat_count_max") supergroup and channel chats and up to getOption("community_bot_count_max") chats with bots; otherwise, the method fails with the error "COMMUNITY_PEERS_TOO_MUCH"
+	ChatId int64 `json:"chat_id"`
+	// Pass true if the chat will be visible only to administrators of the community
+	IsHidden bool `json:"is_hidden"`
+}
+
+func (req AddCommunityChatRequest) GetFunctionName() string {
+	return "addCommunityChat"
+}
+
+// Adds a chat to a community. If the current user isn't allowed to change the list of chats in the community, then a request to add the chat is sent to administrators of the community instead and the method fails with the error "COMMUNITY_REQUEST_CREATED"
+func (client *Client) AddCommunityChat(ctx context.Context, req *AddCommunityChatRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type RemoveCommunityChatRequest struct {
+	request
+	// Identifier of the community
+	CommunityId int64 `json:"community_id"`
+	// Identifier of the chat to remove
+	ChatId int64 `json:"chat_id"`
+}
+
+func (req RemoveCommunityChatRequest) GetFunctionName() string {
+	return "removeCommunityChat"
+}
+
+// Removes a chat from a community. Members of the chat, which aren't members of other chats in the community, will be removed from the community. Requires owner privileges in the supergroup or channel chat, or ownership of the bot for chats with bots, or can_edit_chat_list administrator right in the community
+func (client *Client) RemoveCommunityChat(ctx context.Context, req *RemoveCommunityChatRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type GetCommunityAddChatRequestsRequest struct {
+	request
+	// Identifier of the community
+	CommunityId int64 `json:"community_id"`
+	// Offset of the first entry to return as received from the previous request; use empty string to get the first chunk of results
+	Offset string `json:"offset"`
+	// The maximum number of requests to return
+	Limit int32 `json:"limit"`
+}
+
+func (req GetCommunityAddChatRequestsRequest) GetFunctionName() string {
+	return "getCommunityAddChatRequests"
+}
+
+// Returns pending requests to add chats to a community. Administrators of the community with can_edit_chat_list right receive all requests; other users receive only requests sent by them
+func (client *Client) GetCommunityAddChatRequests(ctx context.Context, req *GetCommunityAddChatRequestsRequest) (*CommunityAddChatRequests, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalCommunityAddChatRequests(result.Data)
+}
+
+type ProcessCommunityAddChatRequestRequest struct {
+	request
+	// Identifier of the community
+	CommunityId int64 `json:"community_id"`
+	// Identifier of the chat from the request
+	ChatId int64 `json:"chat_id"`
+	// Pass true to approve the request and add the chat to the community; pass false to decline it. If the community already has the maximum number of chats, then approval fails with the error "COMMUNITY_PEERS_TOO_MUCH"
+	Approve bool `json:"approve"`
+}
+
+func (req ProcessCommunityAddChatRequestRequest) GetFunctionName() string {
+	return "processCommunityAddChatRequest"
+}
+
+// Handles a pending request to add a chat to a community; requires can_edit_chat_list administrator right in the community
+func (client *Client) ProcessCommunityAddChatRequest(ctx context.Context, req *ProcessCommunityAddChatRequestRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type ProcessCommunityAddChatRequestsRequest struct {
+	request
+	// Identifier of the community
+	CommunityId int64 `json:"community_id"`
+	// Pass true to approve all requests and add the chats to the community; pass false to decline them
+	Approve bool `json:"approve"`
+}
+
+func (req ProcessCommunityAddChatRequestsRequest) GetFunctionName() string {
+	return "processCommunityAddChatRequests"
+}
+
+// Handles all pending requests to add chats to a community; requires can_edit_chat_list administrator right in the community
+func (client *Client) ProcessCommunityAddChatRequests(ctx context.Context, req *ProcessCommunityAddChatRequestsRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type ToggleCommunityAreChatsCollapsedRequest struct {
+	request
+	// Identifier of the community
+	CommunityId int64 `json:"community_id"`
+	// Pass true to collapse all chats of the community into one entry in the chat list
+	AreChatsCollapsed bool `json:"are_chats_collapsed"`
+}
+
+func (req ToggleCommunityAreChatsCollapsedRequest) GetFunctionName() string {
+	return "toggleCommunityAreChatsCollapsed"
+}
+
+// Changes whether all chats of a community are collapsed into one entry in the chat list. If the chats are expanded, then the community is removed from all chat folders
+func (client *Client) ToggleCommunityAreChatsCollapsed(ctx context.Context, req *ToggleCommunityAreChatsCollapsedRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type ToggleCommunityMemberIsBannedRequest struct {
+	request
+	// Identifier of the community
+	CommunityId int64 `json:"community_id"`
+	// Identifier of the member to ban or unban
+	MemberId MessageSender `json:"member_id"`
+	// Pass true to ban the member; pass false to unban the member
+	IsBanned bool `json:"is_banned"`
+}
+
+func (req ToggleCommunityMemberIsBannedRequest) GetFunctionName() string {
+	return "toggleCommunityMemberIsBanned"
+}
+
+// Bans or unbans a member of a community; requires can_ban_members administrator right in the community. A banned member is banned in all chats of the community. Administrators of the community can be banned only by the owner of the community and administrators, which can edit administrator rights of the member. If an owner of a chat in the community is banned, then the chat is removed from the community; in this case, can_edit_chat_list administrator right is also required
+func (client *Client) ToggleCommunityMemberIsBanned(ctx context.Context, req *ToggleCommunityMemberIsBannedRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type GetCommunityMemberChatsRequest struct {
+	request
+	// Identifier of the community
+	CommunityId int64 `json:"community_id"`
+	// Identifier of the member
+	MemberId MessageSender `json:"member_id"`
+}
+
+func (req GetCommunityMemberChatsRequest) GetFunctionName() string {
+	return "getCommunityMemberChats"
+}
+
+// Returns chats in a community, which were joined by a member of the community; requires can_ban_members administrator right in the community. Can be used to show chats that will be affected by the member ban
+func (client *Client) GetCommunityMemberChats(ctx context.Context, req *GetCommunityMemberChatsRequest) (*CommunityMemberChats, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalCommunityMemberChats(result.Data)
+}
+
+type DeleteCommunityRequest struct {
+	request
+	// Identifier of the community
+	CommunityId int64 `json:"community_id"`
+}
+
+func (req DeleteCommunityRequest) GetFunctionName() string {
+	return "deleteCommunity"
+}
+
+// Deletes a community; requires owner privileges
+func (client *Client) DeleteCommunity(ctx context.Context, req *DeleteCommunityRequest) (*Ok, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
 		return nil, err
@@ -3126,7 +3490,7 @@ func (req GetChatHistoryRequest) GetFunctionName() string {
 	return "getChatHistory"
 }
 
-// Returns messages in a chat. The messages are returned in reverse chronological order (i.e., in order of decreasing message_id). For optimal performance, the number of returned messages is chosen by TDLib. This is an offline method if only_local is true
+// Returns messages in a chat. The messages are returned in reverse chronological order (i.e., in order of decreasing message.id). For optimal performance, the number of returned messages is chosen by TDLib. This is an offline method if only_local is true
 func (client *Client) GetChatHistory(ctx context.Context, req *GetChatHistoryRequest) (*Messages, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -3158,7 +3522,7 @@ func (req GetMessageThreadHistoryRequest) GetFunctionName() string {
 	return "getMessageThreadHistory"
 }
 
-// Returns messages in a message thread of a message. Can be used only if messageProperties.can_get_message_thread == true. Message thread of a channel message is in the channel's linked supergroup. The messages are returned in reverse chronological order (i.e., in order of decreasing message_id). For optimal performance, the number of returned messages is chosen by TDLib
+// Returns messages in a message thread of a message. Can be used only if messageProperties.can_get_message_thread == true. Message thread of a channel message is in the channel's linked supergroup. The messages are returned in reverse chronological order (i.e., in order of decreasing message.id). For optimal performance, the number of returned messages is chosen by TDLib
 func (client *Client) GetMessageThreadHistory(ctx context.Context, req *GetMessageThreadHistoryRequest) (*Messages, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -3248,7 +3612,7 @@ func (req SearchChatMessagesRequest) GetFunctionName() string {
 	return "searchChatMessages"
 }
 
-// Searches for messages with given words in the chat. Returns the results in reverse chronological order, i.e. in order of decreasing message_id. Cannot be used in secret chats with a non-empty query (searchSecretMessages must be used instead), or without an enabled message database. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit. A combination of query, sender_id, filter and topic_id search criteria is expected to be supported, only if it is required for Telegram official application implementation
+// Searches for messages with given words in the chat. Returns the results in reverse chronological order, i.e. in order of decreasing message.id. Cannot be used in secret chats with a non-empty query (searchSecretMessages must be used instead), or without an enabled message database. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit. A combination of query, sender_id, filter and topic_id search criteria is expected to be supported, only if it is required for Telegram official application implementation
 func (client *Client) SearchChatMessages(ctx context.Context, req *SearchChatMessagesRequest) (*FoundChatMessages, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -3286,7 +3650,7 @@ func (req SearchMessagesRequest) GetFunctionName() string {
 	return "searchMessages"
 }
 
-// Searches for messages in all chats except secret chats. Returns the results in reverse chronological order (i.e., in order of decreasing (date, chat_id, message_id)). For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit
+// Searches for messages in all chats except secret chats. Returns the results in reverse chronological order (i.e., in order of decreasing (message.date, message.chat_id, message.id)). For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit
 func (client *Client) SearchMessages(ctx context.Context, req *SearchMessagesRequest) (*FoundMessages, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -3352,7 +3716,7 @@ func (req SearchSavedMessagesRequest) GetFunctionName() string {
 	return "searchSavedMessages"
 }
 
-// Searches for messages tagged by the given reaction and with the given words in the Saved Messages chat; for Telegram Premium users only. Returns the results in reverse chronological order, i.e. in order of decreasing message_id. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit
+// Searches for messages tagged by the given reaction and with the given words in the Saved Messages chat; for Telegram Premium users only. Returns the results in reverse chronological order, i.e. in order of decreasing message.id. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit
 func (client *Client) SearchSavedMessages(ctx context.Context, req *SearchSavedMessagesRequest) (*FoundChatMessages, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -3380,7 +3744,7 @@ func (req SearchCallMessagesRequest) GetFunctionName() string {
 	return "searchCallMessages"
 }
 
-// Searches for call and group call messages. Returns the results in reverse chronological order (i.e., in order of decreasing message_id). For optimal performance, the number of returned messages is chosen by TDLib
+// Searches for call and group call messages. Returns the results in reverse chronological order (i.e., in order of decreasing message.id). For optimal performance, the number of returned messages is chosen by TDLib
 func (client *Client) SearchCallMessages(ctx context.Context, req *SearchCallMessagesRequest) (*FoundMessages, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -3872,7 +4236,7 @@ func (req GetChatScheduledMessagesRequest) GetFunctionName() string {
 	return "getChatScheduledMessages"
 }
 
-// Returns all scheduled messages in a chat. The messages are returned in reverse chronological order (i.e., in order of decreasing message_id)
+// Returns all scheduled messages in a chat. The messages are returned in reverse chronological order (i.e., in order of decreasing message.id)
 func (client *Client) GetChatScheduledMessages(ctx context.Context, req *GetChatScheduledMessagesRequest) (*Messages, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -4696,7 +5060,7 @@ type ComposeTextWithAiRequest struct {
 	Text *FormattedText `json:"text"`
 	// Pass a language code to which the text will be translated; pass an empty string if translation isn't needed. See translateText.to_language_code for the list of supported values
 	TranslateToLanguageCode string `json:"translate_to_language_code"`
-	// Name of the style of the resulted text; handle updateTextCompositionStyles to get the list of supported styles; pass an empty string to keep the current style of the text
+	// Name of the style of the resulting text; handle updateTextCompositionStyles to get the list of supported styles; pass an empty string to keep the current style of the text
 	StyleName string `json:"style_name"`
 	// Pass true to add emoji to the text
 	AddEmojis bool `json:"add_emojis"`
@@ -4726,7 +5090,7 @@ type ComposeRichMessageWithAiRequest struct {
 	Message *InputRichMessage `json:"message"`
 	// Pass a language code to which the text will be translated; pass an empty string if translation isn't needed. See translateText.to_language_code for the list of supported values
 	TranslateToLanguageCode string `json:"translate_to_language_code"`
-	// Name of the style of the resulted text; handle updateTextCompositionStyles to get the list of supported styles; pass an empty string to keep the current style of the text or if a custom prompt is used
+	// Name of the style of the resulting text; handle updateTextCompositionStyles to get the list of supported styles; pass an empty string to keep the current style of the text or if a custom prompt is used
 	StyleName string `json:"style_name"`
 	// Custom prompt that will be used instead of style_name; 0-getOption("text_composition_style_prompt_length_max") characters
 	CustomPrompt string `json:"custom_prompt"`
@@ -4828,6 +5192,54 @@ func (client *Client) FixRichMessageWithAi(ctx context.Context, req *FixRichMess
 	return UnmarshalRichMessage(result.Data)
 }
 
+type FixRecognizedTextWithAiRequest struct {
+	request
+	// The recognized text
+	Text *FormattedText `json:"text"`
+}
+
+func (req FixRecognizedTextWithAiRequest) GetFunctionName() string {
+	return "fixRecognizedTextWithAi"
+}
+
+// Fixes text received as a result of speech recognition using an AI model by correcting recognition errors and adding punctuation; must not be used in secret chats. May return an error with a message "AICOMPOSE_FLOOD_PREMIUM" if Telegram Premium is required to send further requests
+func (client *Client) FixRecognizedTextWithAi(ctx context.Context, req *FixRecognizedTextWithAiRequest) (*FormattedText, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalFormattedText(result.Data)
+}
+
+type FixRecognizedRichMessageWithAiRequest struct {
+	request
+	// The message with the recognized text
+	Message *InputRichMessage `json:"message"`
+}
+
+func (req FixRecognizedRichMessageWithAiRequest) GetFunctionName() string {
+	return "fixRecognizedRichMessageWithAi"
+}
+
+// Fixes a rich message with text received as a result of speech recognition using an AI model by correcting recognition errors and adding punctuation. May return an error with a message "AICOMPOSE_FLOOD_PREMIUM" if Telegram Premium is required to send further requests
+func (client *Client) FixRecognizedRichMessageWithAi(ctx context.Context, req *FixRecognizedRichMessageWithAiRequest) (*RichMessage, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalRichMessage(result.Data)
+}
+
 type RecognizeSpeechRequest struct {
 	request
 	// Identifier of the chat to which the message belongs
@@ -4880,6 +5292,56 @@ func (client *Client) RateSpeechRecognition(ctx context.Context, req *RateSpeech
 	}
 
 	return UnmarshalOk(result.Data)
+}
+
+type RecognizeSpeechInFileRequest struct {
+	request
+	// The audio file
+	AudioFile InputFile `json:"audio_file"`
+	// Unique identifier of the speech recognition, which will be used in updateSpeechRecognitionInFile to send partially recognized text; pass 0 if partial results aren't needed
+	RecognitionId JsonInt64 `json:"recognition_id"`
+}
+
+func (req RecognizeSpeechInFileRequest) GetFunctionName() string {
+	return "recognizeSpeechInFile"
+}
+
+// Recognizes speech in an audio file and returns the recognized text. The file must be in OGG format with Opus codec and must have size up to 1 MB. The same rules as for recognizeSpeech apply to the Telegram Premium requirement and speech recognition trial; must not be used in secret chats
+func (client *Client) RecognizeSpeechInFile(ctx context.Context, req *RecognizeSpeechInFileRequest) (*Text, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalText(result.Data)
+}
+
+type GetSpeechRecognitionLanguagesRequest struct {
+	request
+	// Identifier of the chat; pass 0 if none
+	ChatId int64 `json:"chat_id"`
+}
+
+func (req GetSpeechRecognitionLanguagesRequest) GetFunctionName() string {
+	return "getSpeechRecognitionLanguages"
+}
+
+// Returns 1-3 most probable languages of speech in voice notes
+func (client *Client) GetSpeechRecognitionLanguages(ctx context.Context, req *GetSpeechRecognitionLanguagesRequest) (*SpeechRecognitionLanguages, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalSpeechRecognitionLanguages(result.Data)
 }
 
 type GetChatAvailableMessageSendersRequest struct {
@@ -5040,7 +5502,7 @@ type SendInlineQueryResultMessageRequest struct {
 	QueryId JsonInt64 `json:"query_id"`
 	// Identifier of the inline query result
 	ResultId string `json:"result_id"`
-	// Pass true to hide the bot, via which the message is sent. Can be used only for bots getOption("animation_search_bot_username"), getOption("photo_search_bot_username"), and getOption("venue_search_bot_username")
+	// Pass true to hide the bot, via which the message is sent. Can be used only for bots getOption("animation_search_bot_username") and getOption("photo_search_bot_username")
 	HideViaBot bool `json:"hide_via_bot"`
 }
 
@@ -5174,7 +5636,7 @@ type SendEphemeralMessageRequest struct {
 	ProtectContent bool `json:"protect_content"`
 	// Non-persistent identifier, which will be returned back in messageSendingStatePending object and can be used to match sent messages and corresponding updateNewMessage updates
 	SendingId int32 `json:"sending_id"`
-	// Pass true to get a fake message instead of actually sending them
+	// Pass true to get a fake message instead of actually sending it
 	OnlyPreview bool `json:"only_preview"`
 	// Markup for replying to the message; pass null if none; for bots only
 	ReplyMarkup ReplyMarkup `json:"reply_markup"`
@@ -5442,7 +5904,7 @@ type EditMessageMediaRequest struct {
 	MessageId int64 `json:"message_id"`
 	// The new message reply markup; pass null if none; for bots only
 	ReplyMarkup ReplyMarkup `json:"reply_markup"`
-	// New content of the message. Must be one of the following types: inputMessageAnimation, inputMessageAudio, inputMessageDocument, inputMessagePhoto or inputMessageVideo
+	// New content of the message. Must be one of the following types: inputMessageAnimation, inputMessageAudio, inputMessageDocument, inputMessagePhoto, or inputMessageVideo
 	InputMessageContent InputMessageContent `json:"input_message_content"`
 }
 
@@ -5524,6 +5986,40 @@ func (client *Client) EditMessageReplyMarkup(ctx context.Context, req *EditMessa
 	return UnmarshalMessage(result.Data)
 }
 
+type EditMessageWidgetDataRequest struct {
+	request
+	// The chat the message belongs to
+	ChatId int64 `json:"chat_id"`
+	// Identifier of the widget message
+	MessageId int64 `json:"message_id"`
+	// Pass true to edit public data of the widget
+	EditPublicData bool `json:"edit_public_data"`
+	// New public data of the widget; ignored if edit_public_data is false
+	PublicData string `json:"public_data"`
+	// Pass true to edit data of the widget, which is specific to the chat
+	EditChatData bool `json:"edit_chat_data"`
+	// New data of the widget, which is specific to the chat; ignored if edit_chat_data is false
+	ChatData string `json:"chat_data"`
+}
+
+func (req EditMessageWidgetDataRequest) GetFunctionName() string {
+	return "editMessageWidgetData"
+}
+
+// Edits data of a widget sent by the bot; for bots only
+func (client *Client) EditMessageWidgetData(ctx context.Context, req *EditMessageWidgetDataRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
 type EditInlineMessageTextRequest struct {
 	request
 	// Inline message identifier
@@ -5586,7 +6082,7 @@ type EditInlineMessageMediaRequest struct {
 	InlineMessageId string `json:"inline_message_id"`
 	// The new message reply markup; pass null if none; for bots only
 	ReplyMarkup ReplyMarkup `json:"reply_markup"`
-	// New content of the message. Must be one of the following types: inputMessageAnimation, inputMessageAudio, inputMessageDocument, inputMessagePhoto or inputMessageVideo
+	// New content of the message. Must be one of the following types: inputMessageAnimation, inputMessageAudio, inputMessageDocument, inputMessagePhoto, or inputMessageVideo
 	InputMessageContent InputMessageContent `json:"input_message_content"`
 }
 
@@ -5652,6 +6148,66 @@ func (req EditInlineMessageReplyMarkupRequest) GetFunctionName() string {
 
 // Edits the reply markup of an inline message sent via a bot; for bots only
 func (client *Client) EditInlineMessageReplyMarkup(ctx context.Context, req *EditInlineMessageReplyMarkupRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type EditInlineMessageWidgetDataRequest struct {
+	request
+	// Inline message identifier
+	InlineMessageId string `json:"inline_message_id"`
+	// Pass true to edit public data of the widget
+	EditPublicData bool `json:"edit_public_data"`
+	// New public data of the widget; ignored if edit_public_data is false
+	PublicData string `json:"public_data"`
+	// Pass true to edit data of the widget, which is specific to the chat
+	EditChatData bool `json:"edit_chat_data"`
+	// New data of the widget, which is specific to the chat; ignored if edit_chat_data is false
+	ChatData string `json:"chat_data"`
+}
+
+func (req EditInlineMessageWidgetDataRequest) GetFunctionName() string {
+	return "editInlineMessageWidgetData"
+}
+
+// Edits data of a widget in an inline message sent via the bot; for bots only
+func (client *Client) EditInlineMessageWidgetData(ctx context.Context, req *EditInlineMessageWidgetDataRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type EditWidgetDataRequest struct {
+	request
+	// Identifier of the shared widget
+	WidgetId JsonInt64 `json:"widget_id"`
+	// New public data of the widget
+	PublicData string `json:"public_data"`
+	// Time during which the public data can be cached, in seconds; 5-3600. Pass 0 to keep the current value, which is 30 by default
+	CacheTime int32 `json:"cache_time"`
+}
+
+func (req EditWidgetDataRequest) GetFunctionName() string {
+	return "editWidgetData"
+}
+
+// Edits public data of a shared widget created by the bot; for bots only
+func (client *Client) EditWidgetData(ctx context.Context, req *EditWidgetDataRequest) (*Ok, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
 		return nil, err
@@ -5730,24 +6286,26 @@ func (client *Client) EditEphemeralMessageCaption(ctx context.Context, req *Edit
 	return UnmarshalOk(result.Data)
 }
 
-type EditCallbackQueryMessageRequest struct {
+type ReplyToCallbackQueryWithEphemeralMessageRequest struct {
 	request
 	// Identifier of the callback query
 	CallbackQueryId JsonInt64 `json:"callback_query_id"`
+	// Pass true if the ephemeral message must replace the message from which the callback query originated
+	ReplaceCallbackQueryMessage bool `json:"replace_callback_query_message"`
 	// Pass true if the content of the message must be protected from forwarding and saving
 	ProtectContent bool `json:"protect_content"`
 	// The new message reply markup; pass null if none
 	ReplyMarkup ReplyMarkup `json:"reply_markup"`
-	// New content of the message. Must be one of the following types: inputMessageText, inputMessageAnimation, inputMessageAudio, inputMessageDocument, inputMessagePhoto, inputMessageRichMessage, inputMessageSticker, inputMessageVideo, inputMessageVideoNote, inputMessageVoiceNote
+	// New content of the message. Must be one of the following types: inputMessageText, inputMessageAnimation, inputMessageAudio, inputMessageDocument, inputMessagePhoto, inputMessageRichMessage, inputMessageSticker, inputMessageVideo, inputMessageVideoNote, inputMessageVoiceNote, inputMessageLocation, inputMessageVenue, inputMessageContact
 	InputMessageContent InputMessageContent `json:"input_message_content"`
 }
 
-func (req EditCallbackQueryMessageRequest) GetFunctionName() string {
-	return "editCallbackQueryMessage"
+func (req ReplyToCallbackQueryWithEphemeralMessageRequest) GetFunctionName() string {
+	return "replyToCallbackQueryWithEphemeralMessage"
 }
 
-// Edits the message from which a callback query has originated with an ephemeral message; for bots only
-func (client *Client) EditCallbackQueryMessage(ctx context.Context, req *EditCallbackQueryMessageRequest) (*Ok, error) {
+// Replies to a callback query with an ephemeral message; for bots only. Returns the sent message
+func (client *Client) ReplyToCallbackQueryWithEphemeralMessage(ctx context.Context, req *ReplyToCallbackQueryWithEphemeralMessageRequest) (*Message, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
 		return nil, err
@@ -5757,7 +6315,7 @@ func (client *Client) EditCallbackQueryMessage(ctx context.Context, req *EditCal
 		return nil, buildResponseError(result.Data)
 	}
 
-	return UnmarshalOk(result.Data)
+	return UnmarshalMessage(result.Data)
 }
 
 type EditMessageSchedulingStateRequest struct {
@@ -6022,7 +6580,7 @@ type EditBusinessMessageMediaRequest struct {
 	MessageId int64 `json:"message_id"`
 	// The new message reply markup; pass null if none; for bots only
 	ReplyMarkup ReplyMarkup `json:"reply_markup"`
-	// New content of the message. Must be one of the following types: inputMessageAnimation, inputMessageAudio, inputMessageDocument, inputMessagePhoto or inputMessageVideo
+	// New content of the message. Must be one of the following types: inputMessageAnimation, inputMessageAudio, inputMessageDocument, inputMessagePhoto, or inputMessageVideo
 	InputMessageContent InputMessageContent `json:"input_message_content"`
 }
 
@@ -6649,7 +7207,7 @@ type AddQuickReplyShortcutMessageRequest struct {
 	ShortcutName string `json:"shortcut_name"`
 	// Identifier of a quick reply message in the same shortcut to be replied; pass 0 if none
 	ReplyToMessageId int64 `json:"reply_to_message_id"`
-	// The content of the message to be added; inputMessagePaidMedia, inputMessageForwarded and inputMessageLiveLocation
+	// The content of the message to be added; inputMessagePaidMedia, inputMessageForwarded and inputMessageLiveLocation aren't supported
 	InputMessageContent InputMessageContent `json:"input_message_content"`
 }
 
@@ -6681,7 +7239,7 @@ type AddQuickReplyShortcutInlineQueryResultMessageRequest struct {
 	QueryId JsonInt64 `json:"query_id"`
 	// Identifier of the inline query result
 	ResultId string `json:"result_id"`
-	// Pass true to hide the bot, via which the message is sent. Can be used only for bots getOption("animation_search_bot_username"), getOption("photo_search_bot_username"), and getOption("venue_search_bot_username")
+	// Pass true to hide the bot, via which the message is sent. Can be used only for bots getOption("animation_search_bot_username") and getOption("photo_search_bot_username")
 	HideViaBot bool `json:"hide_via_bot"`
 }
 
@@ -6771,7 +7329,7 @@ func (req EditQuickReplyMessageRequest) GetFunctionName() string {
 	return "editQuickReplyMessage"
 }
 
-// Asynchronously edits the text, media or caption of a quick reply message. Use quickReplyMessage.can_be_edited to check whether a message can be edited. Media message can be edited only to a media message. Checklist messages can be edited only to a checklist message. The type of message content in an album can't be changed with exception of replacing a photo with a video or vice versa
+// Asynchronously edits the text, media, or caption of a quick reply message. Use quickReplyMessage.can_be_edited to check whether a message can be edited. Media message can be edited only to a media message. Checklist messages can be edited only to a checklist message. The type of message content in an album can't be changed with exception of replacing a photo with a video or vice versa
 func (client *Client) EditQuickReplyMessage(ctx context.Context, req *EditQuickReplyMessageRequest) (*Ok, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -7042,7 +7600,7 @@ func (req GetForumTopicHistoryRequest) GetFunctionName() string {
 	return "getForumTopicHistory"
 }
 
-// Returns messages in a topic in a forum supergroup chat or a chat with a bot with topics. The messages are returned in reverse chronological order (i.e., in order of decreasing message_id). For optimal performance, the number of returned messages is chosen by TDLib
+// Returns messages in a topic in a forum supergroup chat or a chat with a bot with topics. The messages are returned in reverse chronological order (i.e., in order of decreasing message.id). For optimal performance, the number of returned messages is chosen by TDLib
 func (client *Client) GetForumTopicHistory(ctx context.Context, req *GetForumTopicHistoryRequest) (*Messages, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -7068,7 +7626,7 @@ func (req GetForumTopicLinkRequest) GetFunctionName() string {
 	return "getForumTopicLink"
 }
 
-// Returns an HTTPS link to a topic in a forum supergroup chat. This is an offline method
+// Returns an HTTPS link to a topic in a forum supergroup chat or a chat with a bot. This is an offline method
 func (client *Client) GetForumTopicLink(ctx context.Context, req *GetForumTopicLinkRequest) (*MessageLink, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -7531,7 +8089,7 @@ type GetMessageAvailableReactionsRequest struct {
 	ChatId int64 `json:"chat_id"`
 	// Identifier of the message
 	MessageId int64 `json:"message_id"`
-	// Number of reaction per row, 5-25
+	// Number of reactions per row, 5-25
 	RowSize int32 `json:"row_size"`
 }
 
@@ -8028,7 +8586,7 @@ func (req GetTextEntitiesRequest) GetFunctionName() string {
 	return "getTextEntities"
 }
 
-// Returns all entities (mentions, hashtags, cashtags, bot commands, bank card numbers, URLs, and email addresses) found in the text. Can be called synchronously
+// Returns all entities (mentions, hashtags, cashtags, bot commands, bank card numbers, TON blockchain addresses, URLs, and email addresses) found in the text. Can be called synchronously
 func GetTextEntities(req *GetTextEntitiesRequest) (*TextEntities, error) {
 	result, err := Execute(req)
 	if err != nil {
@@ -8043,9 +8601,39 @@ func GetTextEntities(req *GetTextEntitiesRequest) (*TextEntities, error) {
 }
 
 // deprecated
-// Returns all entities (mentions, hashtags, cashtags, bot commands, bank card numbers, URLs, and email addresses) found in the text. Can be called synchronously
+// Returns all entities (mentions, hashtags, cashtags, bot commands, bank card numbers, TON blockchain addresses, URLs, and email addresses) found in the text. Can be called synchronously
 func (client *Client) GetTextEntities(req *GetTextEntitiesRequest) (*TextEntities, error) {
 	return GetTextEntities(req)
+}
+
+type GetTextEmojiRangesRequest struct {
+	request
+	// The text in which to look for emoji
+	Text string `json:"text"`
+}
+
+func (req GetTextEmojiRangesRequest) GetFunctionName() string {
+	return "getTextEmojiRanges"
+}
+
+// Returns positions of all emoji found in the text in order of their appearance. Can be called synchronously
+func GetTextEmojiRanges(req *GetTextEmojiRangesRequest) (*TextRanges, error) {
+	result, err := Execute(req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalTextRanges(result.Data)
+}
+
+// deprecated
+// Returns positions of all emoji found in the text in order of their appearance. Can be called synchronously
+func (client *Client) GetTextEmojiRanges(req *GetTextEmojiRangesRequest) (*TextRanges, error) {
+	return GetTextEmojiRanges(req)
 }
 
 type ParseTextEntitiesRequest struct {
@@ -8481,7 +9069,7 @@ type SetPollAnswerRequest struct {
 	ChatId int64 `json:"chat_id"`
 	// Identifier of the message containing the poll
 	MessageId int64 `json:"message_id"`
-	// 0-based identifiers of answer options, chosen by the user. User can choose more than 1 answer option only is the poll allows multiple answers
+	// 0-based identifiers of answer options, chosen by the user. User can choose more than 1 answer option only if the poll allows multiple answers
 	OptionIds []int32 `json:"option_ids"`
 }
 
@@ -8635,7 +9223,7 @@ func (req MarkChecklistTasksAsDoneRequest) GetFunctionName() string {
 	return "markChecklistTasksAsDone"
 }
 
-// Adds tasks of a checklist in a message as done or not done
+// Marks tasks of a checklist in a message as done or not done
 func (client *Client) MarkChecklistTasksAsDone(ctx context.Context, req *MarkChecklistTasksAsDoneRequest) (*Ok, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -8803,7 +9391,7 @@ func (req ShareUsersWithBotRequest) GetFunctionName() string {
 	return "shareUsersWithBot"
 }
 
-// Shares users after pressing a keyboardButtonTypeRequestUsers button with the bot
+// Shares users after pressing a keyboardButtonTypeRequestUsers or keyboardButtonTypeRequestManagedBot button with the bot
 func (client *Client) ShareUsersWithBot(ctx context.Context, req *ShareUsersWithBotRequest) (*Ok, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -8979,7 +9567,7 @@ func (req GetPreparedInlineMessageRequest) GetFunctionName() string {
 	return "getPreparedInlineMessage"
 }
 
-// Saves an inline message to be sent by the given user
+// Returns an inline message prepared by a bot to be sent by the current user
 func (client *Client) GetPreparedInlineMessage(ctx context.Context, req *GetPreparedInlineMessageRequest) (*PreparedInlineMessage, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -9383,9 +9971,9 @@ type AnswerChatJoinRequestQueryRequest struct {
 	request
 	// Identifier of the query
 	QueryId JsonInt64 `json:"query_id"`
-	// The result
+	// The result; must be null if a URL is passed
 	Result ChatJoinRequestResult `json:"result"`
-	// URL of the Web App to open
+	// URL of the Web App to open; must be empty if a result is passed
 	Url string `json:"url"`
 }
 
@@ -9465,6 +10053,88 @@ func (client *Client) AnswerCallbackQuery(ctx context.Context, req *AnswerCallba
 	}
 
 	return UnmarshalOk(result.Data)
+}
+
+type AnswerWidgetQueryRequest struct {
+	request
+	// Identifier of the widget query
+	WidgetQueryId JsonInt64 `json:"widget_query_id"`
+	// Data to be returned to the widget
+	Data string `json:"data"`
+}
+
+func (req AnswerWidgetQueryRequest) GetFunctionName() string {
+	return "answerWidgetQuery"
+}
+
+// Sets the result of a widget query; for bots only
+func (client *Client) AnswerWidgetQuery(ctx context.Context, req *AnswerWidgetQueryRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type GetWidgetQueryAnswerRequest struct {
+	request
+	// Identifier of the chat with the message
+	ChatId int64 `json:"chat_id"`
+	// Identifier of the widget message from which the query originated. The message must not be scheduled
+	MessageId int64 `json:"message_id"`
+	// Type of the query
+	QueryType WidgetQueryType `json:"query_type"`
+	// Data of the query
+	Data []byte `json:"data"`
+}
+
+func (req GetWidgetQueryAnswerRequest) GetFunctionName() string {
+	return "getWidgetQueryAnswer"
+}
+
+// Sends a widget query to a bot and returns an answer. Returns an error with code 502 if the bot fails to answer the query before the query timeout expires
+func (client *Client) GetWidgetQueryAnswer(ctx context.Context, req *GetWidgetQueryAnswerRequest) (*WidgetQueryAnswer, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalWidgetQueryAnswer(result.Data)
+}
+
+type GetWidgetPublicDataRequest struct {
+	request
+	// Identifier of the chat with the message
+	ChatId int64 `json:"chat_id"`
+	// Identifier of the widget message. The message must not be scheduled
+	MessageId int64 `json:"message_id"`
+}
+
+func (req GetWidgetPublicDataRequest) GetFunctionName() string {
+	return "getWidgetPublicData"
+}
+
+// Returns the current public data of a widget. Must be called only if the widget is visible on the screen and asked to poll its public data
+func (client *Client) GetWidgetPublicData(ctx context.Context, req *GetWidgetPublicDataRequest) (*WidgetPublicData, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalWidgetPublicData(result.Data)
 }
 
 type AnswerShippingQueryRequest struct {
@@ -9883,7 +10553,7 @@ func (req OpenMessageContentRequest) GetFunctionName() string {
 	return "openMessageContent"
 }
 
-// Informs TDLib that the message content has been opened (e.g., the user has opened a photo, video, document, location or venue, or has listened to an audio file or voice note message). An updateMessageContentOpened update will be generated if something has changed
+// Informs TDLib that the message content has been opened (e.g., the user has opened a photo, video, document, location, or venue, or has listened to an audio file or voice note message). An updateMessageContentOpened update will be generated if something has changed
 func (client *Client) OpenMessageContent(ctx context.Context, req *OpenMessageContentRequest) (*Ok, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -10184,6 +10854,12 @@ func (client *Client) GetInternalLinkType(ctx context.Context, req *GetInternalL
 	case ConstructorInternalLinkTypeTheme:
 		return UnmarshalInternalLinkTypeTheme(result.Data)
 
+	case ConstructorInternalLinkTypeTonConnect:
+		return UnmarshalInternalLinkTypeTonConnect(result.Data)
+
+	case ConstructorInternalLinkTypeTonWalletTransfer:
+		return UnmarshalInternalLinkTypeTonWalletTransfer(result.Data)
+
 	case ConstructorInternalLinkTypeUnknownDeepLink:
 		return UnmarshalInternalLinkTypeUnknownDeepLink(result.Data)
 
@@ -10311,7 +10987,7 @@ func (req GetOauthLinkInfoRequest) GetFunctionName() string {
 	return "getOauthLinkInfo"
 }
 
-// Returns information about an OAuth deep link. Use checkOauthRequestMatchCode, acceptOauthRequest or declineOauthRequest to process the link
+// Returns information about an OAuth deep link. Use checkOauthRequestMatchCode, acceptOauthRequest, or declineOauthRequest to process the link
 func (client *Client) GetOauthLinkInfo(ctx context.Context, req *GetOauthLinkInfoRequest) (*OauthLinkInfo, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -10361,6 +11037,8 @@ type AcceptOauthRequestRequest struct {
 	AllowWriteAccess bool `json:"allow_write_access"`
 	// Pass true if the current user allowed the bot that was returned in getOauthLinkInfo, to access their phone number
 	AllowPhoneNumberAccess bool `json:"allow_phone_number_access"`
+	// Pass data required to access the user's TON wallet via TON Connect if the current user allowed this; pass null if the access wasn't requested or the user declined access
+	TonConnectConnectData *TonConnectConnectData `json:"ton_connect_connect_data"`
 }
 
 func (req AcceptOauthRequestRequest) GetFunctionName() string {
@@ -11210,7 +11888,7 @@ func (req ProcessChatFolderNewChatsRequest) GetFunctionName() string {
 	return "processChatFolderNewChats"
 }
 
-// Process new chats added to a shareable chat folder by its owner
+// Processes new chats added to a shareable chat folder by its owner
 func (client *Client) ProcessChatFolderNewChats(ctx context.Context, req *ProcessChatFolderNewChatsRequest) (*Ok, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -11391,7 +12069,7 @@ func (req SetChatMessageAutoDeleteTimeRequest) GetFunctionName() string {
 	return "setChatMessageAutoDeleteTime"
 }
 
-// Changes the message auto-delete or self-destruct (for secret chats) time in a chat. Requires change_info administrator right in basic groups, supergroups and channels. Message auto-delete time can't be changed in a chat with the current user (Saved Messages) and the chat 777000 (Telegram).
+// Changes the message auto-delete or self-destruct (for secret chats) time in a chat. Requires can_change_info administrator right in basic groups, supergroups and channels. Message auto-delete time can't be changed in a chat with the current user (Saved Messages) and the chat 777000 (Telegram).
 func (client *Client) SetChatMessageAutoDeleteTime(ctx context.Context, req *SetChatMessageAutoDeleteTimeRequest) (*Ok, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -11651,7 +12329,7 @@ type ProcessChatHasProtectedContentDisableRequestRequest struct {
 	request
 	// Chat identifier
 	ChatId int64 `json:"chat_id"`
-	// Identifier of the message with the request. The message must be incoming and has content of the type messageChatHasProtectedContentDisableRequested
+	// Identifier of the message with the request. The message must be incoming and have content of the type messageChatHasProtectedContentDisableRequested
 	RequestMessageId int64 `json:"request_message_id"`
 	// Pass true to approve the request; pass false to reject the request
 	Approve bool `json:"approve"`
@@ -12892,6 +13570,8 @@ type PostStoryRequest struct {
 	Areas *InputStoryAreas `json:"areas"`
 	// Story caption; pass null to use an empty caption; 0-getOption("story_caption_length_max") characters; can have entities only if getOption("can_use_text_entities_in_story_caption")
 	Caption *FormattedText `json:"caption"`
+	// Music to be attached to the story; pass null if none. The music can be up to 60 seconds long. The bot getOption("audio_search_bot_username") can be used to find the music files
+	Music *InputAudio `json:"music"`
 	// The privacy settings for the story; ignored for stories posted on behalf of supergroup and channel chats
 	PrivacySettings StoryPrivacySettings `json:"privacy_settings"`
 	// Identifiers of story albums to which the story will be added upon posting. An album can have up to getOption("story_album_size_max") stories
@@ -13027,6 +13707,34 @@ func (client *Client) EditStoryCover(ctx context.Context, req *EditStoryCoverReq
 	return UnmarshalOk(result.Data)
 }
 
+type EditStoryMusicRequest struct {
+	request
+	// Identifier of the chat that posted the story
+	StoryPosterChatId int64 `json:"story_poster_chat_id"`
+	// Identifier of the story to edit
+	StoryId int32 `json:"story_id"`
+	// The new music; pass null to remove music from the story. The music can be up to 60 seconds long
+	Music *InputAudio `json:"music"`
+}
+
+func (req EditStoryMusicRequest) GetFunctionName() string {
+	return "editStoryMusic"
+}
+
+// Changes music attached to a story. Can be called only if story.can_be_edited == true and the story isn't being edited now
+func (client *Client) EditStoryMusic(ctx context.Context, req *EditStoryMusicRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
 type SetStoryPrivacySettingsRequest struct {
 	request
 	// Identifier of the story
@@ -13140,7 +13848,7 @@ func (req LoadActiveStoriesRequest) GetFunctionName() string {
 	return "loadActiveStories"
 }
 
-// Loads more active stories from a story list. The loaded stories will be sent through updates. Active stories are sorted by the pair (active_stories.order, active_stories.story_poster_chat_id) in descending order. Returns a 404 error if all active stories have been loaded
+// Loads more active stories from a story list. The loaded stories will be sent through updates. Active stories are sorted by the pair (active_stories.order, active_stories.chat_id) in descending order. Returns a 404 error if all active stories have been loaded
 func (client *Client) LoadActiveStories(ctx context.Context, req *LoadActiveStoriesRequest) (*Ok, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -13218,7 +13926,7 @@ func (req GetChatPostedToChatPageStoriesRequest) GetFunctionName() string {
 	return "getChatPostedToChatPageStories"
 }
 
-// Returns the list of stories that posted by the given chat to its chat page. If from_story_id == 0, then pinned stories are returned first. Then, stories are returned in reverse chronological order (i.e., in order of decreasing story_id). For optimal performance, the number of returned stories is chosen by TDLib
+// Returns the list of stories that were posted by the given chat to its chat page. If from_story_id == 0, then pinned stories are returned first. Then, stories are returned in reverse chronological order (i.e., in order of decreasing story.id). For optimal performance, the number of returned stories is chosen by TDLib
 func (client *Client) GetChatPostedToChatPageStories(ctx context.Context, req *GetChatPostedToChatPageStoriesRequest) (*Stories, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -13246,7 +13954,7 @@ func (req GetChatArchivedStoriesRequest) GetFunctionName() string {
 	return "getChatArchivedStories"
 }
 
-// Returns the list of all stories posted by the given chat; requires can_edit_stories administrator right in the chat. The stories are returned in reverse chronological order (i.e., in order of decreasing story_id). For optimal performance, the number of returned stories is chosen by TDLib
+// Returns the list of all stories posted by the given chat; requires can_edit_stories administrator right in the chat. The stories are returned in reverse chronological order (i.e., in order of decreasing story.id). For optimal performance, the number of returned stories is chosen by TDLib
 func (client *Client) GetChatArchivedStories(ctx context.Context, req *GetChatArchivedStoriesRequest) (*Stories, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -13340,7 +14048,7 @@ func (client *Client) CloseStory(ctx context.Context, req *CloseStoryRequest) (*
 
 type GetStoryAvailableReactionsRequest struct {
 	request
-	// Number of reaction per row, 5-25
+	// Number of reactions per row, 5-25
 	RowSize int32 `json:"row_size"`
 }
 
@@ -13725,7 +14433,7 @@ type AddStoryAlbumStoriesRequest struct {
 	ChatId int64 `json:"chat_id"`
 	// Identifier of the story album
 	StoryAlbumId int32 `json:"story_album_id"`
-	// Identifier of the stories to add to the album; 1-getOption("story_album_size_max") identifiers. If after addition the album has more than getOption("story_album_size_max") stories, then the last one are removed from the album
+	// Identifier of the stories to add to the album; 1-getOption("story_album_size_max") identifiers. If after addition the album has more than getOption("story_album_size_max") stories, then the last ones are removed from the album
 	StoryIds []int32 `json:"story_ids"`
 }
 
@@ -15134,7 +15842,7 @@ type DeleteRevokedChatInviteLinkRequest struct {
 	request
 	// Chat identifier
 	ChatId int64 `json:"chat_id"`
-	// Invite link to revoke
+	// Invite link to delete
 	InviteLink string `json:"invite_link"`
 }
 
@@ -15142,7 +15850,7 @@ func (req DeleteRevokedChatInviteLinkRequest) GetFunctionName() string {
 	return "deleteRevokedChatInviteLink"
 }
 
-// Deletes revoked chat invite links. Requires administrator privileges and can_invite_users right in the chat for own links and owner privileges for other links
+// Deletes a revoked chat invite link. Requires administrator privileges and can_invite_users right in the chat for own links and owner privileges for other links
 func (client *Client) DeleteRevokedChatInviteLink(ctx context.Context, req *DeleteRevokedChatInviteLinkRequest) (*Ok, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -16791,7 +17499,7 @@ func (req ToggleGroupCallParticipantIsHandRaisedRequest) GetFunctionName() strin
 	return "toggleGroupCallParticipantIsHandRaised"
 }
 
-// Toggles whether a group call participant hand is rased; for video chats only
+// Toggles whether a group call participant hand is raised; for video chats only
 func (client *Client) ToggleGroupCallParticipantIsHandRaised(ctx context.Context, req *ToggleGroupCallParticipantIsHandRaisedRequest) (*Ok, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -19447,7 +20155,7 @@ func (req ResendPhoneNumberCodeRequest) GetFunctionName() string {
 	return "resendPhoneNumberCode"
 }
 
-// Resends the authentication code sent to a phone number. Works only if the previously received authenticationCodeInfo next_code_type was not null and the server-specified timeout has passed
+// Resends the authentication code sent to a phone number. Works only if the previously received authenticationCodeInfo.next_type was not null and the server-specified timeout has passed
 func (client *Client) ResendPhoneNumberCode(ctx context.Context, req *ResendPhoneNumberCodeRequest) (*AuthenticationCodeInfo, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -19753,6 +20461,12 @@ func (client *Client) GetBusinessChatLinkInfo(ctx context.Context, req *GetBusin
 
 type GetUserLinkRequest struct {
 	request
+	// Pass true to get a link, which allows other users to send unpaid messages to the current user. By default, a temporary link is returned in this case
+	RemoveMessagesFee bool `json:"remove_messages_fee"`
+	// Pass true to get a permanent link; ignored if remove_messages_fee is false. Can be used only if can_get_permanent_link is true in a previously received userLink
+	ReturnPermanentLink bool `json:"return_permanent_link"`
+	// Pass true to revoke previously created links, which allow other users to send unpaid messages to the current user; ignored if remove_messages_fee is false. If return_permanent_link is true, then the permanent link is revoked too; otherwise, only temporary links are revoked
+	RevokePreviousLinks bool `json:"revoke_previous_links"`
 }
 
 func (req GetUserLinkRequest) GetFunctionName() string {
@@ -19760,8 +20474,7 @@ func (req GetUserLinkRequest) GetFunctionName() string {
 }
 
 // Returns an HTTPS link, which can be used to get information about the current user
-func (client *Client) GetUserLink(ctx context.Context) (*UserLink, error) {
-	req := &GetUserLinkRequest{}
+func (client *Client) GetUserLink(ctx context.Context, req *GetUserLinkRequest) (*UserLink, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
 		return nil, err
@@ -19796,6 +20509,32 @@ func (client *Client) SearchUserByToken(ctx context.Context, req *SearchUserByTo
 	}
 
 	return UnmarshalUser(result.Data)
+}
+
+type ApplyUnpaidMessagesTokenRequest struct {
+	request
+	// Identifier of the user
+	UserId int64 `json:"user_id"`
+	// Token from the link
+	Token string `json:"token"`
+}
+
+func (req ApplyUnpaidMessagesTokenRequest) GetFunctionName() string {
+	return "applyUnpaidMessagesToken"
+}
+
+// Allows the current user to send unpaid messages to the given user, which requires payment for incoming messages, using a token from an internal link of the type internalLinkTypePublicChat, internalLinkTypeUserPhoneNumber, or internalLinkTypeUserToken. The first message sent to the user will be preceded by a messageUnpaidMessagesAllowedByLink message. Repeated calls and calls for the current user have no effect
+func (client *Client) ApplyUnpaidMessagesToken(ctx context.Context, req *ApplyUnpaidMessagesTokenRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
 }
 
 type SetCommandsRequest struct {
@@ -20220,13 +20959,15 @@ type CheckBotUsernameRequest struct {
 	request
 	// Username to be checked
 	Username string `json:"username"`
+	// Pass true to check whether the username is suitable as a secondary username for an existing bot; pass false to check whether the username is suitable for createBot
+	IsSecondary bool `json:"is_secondary"`
 }
 
 func (req CheckBotUsernameRequest) GetFunctionName() string {
 	return "checkBotUsername"
 }
 
-// Checks whether a username can be set for a new bot. Use checkChatUsername to check username for other chat types
+// Checks whether a username can be set for a new bot or assigned as a secondary username to an existing bot. Use checkChatUsername to check username for other chat types
 func (client *Client) CheckBotUsername(ctx context.Context, req *CheckBotUsernameRequest) (CheckChatUsernameResult, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -20267,7 +21008,7 @@ type CreateBotRequest struct {
 	ManagerBotUserId int64 `json:"manager_bot_user_id"`
 	// Name of the bot; 1-64 characters
 	Name string `json:"name"`
-	// Username of the bot. The username must end with "bot". Use checkBotUsername to find whether the name is suitable
+	// Username of the bot. The username must end with "bot" or a string from updateAllowedBotUsernamePremiumSuffixes case-insensitive. Use checkBotUsername to find whether the name is suitable. If the username doesn't end with "bot", then the current user must have Telegram Premium subscription, the chosen username will be assigned as secondary and an additional regular username ending with "bot" will be automatically assigned to the created bot
 	Username string `json:"username"`
 	// Pass true if the bot is created from an internalLinkTypeRequestManagedBot link
 	ViaLink bool `json:"via_link"`
@@ -20435,6 +21176,56 @@ func (req SetBotProfilePhotoRequest) GetFunctionName() string {
 
 // Changes a profile photo for a bot
 func (client *Client) SetBotProfilePhoto(ctx context.Context, req *SetBotProfilePhotoRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type AddBotSecondaryUsernameRequest struct {
+	request
+	// Identifier of the target bot
+	BotUserId int64 `json:"bot_user_id"`
+	// The new secondary username; must be non-empty. Use checkBotUsername to check username validness
+	Username string `json:"username"`
+}
+
+func (req AddBotSecondaryUsernameRequest) GetFunctionName() string {
+	return "addBotSecondaryUsername"
+}
+
+// Adds a secondary username to a bot. Can be called only if userTypeBot.can_be_edited, the bot has no secondary username and the current user has Telegram Premium subscription. May return an error with a message "OWNER_USERNAMES_LIMIT_EXCEEDED" if the current user already owns at least getOption("secondary_bot_username_count_max") bots with a secondary username
+func (client *Client) AddBotSecondaryUsername(ctx context.Context, req *AddBotSecondaryUsernameRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type DeleteBotSecondaryUsernameRequest struct {
+	request
+	// Identifier of the target bot
+	BotUserId int64 `json:"bot_user_id"`
+}
+
+func (req DeleteBotSecondaryUsernameRequest) GetFunctionName() string {
+	return "deleteBotSecondaryUsername"
+}
+
+// Removes a secondary username from a bot. Can be called only if userTypeBot.can_be_edited == true and the bot has a secondary username
+func (client *Client) DeleteBotSecondaryUsername(ctx context.Context, req *DeleteBotSecondaryUsernameRequest) (*Ok, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
 		return nil, err
@@ -20615,8 +21406,8 @@ type SetMessageSenderBotVerificationRequest struct {
 	BotUserId int64 `json:"bot_user_id"`
 	// Identifier of the user or the supergroup or channel chat, which will be verified by the bot
 	VerifiedId MessageSender `json:"verified_id"`
-	// Custom description of verification reason; 0-getOption("bot_verification_custom_description_length_max"). If empty, then "was verified by organization "organization_name"" will be used as description. Can be specified only if the bot is allowed to provide custom description
-	CustomDescription string `json:"custom_description"`
+	// Custom description of verification reason; 0-getOption("bot_verification_custom_description_length_max") characters. Only TextUrl entities are supported. If empty, then "was verified by organization "organization_name"" will be used as description. Can be specified only if the bot is allowed to provide custom description
+	CustomDescription *FormattedText `json:"custom_description"`
 }
 
 func (req SetMessageSenderBotVerificationRequest) GetFunctionName() string {
@@ -20841,7 +21632,7 @@ func (req GetConnectedWebsitesRequest) GetFunctionName() string {
 	return "getConnectedWebsites"
 }
 
-// Returns all website where the current user used Telegram to log in
+// Returns all websites where the current user used Telegram to log in
 func (client *Client) GetConnectedWebsites(ctx context.Context) (*ConnectedWebsites, error) {
 	req := &GetConnectedWebsitesRequest{}
 	result, err := client.Send(ctx, req)
@@ -21045,7 +21836,7 @@ func (req SetSupergroupCustomEmojiStickerSetRequest) GetFunctionName() string {
 	return "setSupergroupCustomEmojiStickerSet"
 }
 
-// Changes the custom emoji sticker set of a supergroup; requires can_change_info administrator right. The chat must have at least chatBoostFeatures.min_custom_emoji_sticker_set_boost_level boost level to pass the corresponding color
+// Changes the custom emoji sticker set of a supergroup; requires can_change_info administrator right. The chat must have at least chatBoostFeatures.min_custom_emoji_sticker_set_boost_level boost level to set a custom emoji sticker set
 func (client *Client) SetSupergroupCustomEmojiStickerSet(ctx context.Context, req *SetSupergroupCustomEmojiStickerSetRequest) (*Ok, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -21333,6 +22124,8 @@ type ToggleSupergroupIsForumRequest struct {
 	IsForum bool `json:"is_forum"`
 	// New value of has_forum_tabs; ignored if is_forum is false
 	HasForumTabs bool `json:"has_forum_tabs"`
+	// New value of has_forum_sidebar; ignored if is_forum is false. Must be false if has_forum_tabs is true
+	HasForumSidebar bool `json:"has_forum_sidebar"`
 }
 
 func (req ToggleSupergroupIsForumRequest) GetFunctionName() string {
@@ -21503,7 +22296,7 @@ func (req GetChatEventLogRequest) GetFunctionName() string {
 	return "getChatEventLog"
 }
 
-// Returns a list of service actions taken by chat members and administrators in the last 48 hours. Available only in supergroups and channels. Requires administrator rights. Returns results in reverse chronological order (i.e., in order of decreasing event_id)
+// Returns a list of service actions taken by chat members and administrators in the last 48 hours. Available only in supergroups and channels. Requires administrator rights. Returns results in reverse chronological order (i.e., in order of decreasing chatEvent.id)
 func (client *Client) GetChatEventLog(ctx context.Context, req *GetChatEventLogRequest) (*ChatEvents, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -22015,6 +22808,32 @@ func (client *Client) SellGift(ctx context.Context, req *SellGiftRequest) (*Ok, 
 	return UnmarshalOk(result.Data)
 }
 
+type DeleteGiftRequest struct {
+	request
+	// Unique identifier of business connection on behalf of which to send the request; for bots only
+	BusinessConnectionId string `json:"business_connection_id"`
+	// Identifier of the gift
+	ReceivedGiftId string `json:"received_gift_id"`
+}
+
+func (req DeleteGiftRequest) GetFunctionName() string {
+	return "deleteGift"
+}
+
+// Deletes a gift without receiving Telegram Stars for it. Use receivedGift.can_be_deleted or messageGift.can_be_deleted to check whether the gift can be deleted
+func (client *Client) DeleteGift(ctx context.Context, req *DeleteGiftRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
 type ToggleGiftIsSavedRequest struct {
 	request
 	// Identifier of the gift
@@ -22205,7 +23024,7 @@ func (client *Client) BuyGiftUpgrade(ctx context.Context, req *BuyGiftUpgradeReq
 
 type CraftGiftRequest struct {
 	request
-	// Identifier of the gifts to use for crafting. In the case of a successful craft, the resulting gift will have the number of the first gift. Consequently, the first gift must not have been withdrawn to the TON blockchain as an NFT and must have an empty gift_address
+	// Identifier of the gifts to use for crafting. In the case of a successful craft, the resulting gift will have the number of the first gift. Consequently, unless getOption("can_craft_from_withdrawn_first_gift") is true, the first gift must not have been withdrawn to the TON blockchain as an NFT and must have an empty gift_address
 	ReceivedGiftIds []string `json:"received_gift_ids"`
 }
 
@@ -22485,7 +23304,7 @@ func (req GetGiftsForCraftingRequest) GetFunctionName() string {
 	return "getGiftsForCrafting"
 }
 
-// Returns upgraded gifts of the current user who can be used to craft another gifts
+// Returns upgraded gifts of the current user, which can be used to craft other gifts
 func (client *Client) GetGiftsForCrafting(ctx context.Context, req *GetGiftsForCraftingRequest) (*GiftsForCrafting, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -22551,15 +23370,13 @@ type GetUpgradedGiftWithdrawalUrlRequest struct {
 	request
 	// Identifier of the gift
 	ReceivedGiftId string `json:"received_gift_id"`
-	// The 2-step verification password of the current user
-	Password string `json:"password"`
 }
 
 func (req GetUpgradedGiftWithdrawalUrlRequest) GetFunctionName() string {
 	return "getUpgradedGiftWithdrawalUrl"
 }
 
-// Returns a URL for upgraded gift withdrawal in the TON blockchain as an NFT; requires owner privileges for gifts owned by a chat
+// Returns a URL for upgraded gift withdrawal in the TON blockchain as an NFT; requires owner privileges for gifts owned by a chat. The user must have a valid temporary password; see createTemporaryPassword
 func (client *Client) GetUpgradedGiftWithdrawalUrl(ctx context.Context, req *GetUpgradedGiftWithdrawalUrlRequest) (*HttpUrl, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -22571,6 +23388,86 @@ func (client *Client) GetUpgradedGiftWithdrawalUrl(ctx context.Context, req *Get
 	}
 
 	return UnmarshalHttpUrl(result.Data)
+}
+
+type WithdrawUpgradedGiftRequest struct {
+	request
+	// Identifier of the gift
+	ReceivedGiftId string `json:"received_gift_id"`
+	// Pass true to keep the gift displayed on the user's or the chat's profile page after withdrawal
+	KeepOnProfile bool `json:"keep_on_profile"`
+}
+
+func (req WithdrawUpgradedGiftRequest) GetFunctionName() string {
+	return "withdrawUpgradedGift"
+}
+
+// Withdraws an upgraded gift to the TON blockchain as an NFT directly to the TON wallet of the current user, which is created automatically if the user has no wallet yet; requires owner privileges for gifts owned by a chat. The user must have a valid temporary password; see createTemporaryPassword. The gift will be received by the wallet in a few seconds after the request succeeds
+func (client *Client) WithdrawUpgradedGift(ctx context.Context, req *WithdrawUpgradedGiftRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type GetUpgradedGiftDepositInfoRequest struct {
+	request
+	// Identifier of the user or the channel chat that will receive the gift
+	OwnerId MessageSender `json:"owner_id"`
+	// Unique name of the upgraded gift
+	Name string `json:"name"`
+	// Pass true to hide the sender of the gift in the message received by the new owner
+	HideSender bool `json:"hide_sender"`
+}
+
+func (req GetUpgradedGiftDepositInfoRequest) GetFunctionName() string {
+	return "getUpgradedGiftDepositInfo"
+}
+
+// Returns information needed to deposit an upgraded gift from the TON wallet of the current user to a Telegram account. Use sendTonWalletTransfer to complete transfer of the gift. The gift will be received by the new owner with a message about the gift after the transfer is confirmed in the blockchain
+func (client *Client) GetUpgradedGiftDepositInfo(ctx context.Context, req *GetUpgradedGiftDepositInfoRequest) (*UpgradedGiftDepositInfo, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalUpgradedGiftDepositInfo(result.Data)
+}
+
+type DisplayUpgradedGiftRequest struct {
+	request
+	// Identifier of the current user or a channel chat owned by the current user on whose profile page the gift will be shown; pass null to hide the gift from all profile pages
+	OwnerId MessageSender `json:"owner_id"`
+	// Unique name of the upgraded gift
+	Name string `json:"name"`
+}
+
+func (req DisplayUpgradedGiftRequest) GetFunctionName() string {
+	return "displayUpgradedGift"
+}
+
+// Shows an upgraded gift from the TON wallet of the current user on a profile page or hides it from all profile pages; the gift remains in the wallet
+func (client *Client) DisplayUpgradedGift(ctx context.Context, req *DisplayUpgradedGiftRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
 }
 
 type GetUpgradedGiftsPromotionalAnimationRequest struct {
@@ -22796,7 +23693,7 @@ type AddGiftCollectionGiftsRequest struct {
 	OwnerId MessageSender `json:"owner_id"`
 	// Identifier of the gift collection
 	CollectionId int32 `json:"collection_id"`
-	// Identifier of the gifts to add to the collection; 1-getOption("gift_collection_size_max") identifiers. If after addition the collection has more than getOption("gift_collection_size_max") gifts, then the last one are removed from the collection
+	// Identifier of the gifts to add to the collection; 1-getOption("gift_collection_size_max") identifiers. If after addition the collection has more than getOption("gift_collection_size_max") gifts, then the last ones are removed from the collection
 	ReceivedGiftIds []string `json:"received_gift_ids"`
 }
 
@@ -23122,6 +24019,55 @@ func (client *Client) ResetInstalledBackgrounds(ctx context.Context) (*Ok, error
 	return UnmarshalOk(result.Data)
 }
 
+type GetProfileShareThemeBackdropsRequest struct {
+	request
+}
+
+func (req GetProfileShareThemeBackdropsRequest) GetFunctionName() string {
+	return "getProfileShareThemeBackdrops"
+}
+
+// Returns the list of backdrops, which can be used as a background of a theme of the screen for sharing a link to a user or a chat
+func (client *Client) GetProfileShareThemeBackdrops(ctx context.Context) (*ProfileShareThemeBackdrops, error) {
+	req := &GetProfileShareThemeBackdropsRequest{}
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalProfileShareThemeBackdrops(result.Data)
+}
+
+type SetProfileShareThemeRequest struct {
+	request
+	// Identifier of the chat with the current user, or identifier of a supergroup or a channel chat
+	ChatId int64 `json:"chat_id"`
+	// The new theme; pass null to use the default theme
+	Theme InputProfileShareTheme `json:"theme"`
+}
+
+func (req SetProfileShareThemeRequest) GetFunctionName() string {
+	return "setProfileShareTheme"
+}
+
+// Changes the theme of the screen for sharing a link to the current user or a chat. The chat must have a username. Requires can_change_info administrator right in supergroups and channels
+func (client *Client) SetProfileShareTheme(ctx context.Context, req *SetProfileShareThemeRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
 type GetLocalizationTargetInfoRequest struct {
 	request
 	// Pass true to get only locally available information without sending network requests
@@ -23306,7 +24252,7 @@ func (req SetCustomLanguagePackStringRequest) GetFunctionName() string {
 	return "setCustomLanguagePackString"
 }
 
-// Adds, edits or deletes a string in a custom local language pack. Can be called before authorization
+// Adds, edits, or deletes a string in a custom local language pack. Can be called before authorization
 func (client *Client) SetCustomLanguagePackString(ctx context.Context, req *SetCustomLanguagePackStringRequest) (*Ok, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -23930,7 +24876,7 @@ type ReportChatRequest struct {
 	ChatId int64 `json:"chat_id"`
 	// Option identifier chosen by the user; leave empty for the initial request
 	OptionId []byte `json:"option_id"`
-	// Identifiers of reported messages. Use messageProperties.can_report_chat to check whether the message can be reported
+	// Identifiers of reported messages. Use messageProperties.can_report_chat to check whether the message can be reported. Ephemeral messages must be reported separately
 	MessageIds []int64 `json:"message_ids"`
 	// Additional report details if asked by the server; 0-1024 characters; leave empty for the initial request
 	Text string `json:"text"`
@@ -23940,7 +24886,7 @@ func (req ReportChatRequest) GetFunctionName() string {
 	return "reportChat"
 }
 
-// Reports a chat to the Telegram moderators. A chat can be reported only from the chat action bar, or if chat.can_be_reported
+// Reports a chat to the Telegram moderators. A chat can be reported only from the chat action bar, if chat.can_be_reported, or if messageProperties.can_report_chat
 func (client *Client) ReportChat(ctx context.Context, req *ReportChatRequest) (ReportChatResult, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -24121,7 +25067,7 @@ func (req GetTonTransactionsRequest) GetFunctionName() string {
 	return "getTonTransactions"
 }
 
-// Returns the list of TON blockchain transactions of the current user
+// Returns the list of TON Gram transactions of the current user
 func (client *Client) GetTonTransactions(ctx context.Context, req *GetTonTransactionsRequest) (*TonTransactions, error) {
 	result, err := client.Send(ctx, req)
 	if err != nil {
@@ -24133,6 +25079,1032 @@ func (client *Client) GetTonTransactions(ctx context.Context, req *GetTonTransac
 	}
 
 	return UnmarshalTonTransactions(result.Data)
+}
+
+type GetTonWalletTransactionsRequest struct {
+	request
+	// Direction of the transactions to receive; pass null to get all transactions
+	Direction TransactionDirection `json:"direction"`
+	// Offset of the first transaction to return as received from the previous request; use empty string to get the first chunk of results
+	Offset string `json:"offset"`
+	// The maximum number of transactions to return
+	Limit int32 `json:"limit"`
+}
+
+func (req GetTonWalletTransactionsRequest) GetFunctionName() string {
+	return "getTonWalletTransactions"
+}
+
+// Returns the list of TON wallet transactions of the current user; can be used only if getOption("can_use_ton_wallet")
+func (client *Client) GetTonWalletTransactions(ctx context.Context, req *GetTonWalletTransactionsRequest) (*TonWalletTransactions, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalTonWalletTransactions(result.Data)
+}
+
+type GetTonWalletTransactionRequest struct {
+	request
+	// Identifier of the transaction
+	TransactionId string `json:"transaction_id"`
+}
+
+func (req GetTonWalletTransactionRequest) GetFunctionName() string {
+	return "getTonWalletTransaction"
+}
+
+// Returns a TON wallet transaction by its identifier
+func (client *Client) GetTonWalletTransaction(ctx context.Context, req *GetTonWalletTransactionRequest) (*TonWalletTransaction, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalTonWalletTransaction(result.Data)
+}
+
+type GetTonWalletTransactionByMsgHashRequest struct {
+	request
+	// Value of msg_hash of the transaction
+	MsgHash string `json:"msg_hash"`
+}
+
+func (req GetTonWalletTransactionByMsgHashRequest) GetFunctionName() string {
+	return "getTonWalletTransactionByMsgHash"
+}
+
+// Returns a TON wallet transaction by its msg_hash; returns an error if the transaction isn't finalized yet
+func (client *Client) GetTonWalletTransactionByMsgHash(ctx context.Context, req *GetTonWalletTransactionByMsgHashRequest) (*TonWalletTransaction, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalTonWalletTransaction(result.Data)
+}
+
+type LoadTonWalletStateRequest struct {
+	request
+}
+
+func (req LoadTonWalletStateRequest) GetFunctionName() string {
+	return "loadTonWalletState"
+}
+
+// Loads state of the TON wallet of the current user; can be used only if getOption("can_use_ton_wallet")
+func (client *Client) LoadTonWalletState(ctx context.Context) (*Ok, error) {
+	req := &LoadTonWalletStateRequest{}
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type LoadTonWalletGaslessTransfersInfoRequest struct {
+	request
+}
+
+func (req LoadTonWalletGaslessTransfersInfoRequest) GetFunctionName() string {
+	return "loadTonWalletGaslessTransfersInfo"
+}
+
+// Loads or reloads the current state of gasless transfers for the current user; can be used only if getOption("can_use_ton_wallet")
+func (client *Client) LoadTonWalletGaslessTransfersInfo(ctx context.Context) (*Ok, error) {
+	req := &LoadTonWalletGaslessTransfersInfoRequest{}
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type CheckWalletBotBalanceRequest struct {
+	request
+}
+
+func (req CheckWalletBotBalanceRequest) GetFunctionName() string {
+	return "checkWalletBotBalance"
+}
+
+// Returns information about balance of the current user in the bot https://t.me/walt; can be used only if getOption("can_use_ton_wallet")
+func (client *Client) CheckWalletBotBalance(ctx context.Context) (*WalletBotBalance, error) {
+	req := &CheckWalletBotBalanceRequest{}
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalWalletBotBalance(result.Data)
+}
+
+type GetUserTonWalletAddressesRequest struct {
+	request
+	// Identifiers of the users whose wallet addresses have to be returned. If a user has no TON wallet, it will be skipped in the result
+	UserIds []int64 `json:"user_ids"`
+}
+
+func (req GetUserTonWalletAddressesRequest) GetFunctionName() string {
+	return "getUserTonWalletAddresses"
+}
+
+// Returns TON wallet addresses of the specified users; can be used only if getOption("can_use_ton_wallet")
+func (client *Client) GetUserTonWalletAddresses(ctx context.Context, req *GetUserTonWalletAddressesRequest) (*UserTonWalletAddresses, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalUserTonWalletAddresses(result.Data)
+}
+
+type CreateUserTonWalletRequest struct {
+	request
+	// Identifier of the user
+	UserId int64 `json:"user_id"`
+}
+
+func (req CreateUserTonWalletRequest) GetFunctionName() string {
+	return "createUserTonWallet"
+}
+
+// Creates a TON wallet for the specified regular user; can be used only if getOption("can_use_ton_wallet"). The current user must have positive TON wallet balance
+func (client *Client) CreateUserTonWallet(ctx context.Context, req *CreateUserTonWalletRequest) (*UserTonWalletAddress, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalUserTonWalletAddress(result.Data)
+}
+
+type GetAddressTonWalletRequest struct {
+	request
+	// Address in the TON blockchain
+	Address string `json:"address"`
+}
+
+func (req GetAddressTonWalletRequest) GetFunctionName() string {
+	return "getAddressTonWallet"
+}
+
+// Returns information about a TON wallet with the given address; can be used only if getOption("can_use_ton_wallet")
+func (client *Client) GetAddressTonWallet(ctx context.Context, req *GetAddressTonWalletRequest) (*UserTonWalletAddress, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalUserTonWalletAddress(result.Data)
+}
+
+type GetTonWalletSecretPhraseRequest struct {
+	request
+	// Password of the current user; pass an empty string unless receive an error with a message "PASSWORD_MISSING" for a passwordless request
+	Password string `json:"password"`
+}
+
+func (req GetTonWalletSecretPhraseRequest) GetFunctionName() string {
+	return "getTonWalletSecretPhrase"
+}
+
+// Returns the secret phrase of the user's TON wallet. Works only if tonWalletState.can_export_phrase is true
+func (client *Client) GetTonWalletSecretPhrase(ctx context.Context, req *GetTonWalletSecretPhraseRequest) (*TonWalletSecretPhrase, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalTonWalletSecretPhrase(result.Data)
+}
+
+type GetTonWalletOwnershipProofChallengeRequest struct {
+	request
+}
+
+func (req GetTonWalletOwnershipProofChallengeRequest) GetFunctionName() string {
+	return "getTonWalletOwnershipProofChallenge"
+}
+
+// Returns a challenge which may be used to prove ownership of a TON wallet; can be used only if getOption("can_use_ton_wallet")
+func (client *Client) GetTonWalletOwnershipProofChallenge(ctx context.Context) (*TonWalletOwnershipProofChallenge, error) {
+	req := &GetTonWalletOwnershipProofChallengeRequest{}
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalTonWalletOwnershipProofChallenge(result.Data)
+}
+
+type EnableTonWalletBackupRequest struct {
+	request
+	// The secret phrase of the user's TON wallet as a space separated list of words
+	SecretPhrase string `json:"secret_phrase"`
+	// Proof of the TON wallet ownership; use getTonWalletOwnershipProofChallenge to get a challenge for the proof
+	Proof *TonWalletOwnershipProof `json:"proof"`
+}
+
+func (req EnableTonWalletBackupRequest) GetFunctionName() string {
+	return "enableTonWalletBackup"
+}
+
+// Enables backup of the TON wallet of the user. Works only if tonWalletState.can_enable_backup is true
+func (client *Client) EnableTonWalletBackup(ctx context.Context, req *EnableTonWalletBackupRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type DisableTonWalletBackupRequest struct {
+	request
+	// Password of the current user; pass an empty string unless receive an error with a message "PASSWORD_MISSING" for a passwordless request
+	Password string `json:"password"`
+}
+
+func (req DisableTonWalletBackupRequest) GetFunctionName() string {
+	return "disableTonWalletBackup"
+}
+
+// Disables backup of the TON wallet of the user. Works only if tonWalletState.is_backup_enabled is true
+func (client *Client) DisableTonWalletBackup(ctx context.Context, req *DisableTonWalletBackupRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type DisableTonWalletBackupWithProofRequest struct {
+	request
+	// Proof of the TON wallet ownership; use getTonWalletOwnershipProofChallenge to get a challenge for the proof
+	Proof *TonWalletOwnershipProof `json:"proof"`
+}
+
+func (req DisableTonWalletBackupWithProofRequest) GetFunctionName() string {
+	return "disableTonWalletBackupWithProof"
+}
+
+// Disables backup of the TON wallet of the user using proof of wallet ownership instead of the password. Works only if tonWalletState.is_backup_enabled is true
+func (client *Client) DisableTonWalletBackupWithProof(ctx context.Context, req *DisableTonWalletBackupWithProofRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type SendTonWalletTransferRequest struct {
+	request
+	// Identifier of the user who will receive the transfer; pass 0 if unknown
+	UserId int64 `json:"user_id"`
+	// Address in the TON blockchain of the transaction peer
+	Address string `json:"address"`
+	// The amount of the sent cryptocurrency, in the smallest units of the cryptocurrency
+	Amount JsonInt64 `json:"amount"`
+	// Comment added to the transaction
+	Comment string `json:"comment"`
+	// Pass true if the comment is encrypted and must be decrypted using the receiver's or sender's private key
+	IsCommentEncrypted bool `json:"is_comment_encrypted"`
+	// Non-persistent identifier, which will be returned back in messageSendingStatePending object and can be used to match sent messages and corresponding updateNewMessage updates
+	SendingId int32 `json:"sending_id"`
+	// Serialized data for regular cryptocurrency transfer request. The minimum allowed transfer amount is getOption("ton_wallet_transfer_amount_min")
+	RegularTransferData []byte `json:"regular_transfer_data"`
+	// Serialized data for gasless cryptocurrency transfer request; pass an empty string to force a regular request. The minimum allowed transfer amount for a gasless transfer is getOption("ton_wallet_gasless_transfer_amount_min")
+	GaslessTransferData []byte `json:"gasless_transfer_data"`
+}
+
+func (req SendTonWalletTransferRequest) GetFunctionName() string {
+	return "sendTonWalletTransfer"
+}
+
+// Sends a cryptocurrency from the user's TON wallet; can be used only if getOption("can_use_ton_wallet")
+func (client *Client) SendTonWalletTransfer(ctx context.Context, req *SendTonWalletTransferRequest) (*TonWalletTransferResult, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalTonWalletTransferResult(result.Data)
+}
+
+type DeleteTonWalletRequest struct {
+	request
+	// Password of the current user; pass an empty string unless receive an error with a message "PASSWORD_MISSING" for a passwordless request
+	Password string `json:"password"`
+}
+
+func (req DeleteTonWalletRequest) GetFunctionName() string {
+	return "deleteTonWallet"
+}
+
+// Deletes the current TON wallet of the user and creates a new one; can be used only if getOption("can_use_ton_wallet")
+func (client *Client) DeleteTonWallet(ctx context.Context, req *DeleteTonWalletRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type ReplaceTonWalletRequest struct {
+	request
+	// Password of the current user; pass an empty string unless receive an error with a message "PASSWORD_MISSING" for a passwordless request
+	Password string `json:"password"`
+	// Original public key of the new TON wallet
+	AnchorPublicKey []byte `json:"anchor_public_key"`
+	// Proof of ownership of the new private key of the TON wallet; use getTonWalletOwnershipProofChallenge to get a challenge for the proof
+	Proof *TonWalletOwnershipProof `json:"proof"`
+}
+
+func (req ReplaceTonWalletRequest) GetFunctionName() string {
+	return "replaceTonWallet"
+}
+
+// Replaces the current TON wallet with another existing v6r2 wallet or changes private key of the current TON wallet; can be used only if getOption("can_use_ton_wallet")
+func (client *Client) ReplaceTonWallet(ctx context.Context, req *ReplaceTonWalletRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type GetCurrencyExchangeRatesRequest struct {
+	request
+}
+
+func (req GetCurrencyExchangeRatesRequest) GetFunctionName() string {
+	return "getCurrencyExchangeRates"
+}
+
+// Returns exchange rates of currencies to USD
+func (client *Client) GetCurrencyExchangeRates(ctx context.Context) (*CurrencyExchangeRates, error) {
+	req := &GetCurrencyExchangeRatesRequest{}
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalCurrencyExchangeRates(result.Data)
+}
+
+type GetTonWalletNftsRequest struct {
+	request
+	// Offset of the first entry to return as received from the previous request; use empty string to get the first chunk of results
+	Offset string `json:"offset"`
+	// The maximum number of NFTs to be returned; must be positive and can't be greater than 20
+	Limit int32 `json:"limit"`
+}
+
+func (req GetTonWalletNftsRequest) GetFunctionName() string {
+	return "getTonWalletNfts"
+}
+
+// Returns NFTs stored on the TON wallet of the user; can be used only if getOption("can_use_ton_wallet")
+func (client *Client) GetTonWalletNfts(ctx context.Context, req *GetTonWalletNftsRequest) (*TonNfts, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalTonNfts(result.Data)
+}
+
+type GetTonWalletCardBackgroundGiftCollectionNamesRequest struct {
+	request
+}
+
+func (req GetTonWalletCardBackgroundGiftCollectionNamesRequest) GetFunctionName() string {
+	return "getTonWalletCardBackgroundGiftCollectionNames"
+}
+
+// Returns names of upgraded gift collections whose NFTs can be used as background_nft_address in setTonWalletCardStickers; can be used only if getOption("can_use_ton_wallet")
+func (client *Client) GetTonWalletCardBackgroundGiftCollectionNames(ctx context.Context) (*UpgradedGiftCollectionNames, error) {
+	req := &GetTonWalletCardBackgroundGiftCollectionNamesRequest{}
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalUpgradedGiftCollectionNames(result.Data)
+}
+
+type SetTonWalletCardStickersRequest struct {
+	request
+	// The new list of stickers; pass an empty list to remove all stickers. Up to 10 stickers can be added. Each NFT can be used only once
+	Stickers []*InputTonWalletCardSticker `json:"stickers"`
+	// Address of the NFT from the new list of stickers, whose colors will be used for the card background; pass an empty string to use the default background. The NFT must correspond to an upgraded gift with can_be_ton_wallet_card_background == true
+	BackgroundNftAddress string `json:"background_nft_address"`
+}
+
+func (req SetTonWalletCardStickersRequest) GetFunctionName() string {
+	return "setTonWalletCardStickers"
+}
+
+// Changes the list of stickers on the TON wallet card of the current user; can be used only if getOption("can_use_ton_wallet"). The whole list of stickers is replaced. The request can take up to 20 seconds to complete, so it must be called only on explicit user action. Stickers are removed automatically if the corresponding NFT leaves the wallet or the wallet is replaced. Returns the updated card
+func (client *Client) SetTonWalletCardStickers(ctx context.Context, req *SetTonWalletCardStickersRequest) (*TonWalletCard, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalTonWalletCard(result.Data)
+}
+
+type GetTonConnectSessionsRequest struct {
+	request
+}
+
+func (req GetTonConnectSessionsRequest) GetFunctionName() string {
+	return "getTonConnectSessions"
+}
+
+// Returns active TON Connect sessions; can be used only if getOption("can_use_ton_wallet")
+func (client *Client) GetTonConnectSessions(ctx context.Context) (*TonConnectSessions, error) {
+	req := &GetTonConnectSessionsRequest{}
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalTonConnectSessions(result.Data)
+}
+
+type CreateTonConnectSessionRequest struct {
+	request
+	// Hex-encoded public X25519 key of the dApp
+	DappClientId string `json:"dapp_client_id"`
+	// URL of the manifest of the dApp
+	ManifestUrl string `json:"manifest_url"`
+}
+
+func (req CreateTonConnectSessionRequest) GetFunctionName() string {
+	return "createTonConnectSession"
+}
+
+// Creates a TON Connect session; can be used only if getOption("can_use_ton_wallet")
+func (client *Client) CreateTonConnectSession(ctx context.Context, req *CreateTonConnectSessionRequest) (*TonConnectSession, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalTonConnectSession(result.Data)
+}
+
+type SetTonConnectSessionWalletClientIdRequest struct {
+	request
+	// Unique identifier of the session
+	SessionId JsonInt64 `json:"session_id"`
+	// Hex-encoded public X25519 key of the current user's application calculated from the TON wallet private key and session parameters
+	WalletClientId string `json:"wallet_client_id"`
+}
+
+func (req SetTonConnectSessionWalletClientIdRequest) GetFunctionName() string {
+	return "setTonConnectSessionWalletClientId"
+}
+
+// Sets wallet_client_id for a pending TON Connect session. Then, sendTonConnectSessionConnectResult must be used to accept or reject the session. If the session was created for an OAuth request, then acceptOauthRequest must be used instead
+func (client *Client) SetTonConnectSessionWalletClientId(ctx context.Context, req *SetTonConnectSessionWalletClientIdRequest) (*TonConnectChallenge, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalTonConnectChallenge(result.Data)
+}
+
+type SendTonConnectSessionConnectResultRequest struct {
+	request
+	// Unique identifier of the session
+	SessionId JsonInt64 `json:"session_id"`
+	// Answer to the challenge received from setTonConnectSessionWalletClientId
+	ChallengeAnswer []byte `json:"challenge_answer"`
+	// Pass true to reject the request; pass false to accept it
+	IsError bool `json:"is_error"`
+	// Body of the result
+	Body []byte `json:"body"`
+	// Identifier to trace the connection request
+	TraceId string `json:"trace_id"`
+}
+
+func (req SendTonConnectSessionConnectResultRequest) GetFunctionName() string {
+	return "sendTonConnectSessionConnectResult"
+}
+
+// Accepts or rejects a TON Connect session
+func (client *Client) SendTonConnectSessionConnectResult(ctx context.Context, req *SendTonConnectSessionConnectResultRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type GetTonConnectSessionPendingRequestsRequest struct {
+	request
+	// Unique identifier of the session
+	SessionId JsonInt64 `json:"session_id"`
+}
+
+func (req GetTonConnectSessionPendingRequestsRequest) GetFunctionName() string {
+	return "getTonConnectSessionPendingRequests"
+}
+
+// Returns pending requests in a TON Connect session
+func (client *Client) GetTonConnectSessionPendingRequests(ctx context.Context, req *GetTonConnectSessionPendingRequestsRequest) (*TonConnectRequests, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalTonConnectRequests(result.Data)
+}
+
+type GetTonConnectDAppPendingRequestsRequest struct {
+	request
+	// Hex-encoded public X25519 key of the dApp
+	DappClientId string `json:"dapp_client_id"`
+}
+
+func (req GetTonConnectDAppPendingRequestsRequest) GetFunctionName() string {
+	return "getTonConnectDAppPendingRequests"
+}
+
+// Returns pending requests with a dApp through TON Connect
+func (client *Client) GetTonConnectDAppPendingRequests(ctx context.Context, req *GetTonConnectDAppPendingRequestsRequest) (*TonConnectRequests, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalTonConnectRequests(result.Data)
+}
+
+type ClaimTonConnectRequestRequest struct {
+	request
+	// Unique identifier of the TON Connect session
+	SessionId JsonInt64 `json:"session_id"`
+	// Identifier of the message with the request
+	MessageId int64 `json:"message_id"`
+	// Identifier of the request assigned by the dApp
+	DappRequestId string `json:"dapp_request_id"`
+	// Pass true to reject the request
+	IsRejected bool `json:"is_rejected"`
+}
+
+func (req ClaimTonConnectRequestRequest) GetFunctionName() string {
+	return "claimTonConnectRequest"
+}
+
+// Claims a request received through TON Connect for processing on this device
+func (client *Client) ClaimTonConnectRequest(ctx context.Context, req *ClaimTonConnectRequestRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type AnswerTonConnectRequestRequest struct {
+	request
+	// Unique identifier of the TON Connect session
+	SessionId JsonInt64 `json:"session_id"`
+	// Identifier of the message with the request
+	MessageId int64 `json:"message_id"`
+	// Identifier to trace the request
+	TraceId string `json:"trace_id"`
+	// Body of the response
+	Body []byte `json:"body"`
+}
+
+func (req AnswerTonConnectRequestRequest) GetFunctionName() string {
+	return "answerTonConnectRequest"
+}
+
+// Sends an answer for a request received through TON Connect
+func (client *Client) AnswerTonConnectRequest(ctx context.Context, req *AnswerTonConnectRequestRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type GetTonConnectSessionNextEventIdRequest struct {
+	request
+	// Unique identifier of the TON Connect session
+	SessionId JsonInt64 `json:"session_id"`
+}
+
+func (req GetTonConnectSessionNextEventIdRequest) GetFunctionName() string {
+	return "getTonConnectSessionNextEventId"
+}
+
+// Returns the next event identifier for the given TON Connect session
+func (client *Client) GetTonConnectSessionNextEventId(ctx context.Context, req *GetTonConnectSessionNextEventIdRequest) (*TonConnectSessionEventId, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalTonConnectSessionEventId(result.Data)
+}
+
+type DisconnectTonConnectSessionRequest struct {
+	request
+	// Unique identifier of the TON Connect session to close
+	SessionId JsonInt64 `json:"session_id"`
+	// Encrypted body of the disconnect event; may be empty if the session has already been closed. Use getTonConnectSessionNextEventId to get event identifier for the event
+	Body []byte `json:"body"`
+}
+
+func (req DisconnectTonConnectSessionRequest) GetFunctionName() string {
+	return "disconnectTonConnectSession"
+}
+
+// Closes a TON Connect session
+func (client *Client) DisconnectTonConnectSession(ctx context.Context, req *DisconnectTonConnectSessionRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type GetOnRampProvidersRequest struct {
+	request
+	// Pass a cryptocurrency to receive only providers that support it; pass an empty string to receive all providers
+	Cryptocurrency string `json:"cryptocurrency"`
+}
+
+func (req GetOnRampProvidersRequest) GetFunctionName() string {
+	return "getOnRampProviders"
+}
+
+// Returns available on-ramp providers
+func (client *Client) GetOnRampProviders(ctx context.Context, req *GetOnRampProvidersRequest) (*OnRampProviders, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOnRampProviders(result.Data)
+}
+
+type GetOnRampProviderBaseCurrenciesRequest struct {
+	request
+	// Unique identifier of the on-ramp provider; only for providers that support base currencies
+	ProviderId string `json:"provider_id"`
+	// The cryptocurrency that will be bought
+	Cryptocurrency string `json:"cryptocurrency"`
+}
+
+func (req GetOnRampProviderBaseCurrenciesRequest) GetFunctionName() string {
+	return "getOnRampProviderBaseCurrencies"
+}
+
+// Returns the list of fiat currencies supported by an on-ramp provider for the given cryptocurrency
+func (client *Client) GetOnRampProviderBaseCurrencies(ctx context.Context, req *GetOnRampProviderBaseCurrenciesRequest) (*Currencies, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalCurrencies(result.Data)
+}
+
+type GetOnRampPaymentAvailabilityRequest struct {
+	request
+	// Unique identifier of the on-ramp provider
+	ProviderId string `json:"provider_id"`
+	// The cryptocurrency that will be bought
+	Cryptocurrency string `json:"cryptocurrency"`
+	// ISO 4217 currency code of the currency that will be used for the purchase; pass an empty string if unknown
+	BaseCurrency string `json:"base_currency"`
+}
+
+func (req GetOnRampPaymentAvailabilityRequest) GetFunctionName() string {
+	return "getOnRampPaymentAvailability"
+}
+
+// Returns the available on-ramp payment methods based on the current user location
+func (client *Client) GetOnRampPaymentAvailability(ctx context.Context, req *GetOnRampPaymentAvailabilityRequest) (*OnRampPaymentAvailability, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOnRampPaymentAvailability(result.Data)
+}
+
+type GetOnRampPaymentLimitsRequest struct {
+	request
+	// Unique identifier of the on-ramp provider
+	ProviderId string `json:"provider_id"`
+	// The cryptocurrency that will be bought
+	Cryptocurrency string `json:"cryptocurrency"`
+	// ISO 4217 currency code of the currency that will be used for the purchase
+	BaseCurrency string `json:"base_currency"`
+	// Name of the chosen payment method; pass an empty string if none
+	PaymentMethodName string `json:"payment_method_name"`
+}
+
+func (req GetOnRampPaymentLimitsRequest) GetFunctionName() string {
+	return "getOnRampPaymentLimits"
+}
+
+// Returns the limits for an on-ramp payment; only for providers that support limits retrieval
+func (client *Client) GetOnRampPaymentLimits(ctx context.Context, req *GetOnRampPaymentLimitsRequest) (*OnRampPaymentLimits, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOnRampPaymentLimits(result.Data)
+}
+
+type GetOnRampPaymentQuoteRequest struct {
+	request
+	// Unique identifier of the on-ramp provider
+	ProviderId string `json:"provider_id"`
+	// The cryptocurrency that will be bought
+	Cryptocurrency string `json:"cryptocurrency"`
+	// ISO 4217 currency code of the currency that will be used for the purchase
+	BaseCurrency string `json:"base_currency"`
+	// The amount of the cryptocurrency to buy; pass an empty string if the user selected base_currency_amount
+	CryptocurrencyAmount string `json:"cryptocurrency_amount"`
+	// The amount of the base currency to spend; pass an empty string if the user selected cryptocurrency_amount
+	BaseCurrencyAmount string `json:"base_currency_amount"`
+	// Name of the chosen payment method; pass an empty string if none
+	PaymentMethodName string `json:"payment_method_name"`
+}
+
+func (req GetOnRampPaymentQuoteRequest) GetFunctionName() string {
+	return "getOnRampPaymentQuote"
+}
+
+// Returns a quote for an on-ramp payment; only for providers that support quote retrieval
+func (client *Client) GetOnRampPaymentQuote(ctx context.Context, req *GetOnRampPaymentQuoteRequest) (*OnRampPaymentQuote, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOnRampPaymentQuote(result.Data)
+}
+
+type CreateOnRampPaymentSessionRequest struct {
+	request
+	// Unique identifier of the on-ramp provider
+	ProviderId string `json:"provider_id"`
+	// The cryptocurrency that will be bought
+	Cryptocurrency string `json:"cryptocurrency"`
+	// Address to which the cryptocurrency will be sent
+	Address string `json:"address"`
+	// Name of the chosen payment method; pass an empty string if none
+	PaymentMethodName string `json:"payment_method_name"`
+	// ISO 4217 currency code of the currency that will be used for the purchase; pass an empty string if unknown
+	BaseCurrency string `json:"base_currency"`
+	// The amount of the cryptocurrency to buy; pass an empty string if the user selected base_currency_amount
+	CryptocurrencyAmount string `json:"cryptocurrency_amount"`
+	// The amount of the base currency to spend; pass an empty string if the user selected cryptocurrency_amount
+	BaseCurrencyAmount string `json:"base_currency_amount"`
+	// Memo for the query; pass an empty string if none
+	Memo string `json:"memo"`
+	// Preferred theme for the WebView; pass "light" for a light theme, "dark" for a dark theme, or leave empty for a default theme
+	Theme string `json:"theme"`
+	// The URL opened on successful payment; pass an empty string if none
+	SuccessReturnUrl string `json:"success_return_url"`
+	// The URL opened on failed payment; pass an empty string if none
+	FailReturnUrl string `json:"fail_return_url"`
+}
+
+func (req CreateOnRampPaymentSessionRequest) GetFunctionName() string {
+	return "createOnRampPaymentSession"
+}
+
+// Creates a session for an on-ramp payment
+func (client *Client) CreateOnRampPaymentSession(ctx context.Context, req *CreateOnRampPaymentSessionRequest) (*OnRampPaymentSession, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOnRampPaymentSession(result.Data)
+}
+
+type SendTonCenterApiRequestRequest struct {
+	request
+	// The path of the requested endpoint. See https://toncenter.com/api/v3/index.html for the list of supported endpoints
+	Endpoint string `json:"endpoint"`
+	// Type of the request
+	Type TonCenterApiRequestType `json:"type"`
+}
+
+func (req SendTonCenterApiRequestRequest) GetFunctionName() string {
+	return "sendTonCenterApiRequest"
+}
+
+// Sends a request to TON Center API and returns its response in JSON format
+func (client *Client) SendTonCenterApiRequest(ctx context.Context, req *SendTonCenterApiRequestRequest) (*Text, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalText(result.Data)
+}
+
+type GetTonCenterStreamingApiUrlRequest struct {
+	request
+}
+
+func (req GetTonCenterStreamingApiUrlRequest) GetFunctionName() string {
+	return "getTonCenterStreamingApiUrl"
+}
+
+// Returns a URL for TON Center Streaming API
+func (client *Client) GetTonCenterStreamingApiUrl(ctx context.Context) (*TonCenterStreamingApiUrl, error) {
+	req := &GetTonCenterStreamingApiUrlRequest{}
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalTonCenterStreamingApiUrl(result.Data)
 }
 
 type GetStarRevenueStatisticsRequest struct {
@@ -26507,7 +28479,7 @@ func (client *Client) DisconnectAffiliateProgram(ctx context.Context, req *Disco
 
 type GetConnectedAffiliateProgramRequest struct {
 	request
-	// The affiliate to which the affiliate program will be connected
+	// The affiliate to which the affiliate program is connected
 	Affiliate AffiliateType `json:"affiliate"`
 	// Identifier of the bot that created the program
 	BotUserId int64 `json:"bot_user_id"`
@@ -26893,6 +28865,30 @@ func (client *Client) GetDeepLinkInfo(ctx context.Context, req *GetDeepLinkInfoR
 	return UnmarshalDeepLinkInfo(result.Data)
 }
 
+type DismissWebTokenRequest struct {
+	request
+	// The token to dismiss
+	Token string `json:"token"`
+}
+
+func (req DismissWebTokenRequest) GetFunctionName() string {
+	return "dismissWebToken"
+}
+
+// Dismisses a received web token without consumption; for official Telegram apps only
+func (client *Client) DismissWebToken(ctx context.Context, req *DismissWebTokenRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
 type GetApplicationConfigRequest struct {
 	request
 }
@@ -27162,6 +29158,58 @@ func (client *Client) PingProxy(ctx context.Context, req *PingProxyRequest) (*Se
 	}
 
 	return UnmarshalSeconds(result.Data)
+}
+
+type ProcessWebProxyCarrierMessageRequest struct {
+	request
+	// Identifier of the carrier
+	CarrierId int32 `json:"carrier_id"`
+	// The received message
+	Message WebProxyCarrierMessage `json:"message"`
+}
+
+func (req ProcessWebProxyCarrierMessageRequest) GetFunctionName() string {
+	return "processWebProxyCarrierMessage"
+}
+
+// Passes a message, which the page of a web proxy carrier passed to postMessage of the bridge object, to TDLib. Must be called in the order in which the messages were passed. Can be called before authorization
+func (client *Client) ProcessWebProxyCarrierMessage(ctx context.Context, req *ProcessWebProxyCarrierMessageRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
+}
+
+type ReportWebProxyCarrierErrorRequest struct {
+	request
+	// Identifier of the carrier
+	CarrierId int32 `json:"carrier_id"`
+	// The error
+	Error WebProxyCarrierError `json:"error"`
+}
+
+func (req ReportWebProxyCarrierErrorRequest) GetFunctionName() string {
+	return "reportWebProxyCarrierError"
+}
+
+// Reports that a web proxy carrier failed. TDLib closes the carrier and decides whether and when to request a new one. Can be called before authorization
+func (client *Client) ReportWebProxyCarrierError(ctx context.Context, req *ReportWebProxyCarrierErrorRequest) (*Ok, error) {
+	result, err := client.Send(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MetaType == "error" {
+		return nil, buildResponseError(result.Data)
+	}
+
+	return UnmarshalOk(result.Data)
 }
 
 type SetLogStreamRequest struct {
@@ -28139,6 +30187,9 @@ func (client *Client) TestUseUpdate(ctx context.Context) (Update, error) {
 	case ConstructorUpdateStoryStealthMode:
 		return UnmarshalUpdateStoryStealthMode(result.Data)
 
+	case ConstructorUpdateAllowedBotUsernamePremiumSuffixes:
+		return UnmarshalUpdateAllowedBotUsernamePremiumSuffixes(result.Data)
+
 	case ConstructorUpdateTrustedMiniAppBots:
 		return UnmarshalUpdateTrustedMiniAppBots(result.Data)
 
@@ -28187,6 +30238,15 @@ func (client *Client) TestUseUpdate(ctx context.Context) (Update, error) {
 	case ConstructorUpdateConnectionState:
 		return UnmarshalUpdateConnectionState(result.Data)
 
+	case ConstructorUpdateWebProxyCarrierOpened:
+		return UnmarshalUpdateWebProxyCarrierOpened(result.Data)
+
+	case ConstructorUpdateWebProxyCarrierData:
+		return UnmarshalUpdateWebProxyCarrierData(result.Data)
+
+	case ConstructorUpdateWebProxyCarrierClosed:
+		return UnmarshalUpdateWebProxyCarrierClosed(result.Data)
+
 	case ConstructorUpdateFreezeState:
 		return UnmarshalUpdateFreezeState(result.Data)
 
@@ -28229,6 +30289,18 @@ func (client *Client) TestUseUpdate(ctx context.Context) (Update, error) {
 	case ConstructorUpdateOwnedGramCount:
 		return UnmarshalUpdateOwnedGramCount(result.Data)
 
+	case ConstructorUpdateTonWalletState:
+		return UnmarshalUpdateTonWalletState(result.Data)
+
+	case ConstructorUpdateTonWalletGaslessTransfersInfo:
+		return UnmarshalUpdateTonWalletGaslessTransfersInfo(result.Data)
+
+	case ConstructorUpdateTonWalletTonConnectSession:
+		return UnmarshalUpdateTonWalletTonConnectSession(result.Data)
+
+	case ConstructorUpdateTonWalletTonConnectSessionDisconnectRequired:
+		return UnmarshalUpdateTonWalletTonConnectSessionDisconnectRequired(result.Data)
+
 	case ConstructorUpdateChatRevenueAmount:
 		return UnmarshalUpdateChatRevenueAmount(result.Data)
 
@@ -28240,6 +30312,9 @@ func (client *Client) TestUseUpdate(ctx context.Context) (Update, error) {
 
 	case ConstructorUpdateSpeechRecognitionTrial:
 		return UnmarshalUpdateSpeechRecognitionTrial(result.Data)
+
+	case ConstructorUpdateSpeechRecognitionInFile:
+		return UnmarshalUpdateSpeechRecognitionInFile(result.Data)
 
 	case ConstructorUpdateGroupCallMessageLevels:
 		return UnmarshalUpdateGroupCallMessageLevels(result.Data)
@@ -28300,6 +30375,15 @@ func (client *Client) TestUseUpdate(ctx context.Context) (Update, error) {
 
 	case ConstructorUpdateNewBusinessCallbackQuery:
 		return UnmarshalUpdateNewBusinessCallbackQuery(result.Data)
+
+	case ConstructorUpdateNewWidgetQuery:
+		return UnmarshalUpdateNewWidgetQuery(result.Data)
+
+	case ConstructorUpdateNewInlineWidgetQuery:
+		return UnmarshalUpdateNewInlineWidgetQuery(result.Data)
+
+	case ConstructorUpdateNewWidgetCopyQuery:
+		return UnmarshalUpdateNewWidgetCopyQuery(result.Data)
 
 	case ConstructorUpdateNewShippingQuery:
 		return UnmarshalUpdateNewShippingQuery(result.Data)

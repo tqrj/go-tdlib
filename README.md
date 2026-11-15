@@ -1,11 +1,17 @@
 # go-tdlib
 
 Go wrapper for [TDLib (Telegram Database Library)](https://github.com/tdlib/td) with full support of the TDLib.
-Current supported version of TDLib corresponds to the commit hash [49b3bcb](https://github.com/tdlib/td/commit/49b3bcbb6bfebf2ed44dd9f25102d2e1a94a58c4), updated on 2026-05-08
+当前配套版本：tqrj/tdPatch **1.8.70 / layer 233**，提交 `50b63e599d3ae7dc3f776bbb2815b6fcfa9ea563`。
+生成代码与该提交的 schema 一致，不能混用旧版原生库；`client/version_test.go` 会核对实际加载库的版本和提交号。
 
 ## TDLib installation
 
-Use [TDLib build instructions](https://tdlib.github.io/td/build.html) with checkmarked `Install built TDLib to /usr/local instead of placing the files to td/tdlib`. Don't forget to checkout a supported commit (see above).
+使用 [tqrj/tdPatch](https://github.com/tqrj/tdPatch) 的上述提交构建，不使用未打补丁的上游 TDLib。
+构建方法可参考 [TDLib build instructions](https://tdlib.github.io/td/build.html)，补丁验收范围见 tdPatch 的 `PATCHES.md`。
+重新生成时运行 `make generate TD_DIR=/path/to/tdPatch`；原生库也需从同一提交重新构建。
+
+本次上游接口变化包括：`LoadCommunityFullInfo` 改为返回完整信息的 `GetCommunityFullInfo`，
+移除 `EditCallbackQueryMessage`，`GetUserLink` 新增请求参数。TGDirector 当前未调用这三个旧接口。
 
 ## Custom TDLib Path
 

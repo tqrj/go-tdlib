@@ -1664,6 +1664,286 @@ func UnmarshalListOfTonTransactionType(dataList []jsontext.Value) ([]TonTransact
 	return list, nil
 }
 
+func UnmarshalTonCenterApiRequestType(data jsontext.Value) (TonCenterApiRequestType, error) {
+	var meta meta
+	err := json.Unmarshal(data, &meta)
+	if err != nil {
+		return nil, err
+	}
+
+	switch meta.MetaType {
+	case ConstructorTonCenterApiRequestTypeGet:
+		return UnmarshalTonCenterApiRequestTypeGet(data)
+
+	case ConstructorTonCenterApiRequestTypePost:
+		return UnmarshalTonCenterApiRequestTypePost(data)
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling. Unknown type: %s", meta.MetaType)
+	}
+}
+
+func UnmarshalListOfTonCenterApiRequestType(dataList []jsontext.Value) ([]TonCenterApiRequestType, error) {
+	list := make([]TonCenterApiRequestType, 0, len(dataList))
+	for _, data := range dataList {
+		entity, err := UnmarshalTonCenterApiRequestType(data)
+		if err != nil {
+			return nil, err
+		}
+		list = append(list, entity)
+	}
+
+	return list, nil
+}
+
+func UnmarshalTonWalletTransferReceiver(data jsontext.Value) (TonWalletTransferReceiver, error) {
+	var meta meta
+	err := json.Unmarshal(data, &meta)
+	if err != nil {
+		return nil, err
+	}
+
+	switch meta.MetaType {
+	case ConstructorTonWalletTransferReceiverUser:
+		return UnmarshalTonWalletTransferReceiverUser(data)
+
+	case ConstructorTonWalletTransferReceiverAddress:
+		return UnmarshalTonWalletTransferReceiverAddress(data)
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling. Unknown type: %s", meta.MetaType)
+	}
+}
+
+func UnmarshalListOfTonWalletTransferReceiver(dataList []jsontext.Value) ([]TonWalletTransferReceiver, error) {
+	list := make([]TonWalletTransferReceiver, 0, len(dataList))
+	for _, data := range dataList {
+		entity, err := UnmarshalTonWalletTransferReceiver(data)
+		if err != nil {
+			return nil, err
+		}
+		list = append(list, entity)
+	}
+
+	return list, nil
+}
+
+func UnmarshalTonWalletTransactionState(data jsontext.Value) (TonWalletTransactionState, error) {
+	var meta meta
+	err := json.Unmarshal(data, &meta)
+	if err != nil {
+		return nil, err
+	}
+
+	switch meta.MetaType {
+	case ConstructorTonWalletTransactionStateSucceeded:
+		return UnmarshalTonWalletTransactionStateSucceeded(data)
+
+	case ConstructorTonWalletTransactionStateFailed:
+		return UnmarshalTonWalletTransactionStateFailed(data)
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling. Unknown type: %s", meta.MetaType)
+	}
+}
+
+func UnmarshalListOfTonWalletTransactionState(dataList []jsontext.Value) ([]TonWalletTransactionState, error) {
+	list := make([]TonWalletTransactionState, 0, len(dataList))
+	for _, data := range dataList {
+		entity, err := UnmarshalTonWalletTransactionState(data)
+		if err != nil {
+			return nil, err
+		}
+		list = append(list, entity)
+	}
+
+	return list, nil
+}
+
+func UnmarshalTonWalletTransactionType(data jsontext.Value) (TonWalletTransactionType, error) {
+	var meta meta
+	err := json.Unmarshal(data, &meta)
+	if err != nil {
+		return nil, err
+	}
+
+	switch meta.MetaType {
+	case ConstructorTonWalletTransactionTypeOnRampDeposit:
+		return UnmarshalTonWalletTransactionTypeOnRampDeposit(data)
+
+	case ConstructorTonWalletTransactionTypeTransfer:
+		return UnmarshalTonWalletTransactionTypeTransfer(data)
+
+	case ConstructorTonWalletTransactionTypeNftTransfer:
+		return UnmarshalTonWalletTransactionTypeNftTransfer(data)
+
+	case ConstructorTonWalletTransactionTypeTelegramGiftTransfer:
+		return UnmarshalTonWalletTransactionTypeTelegramGiftTransfer(data)
+
+	case ConstructorTonWalletTransactionTypeKeyChange:
+		return UnmarshalTonWalletTransactionTypeKeyChange(data)
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling. Unknown type: %s", meta.MetaType)
+	}
+}
+
+func UnmarshalListOfTonWalletTransactionType(dataList []jsontext.Value) ([]TonWalletTransactionType, error) {
+	list := make([]TonWalletTransactionType, 0, len(dataList))
+	for _, data := range dataList {
+		entity, err := UnmarshalTonWalletTransactionType(data)
+		if err != nil {
+			return nil, err
+		}
+		list = append(list, entity)
+	}
+
+	return list, nil
+}
+
+func UnmarshalTonConnectRequestState(data jsontext.Value) (TonConnectRequestState, error) {
+	var meta meta
+	err := json.Unmarshal(data, &meta)
+	if err != nil {
+		return nil, err
+	}
+
+	switch meta.MetaType {
+	case ConstructorTonConnectRequestStatePending:
+		return UnmarshalTonConnectRequestStatePending(data)
+
+	case ConstructorTonConnectRequestStateAccepted:
+		return UnmarshalTonConnectRequestStateAccepted(data)
+
+	case ConstructorTonConnectRequestStateRejected:
+		return UnmarshalTonConnectRequestStateRejected(data)
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling. Unknown type: %s", meta.MetaType)
+	}
+}
+
+func UnmarshalListOfTonConnectRequestState(dataList []jsontext.Value) ([]TonConnectRequestState, error) {
+	list := make([]TonConnectRequestState, 0, len(dataList))
+	for _, data := range dataList {
+		entity, err := UnmarshalTonConnectRequestState(data)
+		if err != nil {
+			return nil, err
+		}
+		list = append(list, entity)
+	}
+
+	return list, nil
+}
+
+func UnmarshalTonConnectManifest(data jsontext.Value) (TonConnectManifest, error) {
+	var meta meta
+	err := json.Unmarshal(data, &meta)
+	if err != nil {
+		return nil, err
+	}
+
+	switch meta.MetaType {
+	case ConstructorTonConnectManifestPending:
+		return UnmarshalTonConnectManifestPending(data)
+
+	case ConstructorTonConnectManifestInfo:
+		return UnmarshalTonConnectManifestInfo(data)
+
+	case ConstructorTonConnectManifestFailed:
+		return UnmarshalTonConnectManifestFailed(data)
+
+	case ConstructorTonConnectManifestInvalid:
+		return UnmarshalTonConnectManifestInvalid(data)
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling. Unknown type: %s", meta.MetaType)
+	}
+}
+
+func UnmarshalListOfTonConnectManifest(dataList []jsontext.Value) ([]TonConnectManifest, error) {
+	list := make([]TonConnectManifest, 0, len(dataList))
+	for _, data := range dataList {
+		entity, err := UnmarshalTonConnectManifest(data)
+		if err != nil {
+			return nil, err
+		}
+		list = append(list, entity)
+	}
+
+	return list, nil
+}
+
+func UnmarshalTonConnectSessionState(data jsontext.Value) (TonConnectSessionState, error) {
+	var meta meta
+	err := json.Unmarshal(data, &meta)
+	if err != nil {
+		return nil, err
+	}
+
+	switch meta.MetaType {
+	case ConstructorTonConnectSessionStatePending:
+		return UnmarshalTonConnectSessionStatePending(data)
+
+	case ConstructorTonConnectSessionStateReady:
+		return UnmarshalTonConnectSessionStateReady(data)
+
+	case ConstructorTonConnectSessionStateClosing:
+		return UnmarshalTonConnectSessionStateClosing(data)
+
+	case ConstructorTonConnectSessionStateClosed:
+		return UnmarshalTonConnectSessionStateClosed(data)
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling. Unknown type: %s", meta.MetaType)
+	}
+}
+
+func UnmarshalListOfTonConnectSessionState(dataList []jsontext.Value) ([]TonConnectSessionState, error) {
+	list := make([]TonConnectSessionState, 0, len(dataList))
+	for _, data := range dataList {
+		entity, err := UnmarshalTonConnectSessionState(data)
+		if err != nil {
+			return nil, err
+		}
+		list = append(list, entity)
+	}
+
+	return list, nil
+}
+
+func UnmarshalTonConnectConnectItem(data jsontext.Value) (TonConnectConnectItem, error) {
+	var meta meta
+	err := json.Unmarshal(data, &meta)
+	if err != nil {
+		return nil, err
+	}
+
+	switch meta.MetaType {
+	case ConstructorTonConnectConnectItemAddress:
+		return UnmarshalTonConnectConnectItemAddress(data)
+
+	case ConstructorTonConnectConnectItemProof:
+		return UnmarshalTonConnectConnectItemProof(data)
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling. Unknown type: %s", meta.MetaType)
+	}
+}
+
+func UnmarshalListOfTonConnectConnectItem(dataList []jsontext.Value) ([]TonConnectConnectItem, error) {
+	list := make([]TonConnectConnectItem, 0, len(dataList))
+	for _, data := range dataList {
+		entity, err := UnmarshalTonConnectConnectItem(data)
+		if err != nil {
+			return nil, err
+		}
+		list = append(list, entity)
+	}
+
+	return list, nil
+}
+
 func UnmarshalActiveStoryState(data jsontext.Value) (ActiveStoryState, error) {
 	var meta meta
 	err := json.Unmarshal(data, &meta)
@@ -1795,6 +2075,76 @@ func UnmarshalListOfGiveawayPrize(dataList []jsontext.Value) ([]GiveawayPrize, e
 	list := make([]GiveawayPrize, 0, len(dataList))
 	for _, data := range dataList {
 		entity, err := UnmarshalGiveawayPrize(data)
+		if err != nil {
+			return nil, err
+		}
+		list = append(list, entity)
+	}
+
+	return list, nil
+}
+
+func UnmarshalNotificationSettingsScope(data jsontext.Value) (NotificationSettingsScope, error) {
+	var meta meta
+	err := json.Unmarshal(data, &meta)
+	if err != nil {
+		return nil, err
+	}
+
+	switch meta.MetaType {
+	case ConstructorNotificationSettingsScopePrivateChats:
+		return UnmarshalNotificationSettingsScopePrivateChats(data)
+
+	case ConstructorNotificationSettingsScopeGroupChats:
+		return UnmarshalNotificationSettingsScopeGroupChats(data)
+
+	case ConstructorNotificationSettingsScopeChannelChats:
+		return UnmarshalNotificationSettingsScopeChannelChats(data)
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling. Unknown type: %s", meta.MetaType)
+	}
+}
+
+func UnmarshalListOfNotificationSettingsScope(dataList []jsontext.Value) ([]NotificationSettingsScope, error) {
+	list := make([]NotificationSettingsScope, 0, len(dataList))
+	for _, data := range dataList {
+		entity, err := UnmarshalNotificationSettingsScope(data)
+		if err != nil {
+			return nil, err
+		}
+		list = append(list, entity)
+	}
+
+	return list, nil
+}
+
+func UnmarshalReactionNotificationSource(data jsontext.Value) (ReactionNotificationSource, error) {
+	var meta meta
+	err := json.Unmarshal(data, &meta)
+	if err != nil {
+		return nil, err
+	}
+
+	switch meta.MetaType {
+	case ConstructorReactionNotificationSourceNone:
+		return UnmarshalReactionNotificationSourceNone(data)
+
+	case ConstructorReactionNotificationSourceContacts:
+		return UnmarshalReactionNotificationSourceContacts(data)
+
+	case ConstructorReactionNotificationSourceAll:
+		return UnmarshalReactionNotificationSourceAll(data)
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling. Unknown type: %s", meta.MetaType)
+	}
+}
+
+func UnmarshalListOfReactionNotificationSource(dataList []jsontext.Value) ([]ReactionNotificationSource, error) {
+	list := make([]ReactionNotificationSource, 0, len(dataList))
+	for _, data := range dataList {
+		entity, err := UnmarshalReactionNotificationSource(data)
 		if err != nil {
 			return nil, err
 		}
@@ -2614,76 +2964,6 @@ func UnmarshalListOfReportSponsoredResult(dataList []jsontext.Value) ([]ReportSp
 	return list, nil
 }
 
-func UnmarshalNotificationSettingsScope(data jsontext.Value) (NotificationSettingsScope, error) {
-	var meta meta
-	err := json.Unmarshal(data, &meta)
-	if err != nil {
-		return nil, err
-	}
-
-	switch meta.MetaType {
-	case ConstructorNotificationSettingsScopePrivateChats:
-		return UnmarshalNotificationSettingsScopePrivateChats(data)
-
-	case ConstructorNotificationSettingsScopeGroupChats:
-		return UnmarshalNotificationSettingsScopeGroupChats(data)
-
-	case ConstructorNotificationSettingsScopeChannelChats:
-		return UnmarshalNotificationSettingsScopeChannelChats(data)
-
-	default:
-		return nil, fmt.Errorf("Error unmarshaling. Unknown type: %s", meta.MetaType)
-	}
-}
-
-func UnmarshalListOfNotificationSettingsScope(dataList []jsontext.Value) ([]NotificationSettingsScope, error) {
-	list := make([]NotificationSettingsScope, 0, len(dataList))
-	for _, data := range dataList {
-		entity, err := UnmarshalNotificationSettingsScope(data)
-		if err != nil {
-			return nil, err
-		}
-		list = append(list, entity)
-	}
-
-	return list, nil
-}
-
-func UnmarshalReactionNotificationSource(data jsontext.Value) (ReactionNotificationSource, error) {
-	var meta meta
-	err := json.Unmarshal(data, &meta)
-	if err != nil {
-		return nil, err
-	}
-
-	switch meta.MetaType {
-	case ConstructorReactionNotificationSourceNone:
-		return UnmarshalReactionNotificationSourceNone(data)
-
-	case ConstructorReactionNotificationSourceContacts:
-		return UnmarshalReactionNotificationSourceContacts(data)
-
-	case ConstructorReactionNotificationSourceAll:
-		return UnmarshalReactionNotificationSourceAll(data)
-
-	default:
-		return nil, fmt.Errorf("Error unmarshaling. Unknown type: %s", meta.MetaType)
-	}
-}
-
-func UnmarshalListOfReactionNotificationSource(dataList []jsontext.Value) ([]ReactionNotificationSource, error) {
-	list := make([]ReactionNotificationSource, 0, len(dataList))
-	for _, data := range dataList {
-		entity, err := UnmarshalReactionNotificationSource(data)
-		if err != nil {
-			return nil, err
-		}
-		list = append(list, entity)
-	}
-
-	return list, nil
-}
-
 func UnmarshalDraftMessageContent(data jsontext.Value) (DraftMessageContent, error) {
 	var meta meta
 	err := json.Unmarshal(data, &meta)
@@ -3266,6 +3546,102 @@ func UnmarshalListOfBuiltInTheme(dataList []jsontext.Value) ([]BuiltInTheme, err
 	return list, nil
 }
 
+func UnmarshalEmojiType(data jsontext.Value) (EmojiType, error) {
+	var meta meta
+	err := json.Unmarshal(data, &meta)
+	if err != nil {
+		return nil, err
+	}
+
+	switch meta.MetaType {
+	case ConstructorEmojiTypeRegular:
+		return UnmarshalEmojiTypeRegular(data)
+
+	case ConstructorEmojiTypeCustomEmoji:
+		return UnmarshalEmojiTypeCustomEmoji(data)
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling. Unknown type: %s", meta.MetaType)
+	}
+}
+
+func UnmarshalListOfEmojiType(dataList []jsontext.Value) ([]EmojiType, error) {
+	list := make([]EmojiType, 0, len(dataList))
+	for _, data := range dataList {
+		entity, err := UnmarshalEmojiType(data)
+		if err != nil {
+			return nil, err
+		}
+		list = append(list, entity)
+	}
+
+	return list, nil
+}
+
+func UnmarshalProfileShareTheme(data jsontext.Value) (ProfileShareTheme, error) {
+	var meta meta
+	err := json.Unmarshal(data, &meta)
+	if err != nil {
+		return nil, err
+	}
+
+	switch meta.MetaType {
+	case ConstructorProfileShareThemeEmoji:
+		return UnmarshalProfileShareThemeEmoji(data)
+
+	case ConstructorProfileShareThemeUpgradedGift:
+		return UnmarshalProfileShareThemeUpgradedGift(data)
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling. Unknown type: %s", meta.MetaType)
+	}
+}
+
+func UnmarshalListOfProfileShareTheme(dataList []jsontext.Value) ([]ProfileShareTheme, error) {
+	list := make([]ProfileShareTheme, 0, len(dataList))
+	for _, data := range dataList {
+		entity, err := UnmarshalProfileShareTheme(data)
+		if err != nil {
+			return nil, err
+		}
+		list = append(list, entity)
+	}
+
+	return list, nil
+}
+
+func UnmarshalInputProfileShareTheme(data jsontext.Value) (InputProfileShareTheme, error) {
+	var meta meta
+	err := json.Unmarshal(data, &meta)
+	if err != nil {
+		return nil, err
+	}
+
+	switch meta.MetaType {
+	case ConstructorInputProfileShareThemeEmoji:
+		return UnmarshalInputProfileShareThemeEmoji(data)
+
+	case ConstructorInputProfileShareThemeUpgradedGift:
+		return UnmarshalInputProfileShareThemeUpgradedGift(data)
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling. Unknown type: %s", meta.MetaType)
+	}
+}
+
+func UnmarshalListOfInputProfileShareTheme(dataList []jsontext.Value) ([]InputProfileShareTheme, error) {
+	list := make([]InputProfileShareTheme, 0, len(dataList))
+	for _, data := range dataList {
+		entity, err := UnmarshalInputProfileShareTheme(data)
+		if err != nil {
+			return nil, err
+		}
+		list = append(list, entity)
+	}
+
+	return list, nil
+}
+
 func UnmarshalRichText(data jsontext.Value) (RichText, error) {
 	var meta meta
 	err := json.Unmarshal(data, &meta)
@@ -3315,6 +3691,9 @@ func UnmarshalRichText(data jsontext.Value) (RichText, error) {
 
 	case ConstructorRichTextBankCardNumber:
 		return UnmarshalRichTextBankCardNumber(data)
+
+	case ConstructorRichTextTonAddress:
+		return UnmarshalRichTextTonAddress(data)
 
 	case ConstructorRichTextBotCommand:
 		return UnmarshalRichTextBotCommand(data)
@@ -4446,6 +4825,9 @@ func UnmarshalMessageContent(data jsontext.Value) (MessageContent, error) {
 	case ConstructorMessageStory:
 		return UnmarshalMessageStory(data)
 
+	case ConstructorMessageWidget:
+		return UnmarshalMessageWidget(data)
+
 	case ConstructorMessageChecklist:
 		return UnmarshalMessageChecklist(data)
 
@@ -4611,6 +4993,12 @@ func UnmarshalMessageContent(data jsontext.Value) (MessageContent, error) {
 	case ConstructorMessageGiveawayPrizeStars:
 		return UnmarshalMessageGiveawayPrizeStars(data)
 
+	case ConstructorMessageTonWalletTransfer:
+		return UnmarshalMessageTonWalletTransfer(data)
+
+	case ConstructorMessageTonConnectRequest:
+		return UnmarshalMessageTonConnectRequest(data)
+
 	case ConstructorMessageGift:
 		return UnmarshalMessageGift(data)
 
@@ -4634,6 +5022,9 @@ func UnmarshalMessageContent(data jsontext.Value) (MessageContent, error) {
 
 	case ConstructorMessageDirectMessagePriceChanged:
 		return UnmarshalMessageDirectMessagePriceChanged(data)
+
+	case ConstructorMessageUnpaidMessagesAllowedByLink:
+		return UnmarshalMessageUnpaidMessagesAllowedByLink(data)
 
 	case ConstructorMessageChecklistTasksDone:
 		return UnmarshalMessageChecklistTasksDone(data)
@@ -4802,6 +5193,9 @@ func UnmarshalTextEntityType(data jsontext.Value) (TextEntityType, error) {
 
 	case ConstructorTextEntityTypeBankCardNumber:
 		return UnmarshalTextEntityTypeBankCardNumber(data)
+
+	case ConstructorTextEntityTypeTonAddress:
+		return UnmarshalTextEntityTypeTonAddress(data)
 
 	case ConstructorTextEntityTypeBold:
 		return UnmarshalTextEntityTypeBold(data)
@@ -5225,6 +5619,12 @@ func UnmarshalInputMessageContent(data jsontext.Value) (InputMessageContent, err
 	case ConstructorInputMessageChecklist:
 		return UnmarshalInputMessageChecklist(data)
 
+	case ConstructorInputMessageWidget:
+		return UnmarshalInputMessageWidget(data)
+
+	case ConstructorInputMessageSharedWidget:
+		return UnmarshalInputMessageSharedWidget(data)
+
 	case ConstructorInputMessageForwarded:
 		return UnmarshalInputMessageForwarded(data)
 
@@ -5641,9 +6041,6 @@ func UnmarshalInputStoryAreaType(data jsontext.Value) (InputStoryAreaType, error
 	switch meta.MetaType {
 	case ConstructorInputStoryAreaTypeLocation:
 		return UnmarshalInputStoryAreaTypeLocation(data)
-
-	case ConstructorInputStoryAreaTypeFoundVenue:
-		return UnmarshalInputStoryAreaTypeFoundVenue(data)
 
 	case ConstructorInputStoryAreaTypePreviousVenue:
 		return UnmarshalInputStoryAreaTypePreviousVenue(data)
@@ -6718,6 +7115,41 @@ func UnmarshalListOfCallbackQueryPayload(dataList []jsontext.Value) ([]CallbackQ
 	list := make([]CallbackQueryPayload, 0, len(dataList))
 	for _, data := range dataList {
 		entity, err := UnmarshalCallbackQueryPayload(data)
+		if err != nil {
+			return nil, err
+		}
+		list = append(list, entity)
+	}
+
+	return list, nil
+}
+
+func UnmarshalWidgetQueryType(data jsontext.Value) (WidgetQueryType, error) {
+	var meta meta
+	err := json.Unmarshal(data, &meta)
+	if err != nil {
+		return nil, err
+	}
+
+	switch meta.MetaType {
+	case ConstructorWidgetQueryTypeData:
+		return UnmarshalWidgetQueryTypeData(data)
+
+	case ConstructorWidgetQueryTypeSignData:
+		return UnmarshalWidgetQueryTypeSignData(data)
+
+	case ConstructorWidgetQueryTypeSentTransaction:
+		return UnmarshalWidgetQueryTypeSentTransaction(data)
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling. Unknown type: %s", meta.MetaType)
+	}
+}
+
+func UnmarshalListOfWidgetQueryType(dataList []jsontext.Value) ([]WidgetQueryType, error) {
+	list := make([]WidgetQueryType, 0, len(dataList))
+	for _, data := range dataList {
+		entity, err := UnmarshalWidgetQueryType(data)
 		if err != nil {
 			return nil, err
 		}
@@ -7981,6 +8413,12 @@ func UnmarshalPushMessageContent(data jsontext.Value) (PushMessageContent, error
 	case ConstructorPushMessageContentGiveaway:
 		return UnmarshalPushMessageContentGiveaway(data)
 
+	case ConstructorPushMessageContentTonWalletTransfer:
+		return UnmarshalPushMessageContentTonWalletTransfer(data)
+
+	case ConstructorPushMessageContentTonConnectRequest:
+		return UnmarshalPushMessageContentTonConnectRequest(data)
+
 	case ConstructorPushMessageContentGift:
 		return UnmarshalPushMessageContentGift(data)
 
@@ -8941,6 +9379,12 @@ func UnmarshalInternalLinkType(data jsontext.Value) (InternalLinkType, error) {
 	case ConstructorInternalLinkTypeTheme:
 		return UnmarshalInternalLinkTypeTheme(data)
 
+	case ConstructorInternalLinkTypeTonConnect:
+		return UnmarshalInternalLinkTypeTonConnect(data)
+
+	case ConstructorInternalLinkTypeTonWalletTransfer:
+		return UnmarshalInternalLinkTypeTonWalletTransfer(data)
+
 	case ConstructorInternalLinkTypeUnknownDeepLink:
 		return UnmarshalInternalLinkTypeUnknownDeepLink(data)
 
@@ -9405,6 +9849,9 @@ func UnmarshalSuggestedAction(data jsontext.Value) (SuggestedAction, error) {
 	case ConstructorSuggestedActionViewChecksHint:
 		return UnmarshalSuggestedActionViewChecksHint(data)
 
+	case ConstructorSuggestedActionViewFirstTonWalletTransferHint:
+		return UnmarshalSuggestedActionViewFirstTonWalletTransferHint(data)
+
 	case ConstructorSuggestedActionConvertToBroadcastGroup:
 		return UnmarshalSuggestedActionConvertToBroadcastGroup(data)
 
@@ -9511,6 +9958,9 @@ func UnmarshalProxyType(data jsontext.Value) (ProxyType, error) {
 	case ConstructorProxyTypeMtproto:
 		return UnmarshalProxyTypeMtproto(data)
 
+	case ConstructorProxyTypeWeb:
+		return UnmarshalProxyTypeWeb(data)
+
 	default:
 		return nil, fmt.Errorf("Error unmarshaling. Unknown type: %s", meta.MetaType)
 	}
@@ -9520,6 +9970,79 @@ func UnmarshalListOfProxyType(dataList []jsontext.Value) ([]ProxyType, error) {
 	list := make([]ProxyType, 0, len(dataList))
 	for _, data := range dataList {
 		entity, err := UnmarshalProxyType(data)
+		if err != nil {
+			return nil, err
+		}
+		list = append(list, entity)
+	}
+
+	return list, nil
+}
+
+func UnmarshalWebProxyCarrierMessage(data jsontext.Value) (WebProxyCarrierMessage, error) {
+	var meta meta
+	err := json.Unmarshal(data, &meta)
+	if err != nil {
+		return nil, err
+	}
+
+	switch meta.MetaType {
+	case ConstructorWebProxyCarrierMessageText:
+		return UnmarshalWebProxyCarrierMessageText(data)
+
+	case ConstructorWebProxyCarrierMessageBinary:
+		return UnmarshalWebProxyCarrierMessageBinary(data)
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling. Unknown type: %s", meta.MetaType)
+	}
+}
+
+func UnmarshalListOfWebProxyCarrierMessage(dataList []jsontext.Value) ([]WebProxyCarrierMessage, error) {
+	list := make([]WebProxyCarrierMessage, 0, len(dataList))
+	for _, data := range dataList {
+		entity, err := UnmarshalWebProxyCarrierMessage(data)
+		if err != nil {
+			return nil, err
+		}
+		list = append(list, entity)
+	}
+
+	return list, nil
+}
+
+func UnmarshalWebProxyCarrierError(data jsontext.Value) (WebProxyCarrierError, error) {
+	var meta meta
+	err := json.Unmarshal(data, &meta)
+	if err != nil {
+		return nil, err
+	}
+
+	switch meta.MetaType {
+	case ConstructorWebProxyCarrierErrorUnsupported:
+		return UnmarshalWebProxyCarrierErrorUnsupported(data)
+
+	case ConstructorWebProxyCarrierErrorPaused:
+		return UnmarshalWebProxyCarrierErrorPaused(data)
+
+	case ConstructorWebProxyCarrierErrorLoadFailed:
+		return UnmarshalWebProxyCarrierErrorLoadFailed(data)
+
+	case ConstructorWebProxyCarrierErrorTerminated:
+		return UnmarshalWebProxyCarrierErrorTerminated(data)
+
+	case ConstructorWebProxyCarrierErrorRefused:
+		return UnmarshalWebProxyCarrierErrorRefused(data)
+
+	default:
+		return nil, fmt.Errorf("Error unmarshaling. Unknown type: %s", meta.MetaType)
+	}
+}
+
+func UnmarshalListOfWebProxyCarrierError(dataList []jsontext.Value) ([]WebProxyCarrierError, error) {
+	list := make([]WebProxyCarrierError, 0, len(dataList))
+	for _, data := range dataList {
+		entity, err := UnmarshalWebProxyCarrierError(data)
 		if err != nil {
 			return nil, err
 		}
@@ -10189,6 +10712,9 @@ func UnmarshalUpdate(data jsontext.Value) (Update, error) {
 	case ConstructorUpdateStoryStealthMode:
 		return UnmarshalUpdateStoryStealthMode(data)
 
+	case ConstructorUpdateAllowedBotUsernamePremiumSuffixes:
+		return UnmarshalUpdateAllowedBotUsernamePremiumSuffixes(data)
+
 	case ConstructorUpdateTrustedMiniAppBots:
 		return UnmarshalUpdateTrustedMiniAppBots(data)
 
@@ -10237,6 +10763,15 @@ func UnmarshalUpdate(data jsontext.Value) (Update, error) {
 	case ConstructorUpdateConnectionState:
 		return UnmarshalUpdateConnectionState(data)
 
+	case ConstructorUpdateWebProxyCarrierOpened:
+		return UnmarshalUpdateWebProxyCarrierOpened(data)
+
+	case ConstructorUpdateWebProxyCarrierData:
+		return UnmarshalUpdateWebProxyCarrierData(data)
+
+	case ConstructorUpdateWebProxyCarrierClosed:
+		return UnmarshalUpdateWebProxyCarrierClosed(data)
+
 	case ConstructorUpdateFreezeState:
 		return UnmarshalUpdateFreezeState(data)
 
@@ -10279,6 +10814,18 @@ func UnmarshalUpdate(data jsontext.Value) (Update, error) {
 	case ConstructorUpdateOwnedGramCount:
 		return UnmarshalUpdateOwnedGramCount(data)
 
+	case ConstructorUpdateTonWalletState:
+		return UnmarshalUpdateTonWalletState(data)
+
+	case ConstructorUpdateTonWalletGaslessTransfersInfo:
+		return UnmarshalUpdateTonWalletGaslessTransfersInfo(data)
+
+	case ConstructorUpdateTonWalletTonConnectSession:
+		return UnmarshalUpdateTonWalletTonConnectSession(data)
+
+	case ConstructorUpdateTonWalletTonConnectSessionDisconnectRequired:
+		return UnmarshalUpdateTonWalletTonConnectSessionDisconnectRequired(data)
+
 	case ConstructorUpdateChatRevenueAmount:
 		return UnmarshalUpdateChatRevenueAmount(data)
 
@@ -10290,6 +10837,9 @@ func UnmarshalUpdate(data jsontext.Value) (Update, error) {
 
 	case ConstructorUpdateSpeechRecognitionTrial:
 		return UnmarshalUpdateSpeechRecognitionTrial(data)
+
+	case ConstructorUpdateSpeechRecognitionInFile:
+		return UnmarshalUpdateSpeechRecognitionInFile(data)
 
 	case ConstructorUpdateGroupCallMessageLevels:
 		return UnmarshalUpdateGroupCallMessageLevels(data)
@@ -10350,6 +10900,15 @@ func UnmarshalUpdate(data jsontext.Value) (Update, error) {
 
 	case ConstructorUpdateNewBusinessCallbackQuery:
 		return UnmarshalUpdateNewBusinessCallbackQuery(data)
+
+	case ConstructorUpdateNewWidgetQuery:
+		return UnmarshalUpdateNewWidgetQuery(data)
+
+	case ConstructorUpdateNewInlineWidgetQuery:
+		return UnmarshalUpdateNewInlineWidgetQuery(data)
+
+	case ConstructorUpdateNewWidgetCopyQuery:
+		return UnmarshalUpdateNewWidgetCopyQuery(data)
 
 	case ConstructorUpdateNewShippingQuery:
 		return UnmarshalUpdateNewShippingQuery(data)
@@ -10568,6 +11127,18 @@ func UnmarshalTextEntity(data jsontext.Value) (*TextEntity, error) {
 
 func UnmarshalTextEntities(data jsontext.Value) (*TextEntities, error) {
 	var resp TextEntities
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTextRange(data jsontext.Value) (*TextRange, error) {
+	var resp TextRange
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTextRanges(data jsontext.Value) (*TextRanges, error) {
+	var resp TextRanges
 	err := json.Unmarshal(data, &resp)
 	return &resp, err
 }
@@ -11586,6 +12157,12 @@ func UnmarshalWebAppOpenParameters(data jsontext.Value) (*WebAppOpenParameters, 
 	return &resp, err
 }
 
+func UnmarshalAreaPosition(data jsontext.Value) (*AreaPosition, error) {
+	var resp AreaPosition
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
 func UnmarshalGiftResalePriceStar(data jsontext.Value) (*GiftResalePriceStar, error) {
 	var resp GiftResalePriceStar
 	err := json.Unmarshal(data, &resp)
@@ -12044,6 +12621,12 @@ func UnmarshalUpgradedGift(data jsontext.Value) (*UpgradedGift, error) {
 
 func UnmarshalUpgradedGiftValueInfo(data jsontext.Value) (*UpgradedGiftValueInfo, error) {
 	var resp UpgradedGiftValueInfo
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalUpgradedGiftDepositInfo(data jsontext.Value) (*UpgradedGiftDepositInfo, error) {
+	var resp UpgradedGiftDepositInfo
 	err := json.Unmarshal(data, &resp)
 	return &resp, err
 }
@@ -12630,6 +13213,372 @@ func UnmarshalTonTransactions(data jsontext.Value) (*TonTransactions, error) {
 	return &resp, err
 }
 
+func UnmarshalTonCenterApiRequestTypeGet(data jsontext.Value) (*TonCenterApiRequestTypeGet, error) {
+	var resp TonCenterApiRequestTypeGet
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonCenterApiRequestTypePost(data jsontext.Value) (*TonCenterApiRequestTypePost, error) {
+	var resp TonCenterApiRequestTypePost
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonWalletTransferReceiverUser(data jsontext.Value) (*TonWalletTransferReceiverUser, error) {
+	var resp TonWalletTransferReceiverUser
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonWalletTransferReceiverAddress(data jsontext.Value) (*TonWalletTransferReceiverAddress, error) {
+	var resp TonWalletTransferReceiverAddress
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonCenterStreamingApiUrl(data jsontext.Value) (*TonCenterStreamingApiUrl, error) {
+	var resp TonCenterStreamingApiUrl
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalWalletBotBalance(data jsontext.Value) (*WalletBotBalance, error) {
+	var resp WalletBotBalance
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalUserTonWalletAddress(data jsontext.Value) (*UserTonWalletAddress, error) {
+	var resp UserTonWalletAddress
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalUserTonWalletAddresses(data jsontext.Value) (*UserTonWalletAddresses, error) {
+	var resp UserTonWalletAddresses
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonWalletOwnershipProofChallenge(data jsontext.Value) (*TonWalletOwnershipProofChallenge, error) {
+	var resp TonWalletOwnershipProofChallenge
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonWalletOwnershipProof(data jsontext.Value) (*TonWalletOwnershipProof, error) {
+	var resp TonWalletOwnershipProof
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonWalletSecretPhrase(data jsontext.Value) (*TonWalletSecretPhrase, error) {
+	var resp TonWalletSecretPhrase
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonWalletGaslessTransfersInfo(data jsontext.Value) (*TonWalletGaslessTransfersInfo, error) {
+	var resp TonWalletGaslessTransfersInfo
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalCurrencyExchangeRate(data jsontext.Value) (*CurrencyExchangeRate, error) {
+	var resp CurrencyExchangeRate
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalCurrencyExchangeRates(data jsontext.Value) (*CurrencyExchangeRates, error) {
+	var resp CurrencyExchangeRates
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalOnRampProvider(data jsontext.Value) (*OnRampProvider, error) {
+	var resp OnRampProvider
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalOnRampProviders(data jsontext.Value) (*OnRampProviders, error) {
+	var resp OnRampProviders
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalCurrencies(data jsontext.Value) (*Currencies, error) {
+	var resp Currencies
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalOnRampPaymentMethod(data jsontext.Value) (*OnRampPaymentMethod, error) {
+	var resp OnRampPaymentMethod
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalOnRampPaymentAvailability(data jsontext.Value) (*OnRampPaymentAvailability, error) {
+	var resp OnRampPaymentAvailability
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalOnRampPaymentLimits(data jsontext.Value) (*OnRampPaymentLimits, error) {
+	var resp OnRampPaymentLimits
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalOnRampPaymentQuote(data jsontext.Value) (*OnRampPaymentQuote, error) {
+	var resp OnRampPaymentQuote
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalOnRampPaymentSession(data jsontext.Value) (*OnRampPaymentSession, error) {
+	var resp OnRampPaymentSession
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonWalletState(data jsontext.Value) (*TonWalletState, error) {
+	var resp TonWalletState
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonNftAttribute(data jsontext.Value) (*TonNftAttribute, error) {
+	var resp TonNftAttribute
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonNft(data jsontext.Value) (*TonNft, error) {
+	var resp TonNft
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonNfts(data jsontext.Value) (*TonNfts, error) {
+	var resp TonNfts
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonWalletCardSticker(data jsontext.Value) (*TonWalletCardSticker, error) {
+	var resp TonWalletCardSticker
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonWalletCard(data jsontext.Value) (*TonWalletCard, error) {
+	var resp TonWalletCard
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalInputTonWalletCardSticker(data jsontext.Value) (*InputTonWalletCardSticker, error) {
+	var resp InputTonWalletCardSticker
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalUpgradedGiftCollectionNames(data jsontext.Value) (*UpgradedGiftCollectionNames, error) {
+	var resp UpgradedGiftCollectionNames
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonWalletTransactionStateSucceeded(data jsontext.Value) (*TonWalletTransactionStateSucceeded, error) {
+	var resp TonWalletTransactionStateSucceeded
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonWalletTransactionStateFailed(data jsontext.Value) (*TonWalletTransactionStateFailed, error) {
+	var resp TonWalletTransactionStateFailed
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonWalletTransactionTypeOnRampDeposit(data jsontext.Value) (*TonWalletTransactionTypeOnRampDeposit, error) {
+	var resp TonWalletTransactionTypeOnRampDeposit
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonWalletTransactionTypeTransfer(data jsontext.Value) (*TonWalletTransactionTypeTransfer, error) {
+	var resp TonWalletTransactionTypeTransfer
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonWalletTransactionTypeNftTransfer(data jsontext.Value) (*TonWalletTransactionTypeNftTransfer, error) {
+	var resp TonWalletTransactionTypeNftTransfer
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonWalletTransactionTypeTelegramGiftTransfer(data jsontext.Value) (*TonWalletTransactionTypeTelegramGiftTransfer, error) {
+	var resp TonWalletTransactionTypeTelegramGiftTransfer
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonWalletTransactionTypeKeyChange(data jsontext.Value) (*TonWalletTransactionTypeKeyChange, error) {
+	var resp TonWalletTransactionTypeKeyChange
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonWalletTransaction(data jsontext.Value) (*TonWalletTransaction, error) {
+	var resp TonWalletTransaction
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonWalletTransactions(data jsontext.Value) (*TonWalletTransactions, error) {
+	var resp TonWalletTransactions
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonConnectRequestStatePending(data jsontext.Value) (*TonConnectRequestStatePending, error) {
+	var resp TonConnectRequestStatePending
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonConnectRequestStateAccepted(data jsontext.Value) (*TonConnectRequestStateAccepted, error) {
+	var resp TonConnectRequestStateAccepted
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonConnectRequestStateRejected(data jsontext.Value) (*TonConnectRequestStateRejected, error) {
+	var resp TonConnectRequestStateRejected
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonConnectManifestPending(data jsontext.Value) (*TonConnectManifestPending, error) {
+	var resp TonConnectManifestPending
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonConnectManifestInfo(data jsontext.Value) (*TonConnectManifestInfo, error) {
+	var resp TonConnectManifestInfo
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonConnectManifestFailed(data jsontext.Value) (*TonConnectManifestFailed, error) {
+	var resp TonConnectManifestFailed
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonConnectManifestInvalid(data jsontext.Value) (*TonConnectManifestInvalid, error) {
+	var resp TonConnectManifestInvalid
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonConnectSessionStatePending(data jsontext.Value) (*TonConnectSessionStatePending, error) {
+	var resp TonConnectSessionStatePending
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonConnectSessionStateReady(data jsontext.Value) (*TonConnectSessionStateReady, error) {
+	var resp TonConnectSessionStateReady
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonConnectSessionStateClosing(data jsontext.Value) (*TonConnectSessionStateClosing, error) {
+	var resp TonConnectSessionStateClosing
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonConnectSessionStateClosed(data jsontext.Value) (*TonConnectSessionStateClosed, error) {
+	var resp TonConnectSessionStateClosed
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonConnectConnectItemAddress(data jsontext.Value) (*TonConnectConnectItemAddress, error) {
+	var resp TonConnectConnectItemAddress
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonConnectConnectItemProof(data jsontext.Value) (*TonConnectConnectItemProof, error) {
+	var resp TonConnectConnectItemProof
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonConnectConnectRequest(data jsontext.Value) (*TonConnectConnectRequest, error) {
+	var resp TonConnectConnectRequest
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonConnectConnectData(data jsontext.Value) (*TonConnectConnectData, error) {
+	var resp TonConnectConnectData
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonConnectSession(data jsontext.Value) (*TonConnectSession, error) {
+	var resp TonConnectSession
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonConnectSessions(data jsontext.Value) (*TonConnectSessions, error) {
+	var resp TonConnectSessions
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonConnectRequest(data jsontext.Value) (*TonConnectRequest, error) {
+	var resp TonConnectRequest
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonConnectRequests(data jsontext.Value) (*TonConnectRequests, error) {
+	var resp TonConnectRequests
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonConnectChallenge(data jsontext.Value) (*TonConnectChallenge, error) {
+	var resp TonConnectChallenge
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonConnectSessionEventId(data jsontext.Value) (*TonConnectSessionEventId, error) {
+	var resp TonConnectSessionEventId
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTonWalletTransferResult(data jsontext.Value) (*TonWalletTransferResult, error) {
+	var resp TonWalletTransferResult
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
 func UnmarshalActiveStoryStateLive(data jsontext.Value) (*ActiveStoryStateLive, error) {
 	var resp ActiveStoryStateLive
 	err := json.Unmarshal(data, &resp)
@@ -12726,6 +13675,60 @@ func UnmarshalProfileAccentColor(data jsontext.Value) (*ProfileAccentColor, erro
 	return &resp, err
 }
 
+func UnmarshalNotificationSettingsScopePrivateChats(data jsontext.Value) (*NotificationSettingsScopePrivateChats, error) {
+	var resp NotificationSettingsScopePrivateChats
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalNotificationSettingsScopeGroupChats(data jsontext.Value) (*NotificationSettingsScopeGroupChats, error) {
+	var resp NotificationSettingsScopeGroupChats
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalNotificationSettingsScopeChannelChats(data jsontext.Value) (*NotificationSettingsScopeChannelChats, error) {
+	var resp NotificationSettingsScopeChannelChats
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalChatNotificationSettings(data jsontext.Value) (*ChatNotificationSettings, error) {
+	var resp ChatNotificationSettings
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalScopeNotificationSettings(data jsontext.Value) (*ScopeNotificationSettings, error) {
+	var resp ScopeNotificationSettings
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalReactionNotificationSourceNone(data jsontext.Value) (*ReactionNotificationSourceNone, error) {
+	var resp ReactionNotificationSourceNone
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalReactionNotificationSourceContacts(data jsontext.Value) (*ReactionNotificationSourceContacts, error) {
+	var resp ReactionNotificationSourceContacts
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalReactionNotificationSourceAll(data jsontext.Value) (*ReactionNotificationSourceAll, error) {
+	var resp ReactionNotificationSourceAll
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalReactionNotificationSettings(data jsontext.Value) (*ReactionNotificationSettings, error) {
+	var resp ReactionNotificationSettings
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
 func UnmarshalCommunityId(data jsontext.Value) (*CommunityId, error) {
 	var resp CommunityId
 	err := json.Unmarshal(data, &resp)
@@ -12788,6 +13791,30 @@ func UnmarshalCommunityChat(data jsontext.Value) (*CommunityChat, error) {
 
 func UnmarshalCommunityFullInfo(data jsontext.Value) (*CommunityFullInfo, error) {
 	var resp CommunityFullInfo
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalCommunities(data jsontext.Value) (*Communities, error) {
+	var resp Communities
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalCommunityAddChatRequest(data jsontext.Value) (*CommunityAddChatRequest, error) {
+	var resp CommunityAddChatRequest
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalCommunityAddChatRequests(data jsontext.Value) (*CommunityAddChatRequests, error) {
+	var resp CommunityAddChatRequests
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalCommunityMemberChats(data jsontext.Value) (*CommunityMemberChats, error) {
+	var resp CommunityMemberChats
 	err := json.Unmarshal(data, &resp)
 	return &resp, err
 }
@@ -13746,60 +14773,6 @@ func UnmarshalFoundFileDownloads(data jsontext.Value) (*FoundFileDownloads, erro
 	return &resp, err
 }
 
-func UnmarshalNotificationSettingsScopePrivateChats(data jsontext.Value) (*NotificationSettingsScopePrivateChats, error) {
-	var resp NotificationSettingsScopePrivateChats
-	err := json.Unmarshal(data, &resp)
-	return &resp, err
-}
-
-func UnmarshalNotificationSettingsScopeGroupChats(data jsontext.Value) (*NotificationSettingsScopeGroupChats, error) {
-	var resp NotificationSettingsScopeGroupChats
-	err := json.Unmarshal(data, &resp)
-	return &resp, err
-}
-
-func UnmarshalNotificationSettingsScopeChannelChats(data jsontext.Value) (*NotificationSettingsScopeChannelChats, error) {
-	var resp NotificationSettingsScopeChannelChats
-	err := json.Unmarshal(data, &resp)
-	return &resp, err
-}
-
-func UnmarshalChatNotificationSettings(data jsontext.Value) (*ChatNotificationSettings, error) {
-	var resp ChatNotificationSettings
-	err := json.Unmarshal(data, &resp)
-	return &resp, err
-}
-
-func UnmarshalScopeNotificationSettings(data jsontext.Value) (*ScopeNotificationSettings, error) {
-	var resp ScopeNotificationSettings
-	err := json.Unmarshal(data, &resp)
-	return &resp, err
-}
-
-func UnmarshalReactionNotificationSourceNone(data jsontext.Value) (*ReactionNotificationSourceNone, error) {
-	var resp ReactionNotificationSourceNone
-	err := json.Unmarshal(data, &resp)
-	return &resp, err
-}
-
-func UnmarshalReactionNotificationSourceContacts(data jsontext.Value) (*ReactionNotificationSourceContacts, error) {
-	var resp ReactionNotificationSourceContacts
-	err := json.Unmarshal(data, &resp)
-	return &resp, err
-}
-
-func UnmarshalReactionNotificationSourceAll(data jsontext.Value) (*ReactionNotificationSourceAll, error) {
-	var resp ReactionNotificationSourceAll
-	err := json.Unmarshal(data, &resp)
-	return &resp, err
-}
-
-func UnmarshalReactionNotificationSettings(data jsontext.Value) (*ReactionNotificationSettings, error) {
-	var resp ReactionNotificationSettings
-	err := json.Unmarshal(data, &resp)
-	return &resp, err
-}
-
 func UnmarshalDraftMessageContentText(data jsontext.Value) (*DraftMessageContentText, error) {
 	var resp DraftMessageContentText
 	err := json.Unmarshal(data, &resp)
@@ -14400,6 +15373,54 @@ func UnmarshalThemeSettings(data jsontext.Value) (*ThemeSettings, error) {
 	return &resp, err
 }
 
+func UnmarshalProfileShareThemeBackdrop(data jsontext.Value) (*ProfileShareThemeBackdrop, error) {
+	var resp ProfileShareThemeBackdrop
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalProfileShareThemeBackdrops(data jsontext.Value) (*ProfileShareThemeBackdrops, error) {
+	var resp ProfileShareThemeBackdrops
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalEmojiTypeRegular(data jsontext.Value) (*EmojiTypeRegular, error) {
+	var resp EmojiTypeRegular
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalEmojiTypeCustomEmoji(data jsontext.Value) (*EmojiTypeCustomEmoji, error) {
+	var resp EmojiTypeCustomEmoji
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalProfileShareThemeEmoji(data jsontext.Value) (*ProfileShareThemeEmoji, error) {
+	var resp ProfileShareThemeEmoji
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalProfileShareThemeUpgradedGift(data jsontext.Value) (*ProfileShareThemeUpgradedGift, error) {
+	var resp ProfileShareThemeUpgradedGift
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalInputProfileShareThemeEmoji(data jsontext.Value) (*InputProfileShareThemeEmoji, error) {
+	var resp InputProfileShareThemeEmoji
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalInputProfileShareThemeUpgradedGift(data jsontext.Value) (*InputProfileShareThemeUpgradedGift, error) {
+	var resp InputProfileShareThemeUpgradedGift
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
 func UnmarshalInlineButton(data jsontext.Value) (*InlineButton, error) {
 	var resp InlineButton
 	err := json.Unmarshal(data, &resp)
@@ -14486,6 +15507,12 @@ func UnmarshalRichTextCashtag(data jsontext.Value) (*RichTextCashtag, error) {
 
 func UnmarshalRichTextBankCardNumber(data jsontext.Value) (*RichTextBankCardNumber, error) {
 	var resp RichTextBankCardNumber
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalRichTextTonAddress(data jsontext.Value) (*RichTextTonAddress, error) {
+	var resp RichTextTonAddress
 	err := json.Unmarshal(data, &resp)
 	return &resp, err
 }
@@ -16014,6 +17041,12 @@ func UnmarshalMessageStory(data jsontext.Value) (*MessageStory, error) {
 	return &resp, err
 }
 
+func UnmarshalMessageWidget(data jsontext.Value) (*MessageWidget, error) {
+	var resp MessageWidget
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
 func UnmarshalMessageChecklist(data jsontext.Value) (*MessageChecklist, error) {
 	var resp MessageChecklist
 	err := json.Unmarshal(data, &resp)
@@ -16344,6 +17377,18 @@ func UnmarshalMessageGiveawayPrizeStars(data jsontext.Value) (*MessageGiveawayPr
 	return &resp, err
 }
 
+func UnmarshalMessageTonWalletTransfer(data jsontext.Value) (*MessageTonWalletTransfer, error) {
+	var resp MessageTonWalletTransfer
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalMessageTonConnectRequest(data jsontext.Value) (*MessageTonConnectRequest, error) {
+	var resp MessageTonConnectRequest
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
 func UnmarshalMessageGift(data jsontext.Value) (*MessageGift, error) {
 	var resp MessageGift
 	err := json.Unmarshal(data, &resp)
@@ -16388,6 +17433,12 @@ func UnmarshalMessagePaidMessagePriceChanged(data jsontext.Value) (*MessagePaidM
 
 func UnmarshalMessageDirectMessagePriceChanged(data jsontext.Value) (*MessageDirectMessagePriceChanged, error) {
 	var resp MessageDirectMessagePriceChanged
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalMessageUnpaidMessagesAllowedByLink(data jsontext.Value) (*MessageUnpaidMessagesAllowedByLink, error) {
+	var resp MessageUnpaidMessagesAllowedByLink
 	err := json.Unmarshal(data, &resp)
 	return &resp, err
 }
@@ -16568,6 +17619,12 @@ func UnmarshalTextEntityTypePhoneNumber(data jsontext.Value) (*TextEntityTypePho
 
 func UnmarshalTextEntityTypeBankCardNumber(data jsontext.Value) (*TextEntityTypeBankCardNumber, error) {
 	var resp TextEntityTypeBankCardNumber
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalTextEntityTypeTonAddress(data jsontext.Value) (*TextEntityTypeTonAddress, error) {
+	var resp TextEntityTypeTonAddress
 	err := json.Unmarshal(data, &resp)
 	return &resp, err
 }
@@ -17124,6 +18181,18 @@ func UnmarshalInputMessageChecklist(data jsontext.Value) (*InputMessageChecklist
 	return &resp, err
 }
 
+func UnmarshalInputMessageWidget(data jsontext.Value) (*InputMessageWidget, error) {
+	var resp InputMessageWidget
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalInputMessageSharedWidget(data jsontext.Value) (*InputMessageSharedWidget, error) {
+	var resp InputMessageSharedWidget
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
 func UnmarshalInputMessageForwarded(data jsontext.Value) (*InputMessageForwarded, error) {
 	var resp InputMessageForwarded
 	err := json.Unmarshal(data, &resp)
@@ -17520,12 +18589,6 @@ func UnmarshalCurrentWeather(data jsontext.Value) (*CurrentWeather, error) {
 	return &resp, err
 }
 
-func UnmarshalStoryAreaPosition(data jsontext.Value) (*StoryAreaPosition, error) {
-	var resp StoryAreaPosition
-	err := json.Unmarshal(data, &resp)
-	return &resp, err
-}
-
 func UnmarshalStoryAreaTypeLocation(data jsontext.Value) (*StoryAreaTypeLocation, error) {
 	var resp StoryAreaTypeLocation
 	err := json.Unmarshal(data, &resp)
@@ -17576,12 +18639,6 @@ func UnmarshalStoryArea(data jsontext.Value) (*StoryArea, error) {
 
 func UnmarshalInputStoryAreaTypeLocation(data jsontext.Value) (*InputStoryAreaTypeLocation, error) {
 	var resp InputStoryAreaTypeLocation
-	err := json.Unmarshal(data, &resp)
-	return &resp, err
-}
-
-func UnmarshalInputStoryAreaTypeFoundVenue(data jsontext.Value) (*InputStoryAreaTypeFoundVenue, error) {
-	var resp InputStoryAreaTypeFoundVenue
 	err := json.Unmarshal(data, &resp)
 	return &resp, err
 }
@@ -18390,6 +19447,12 @@ func UnmarshalSpeechRecognitionResultError(data jsontext.Value) (*SpeechRecognit
 	return &resp, err
 }
 
+func UnmarshalSpeechRecognitionLanguages(data jsontext.Value) (*SpeechRecognitionLanguages, error) {
+	var resp SpeechRecognitionLanguages
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
 func UnmarshalBusinessConnection(data jsontext.Value) (*BusinessConnection, error) {
 	var resp BusinessConnection
 	err := json.Unmarshal(data, &resp)
@@ -18674,6 +19737,42 @@ func UnmarshalCallbackQueryPayloadGame(data jsontext.Value) (*CallbackQueryPaylo
 
 func UnmarshalCallbackQueryAnswer(data jsontext.Value) (*CallbackQueryAnswer, error) {
 	var resp CallbackQueryAnswer
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalWidgetQueryWallet(data jsontext.Value) (*WidgetQueryWallet, error) {
+	var resp WidgetQueryWallet
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalWidgetQueryTypeData(data jsontext.Value) (*WidgetQueryTypeData, error) {
+	var resp WidgetQueryTypeData
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalWidgetQueryTypeSignData(data jsontext.Value) (*WidgetQueryTypeSignData, error) {
+	var resp WidgetQueryTypeSignData
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalWidgetQueryTypeSentTransaction(data jsontext.Value) (*WidgetQueryTypeSentTransaction, error) {
+	var resp WidgetQueryTypeSentTransaction
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalWidgetQueryAnswer(data jsontext.Value) (*WidgetQueryAnswer, error) {
+	var resp WidgetQueryAnswer
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalWidgetPublicData(data jsontext.Value) (*WidgetPublicData, error) {
+	var resp WidgetPublicData
 	err := json.Unmarshal(data, &resp)
 	return &resp, err
 }
@@ -20112,6 +21211,18 @@ func UnmarshalPushMessageContentGiveaway(data jsontext.Value) (*PushMessageConte
 	return &resp, err
 }
 
+func UnmarshalPushMessageContentTonWalletTransfer(data jsontext.Value) (*PushMessageContentTonWalletTransfer, error) {
+	var resp PushMessageContentTonWalletTransfer
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalPushMessageContentTonConnectRequest(data jsontext.Value) (*PushMessageContentTonConnectRequest, error) {
+	var resp PushMessageContentTonConnectRequest
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
 func UnmarshalPushMessageContentGift(data jsontext.Value) (*PushMessageContentGift, error) {
 	var resp PushMessageContentGift
 	err := json.Unmarshal(data, &resp)
@@ -21348,6 +22459,18 @@ func UnmarshalInternalLinkTypeTheme(data jsontext.Value) (*InternalLinkTypeTheme
 	return &resp, err
 }
 
+func UnmarshalInternalLinkTypeTonConnect(data jsontext.Value) (*InternalLinkTypeTonConnect, error) {
+	var resp InternalLinkTypeTonConnect
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalInternalLinkTypeTonWalletTransfer(data jsontext.Value) (*InternalLinkTypeTonWalletTransfer, error) {
+	var resp InternalLinkTypeTonWalletTransfer
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
 func UnmarshalInternalLinkTypeUnknownDeepLink(data jsontext.Value) (*InternalLinkTypeUnknownDeepLink, error) {
 	var resp InternalLinkTypeUnknownDeepLink
 	err := json.Unmarshal(data, &resp)
@@ -21888,6 +23011,12 @@ func UnmarshalSuggestedActionViewChecksHint(data jsontext.Value) (*SuggestedActi
 	return &resp, err
 }
 
+func UnmarshalSuggestedActionViewFirstTonWalletTransferHint(data jsontext.Value) (*SuggestedActionViewFirstTonWalletTransferHint, error) {
+	var resp SuggestedActionViewFirstTonWalletTransferHint
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
 func UnmarshalSuggestedActionConvertToBroadcastGroup(data jsontext.Value) (*SuggestedActionConvertToBroadcastGroup, error) {
 	var resp SuggestedActionConvertToBroadcastGroup
 	err := json.Unmarshal(data, &resp)
@@ -22038,6 +23167,12 @@ func UnmarshalProxyTypeMtproto(data jsontext.Value) (*ProxyTypeMtproto, error) {
 	return &resp, err
 }
 
+func UnmarshalProxyTypeWeb(data jsontext.Value) (*ProxyTypeWeb, error) {
+	var resp ProxyTypeWeb
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
 func UnmarshalAddedProxy(data jsontext.Value) (*AddedProxy, error) {
 	var resp AddedProxy
 	err := json.Unmarshal(data, &resp)
@@ -22046,6 +23181,54 @@ func UnmarshalAddedProxy(data jsontext.Value) (*AddedProxy, error) {
 
 func UnmarshalAddedProxies(data jsontext.Value) (*AddedProxies, error) {
 	var resp AddedProxies
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalWebProxyCarrier(data jsontext.Value) (*WebProxyCarrier, error) {
+	var resp WebProxyCarrier
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalWebProxyCarrierMessageText(data jsontext.Value) (*WebProxyCarrierMessageText, error) {
+	var resp WebProxyCarrierMessageText
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalWebProxyCarrierMessageBinary(data jsontext.Value) (*WebProxyCarrierMessageBinary, error) {
+	var resp WebProxyCarrierMessageBinary
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalWebProxyCarrierErrorUnsupported(data jsontext.Value) (*WebProxyCarrierErrorUnsupported, error) {
+	var resp WebProxyCarrierErrorUnsupported
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalWebProxyCarrierErrorPaused(data jsontext.Value) (*WebProxyCarrierErrorPaused, error) {
+	var resp WebProxyCarrierErrorPaused
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalWebProxyCarrierErrorLoadFailed(data jsontext.Value) (*WebProxyCarrierErrorLoadFailed, error) {
+	var resp WebProxyCarrierErrorLoadFailed
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalWebProxyCarrierErrorTerminated(data jsontext.Value) (*WebProxyCarrierErrorTerminated, error) {
+	var resp WebProxyCarrierErrorTerminated
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalWebProxyCarrierErrorRefused(data jsontext.Value) (*WebProxyCarrierErrorRefused, error) {
+	var resp WebProxyCarrierErrorRefused
 	err := json.Unmarshal(data, &resp)
 	return &resp, err
 }
@@ -23052,6 +24235,12 @@ func UnmarshalUpdateStoryStealthMode(data jsontext.Value) (*UpdateStoryStealthMo
 	return &resp, err
 }
 
+func UnmarshalUpdateAllowedBotUsernamePremiumSuffixes(data jsontext.Value) (*UpdateAllowedBotUsernamePremiumSuffixes, error) {
+	var resp UpdateAllowedBotUsernamePremiumSuffixes
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
 func UnmarshalUpdateTrustedMiniAppBots(data jsontext.Value) (*UpdateTrustedMiniAppBots, error) {
 	var resp UpdateTrustedMiniAppBots
 	err := json.Unmarshal(data, &resp)
@@ -23148,6 +24337,24 @@ func UnmarshalUpdateConnectionState(data jsontext.Value) (*UpdateConnectionState
 	return &resp, err
 }
 
+func UnmarshalUpdateWebProxyCarrierOpened(data jsontext.Value) (*UpdateWebProxyCarrierOpened, error) {
+	var resp UpdateWebProxyCarrierOpened
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalUpdateWebProxyCarrierData(data jsontext.Value) (*UpdateWebProxyCarrierData, error) {
+	var resp UpdateWebProxyCarrierData
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalUpdateWebProxyCarrierClosed(data jsontext.Value) (*UpdateWebProxyCarrierClosed, error) {
+	var resp UpdateWebProxyCarrierClosed
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
 func UnmarshalUpdateFreezeState(data jsontext.Value) (*UpdateFreezeState, error) {
 	var resp UpdateFreezeState
 	err := json.Unmarshal(data, &resp)
@@ -23232,6 +24439,30 @@ func UnmarshalUpdateOwnedGramCount(data jsontext.Value) (*UpdateOwnedGramCount, 
 	return &resp, err
 }
 
+func UnmarshalUpdateTonWalletState(data jsontext.Value) (*UpdateTonWalletState, error) {
+	var resp UpdateTonWalletState
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalUpdateTonWalletGaslessTransfersInfo(data jsontext.Value) (*UpdateTonWalletGaslessTransfersInfo, error) {
+	var resp UpdateTonWalletGaslessTransfersInfo
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalUpdateTonWalletTonConnectSession(data jsontext.Value) (*UpdateTonWalletTonConnectSession, error) {
+	var resp UpdateTonWalletTonConnectSession
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalUpdateTonWalletTonConnectSessionDisconnectRequired(data jsontext.Value) (*UpdateTonWalletTonConnectSessionDisconnectRequired, error) {
+	var resp UpdateTonWalletTonConnectSessionDisconnectRequired
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
 func UnmarshalUpdateChatRevenueAmount(data jsontext.Value) (*UpdateChatRevenueAmount, error) {
 	var resp UpdateChatRevenueAmount
 	err := json.Unmarshal(data, &resp)
@@ -23252,6 +24483,12 @@ func UnmarshalUpdateGramRevenueStatus(data jsontext.Value) (*UpdateGramRevenueSt
 
 func UnmarshalUpdateSpeechRecognitionTrial(data jsontext.Value) (*UpdateSpeechRecognitionTrial, error) {
 	var resp UpdateSpeechRecognitionTrial
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalUpdateSpeechRecognitionInFile(data jsontext.Value) (*UpdateSpeechRecognitionInFile, error) {
+	var resp UpdateSpeechRecognitionInFile
 	err := json.Unmarshal(data, &resp)
 	return &resp, err
 }
@@ -23372,6 +24609,24 @@ func UnmarshalUpdateNewInlineCallbackQuery(data jsontext.Value) (*UpdateNewInlin
 
 func UnmarshalUpdateNewBusinessCallbackQuery(data jsontext.Value) (*UpdateNewBusinessCallbackQuery, error) {
 	var resp UpdateNewBusinessCallbackQuery
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalUpdateNewWidgetQuery(data jsontext.Value) (*UpdateNewWidgetQuery, error) {
+	var resp UpdateNewWidgetQuery
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalUpdateNewInlineWidgetQuery(data jsontext.Value) (*UpdateNewInlineWidgetQuery, error) {
+	var resp UpdateNewInlineWidgetQuery
+	err := json.Unmarshal(data, &resp)
+	return &resp, err
+}
+
+func UnmarshalUpdateNewWidgetCopyQuery(data jsontext.Value) (*UpdateNewWidgetCopyQuery, error) {
+	var resp UpdateNewWidgetCopyQuery
 	err := json.Unmarshal(data, &resp)
 	return &resp, err
 }
@@ -23614,6 +24869,12 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 
 	case ConstructorTextEntities:
 		return UnmarshalTextEntities(data)
+
+	case ConstructorTextRange:
+		return UnmarshalTextRange(data)
+
+	case ConstructorTextRanges:
+		return UnmarshalTextRanges(data)
 
 	case ConstructorFormattedText:
 		return UnmarshalFormattedText(data)
@@ -24122,6 +25383,9 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 	case ConstructorWebAppOpenParameters:
 		return UnmarshalWebAppOpenParameters(data)
 
+	case ConstructorAreaPosition:
+		return UnmarshalAreaPosition(data)
+
 	case ConstructorGiftResalePriceStar:
 		return UnmarshalGiftResalePriceStar(data)
 
@@ -24352,6 +25616,9 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 
 	case ConstructorUpgradedGiftValueInfo:
 		return UnmarshalUpgradedGiftValueInfo(data)
+
+	case ConstructorUpgradedGiftDepositInfo:
+		return UnmarshalUpgradedGiftDepositInfo(data)
 
 	case ConstructorUpgradeGiftResult:
 		return UnmarshalUpgradeGiftResult(data)
@@ -24644,6 +25911,189 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 	case ConstructorTonTransactions:
 		return UnmarshalTonTransactions(data)
 
+	case ConstructorTonCenterApiRequestTypeGet:
+		return UnmarshalTonCenterApiRequestTypeGet(data)
+
+	case ConstructorTonCenterApiRequestTypePost:
+		return UnmarshalTonCenterApiRequestTypePost(data)
+
+	case ConstructorTonWalletTransferReceiverUser:
+		return UnmarshalTonWalletTransferReceiverUser(data)
+
+	case ConstructorTonWalletTransferReceiverAddress:
+		return UnmarshalTonWalletTransferReceiverAddress(data)
+
+	case ConstructorTonCenterStreamingApiUrl:
+		return UnmarshalTonCenterStreamingApiUrl(data)
+
+	case ConstructorWalletBotBalance:
+		return UnmarshalWalletBotBalance(data)
+
+	case ConstructorUserTonWalletAddress:
+		return UnmarshalUserTonWalletAddress(data)
+
+	case ConstructorUserTonWalletAddresses:
+		return UnmarshalUserTonWalletAddresses(data)
+
+	case ConstructorTonWalletOwnershipProofChallenge:
+		return UnmarshalTonWalletOwnershipProofChallenge(data)
+
+	case ConstructorTonWalletOwnershipProof:
+		return UnmarshalTonWalletOwnershipProof(data)
+
+	case ConstructorTonWalletSecretPhrase:
+		return UnmarshalTonWalletSecretPhrase(data)
+
+	case ConstructorTonWalletGaslessTransfersInfo:
+		return UnmarshalTonWalletGaslessTransfersInfo(data)
+
+	case ConstructorCurrencyExchangeRate:
+		return UnmarshalCurrencyExchangeRate(data)
+
+	case ConstructorCurrencyExchangeRates:
+		return UnmarshalCurrencyExchangeRates(data)
+
+	case ConstructorOnRampProvider:
+		return UnmarshalOnRampProvider(data)
+
+	case ConstructorOnRampProviders:
+		return UnmarshalOnRampProviders(data)
+
+	case ConstructorCurrencies:
+		return UnmarshalCurrencies(data)
+
+	case ConstructorOnRampPaymentMethod:
+		return UnmarshalOnRampPaymentMethod(data)
+
+	case ConstructorOnRampPaymentAvailability:
+		return UnmarshalOnRampPaymentAvailability(data)
+
+	case ConstructorOnRampPaymentLimits:
+		return UnmarshalOnRampPaymentLimits(data)
+
+	case ConstructorOnRampPaymentQuote:
+		return UnmarshalOnRampPaymentQuote(data)
+
+	case ConstructorOnRampPaymentSession:
+		return UnmarshalOnRampPaymentSession(data)
+
+	case ConstructorTonWalletState:
+		return UnmarshalTonWalletState(data)
+
+	case ConstructorTonNftAttribute:
+		return UnmarshalTonNftAttribute(data)
+
+	case ConstructorTonNft:
+		return UnmarshalTonNft(data)
+
+	case ConstructorTonNfts:
+		return UnmarshalTonNfts(data)
+
+	case ConstructorTonWalletCardSticker:
+		return UnmarshalTonWalletCardSticker(data)
+
+	case ConstructorTonWalletCard:
+		return UnmarshalTonWalletCard(data)
+
+	case ConstructorInputTonWalletCardSticker:
+		return UnmarshalInputTonWalletCardSticker(data)
+
+	case ConstructorUpgradedGiftCollectionNames:
+		return UnmarshalUpgradedGiftCollectionNames(data)
+
+	case ConstructorTonWalletTransactionStateSucceeded:
+		return UnmarshalTonWalletTransactionStateSucceeded(data)
+
+	case ConstructorTonWalletTransactionStateFailed:
+		return UnmarshalTonWalletTransactionStateFailed(data)
+
+	case ConstructorTonWalletTransactionTypeOnRampDeposit:
+		return UnmarshalTonWalletTransactionTypeOnRampDeposit(data)
+
+	case ConstructorTonWalletTransactionTypeTransfer:
+		return UnmarshalTonWalletTransactionTypeTransfer(data)
+
+	case ConstructorTonWalletTransactionTypeNftTransfer:
+		return UnmarshalTonWalletTransactionTypeNftTransfer(data)
+
+	case ConstructorTonWalletTransactionTypeTelegramGiftTransfer:
+		return UnmarshalTonWalletTransactionTypeTelegramGiftTransfer(data)
+
+	case ConstructorTonWalletTransactionTypeKeyChange:
+		return UnmarshalTonWalletTransactionTypeKeyChange(data)
+
+	case ConstructorTonWalletTransaction:
+		return UnmarshalTonWalletTransaction(data)
+
+	case ConstructorTonWalletTransactions:
+		return UnmarshalTonWalletTransactions(data)
+
+	case ConstructorTonConnectRequestStatePending:
+		return UnmarshalTonConnectRequestStatePending(data)
+
+	case ConstructorTonConnectRequestStateAccepted:
+		return UnmarshalTonConnectRequestStateAccepted(data)
+
+	case ConstructorTonConnectRequestStateRejected:
+		return UnmarshalTonConnectRequestStateRejected(data)
+
+	case ConstructorTonConnectManifestPending:
+		return UnmarshalTonConnectManifestPending(data)
+
+	case ConstructorTonConnectManifestInfo:
+		return UnmarshalTonConnectManifestInfo(data)
+
+	case ConstructorTonConnectManifestFailed:
+		return UnmarshalTonConnectManifestFailed(data)
+
+	case ConstructorTonConnectManifestInvalid:
+		return UnmarshalTonConnectManifestInvalid(data)
+
+	case ConstructorTonConnectSessionStatePending:
+		return UnmarshalTonConnectSessionStatePending(data)
+
+	case ConstructorTonConnectSessionStateReady:
+		return UnmarshalTonConnectSessionStateReady(data)
+
+	case ConstructorTonConnectSessionStateClosing:
+		return UnmarshalTonConnectSessionStateClosing(data)
+
+	case ConstructorTonConnectSessionStateClosed:
+		return UnmarshalTonConnectSessionStateClosed(data)
+
+	case ConstructorTonConnectConnectItemAddress:
+		return UnmarshalTonConnectConnectItemAddress(data)
+
+	case ConstructorTonConnectConnectItemProof:
+		return UnmarshalTonConnectConnectItemProof(data)
+
+	case ConstructorTonConnectConnectRequest:
+		return UnmarshalTonConnectConnectRequest(data)
+
+	case ConstructorTonConnectConnectData:
+		return UnmarshalTonConnectConnectData(data)
+
+	case ConstructorTonConnectSession:
+		return UnmarshalTonConnectSession(data)
+
+	case ConstructorTonConnectSessions:
+		return UnmarshalTonConnectSessions(data)
+
+	case ConstructorTonConnectRequest:
+		return UnmarshalTonConnectRequest(data)
+
+	case ConstructorTonConnectRequests:
+		return UnmarshalTonConnectRequests(data)
+
+	case ConstructorTonConnectChallenge:
+		return UnmarshalTonConnectChallenge(data)
+
+	case ConstructorTonConnectSessionEventId:
+		return UnmarshalTonConnectSessionEventId(data)
+
+	case ConstructorTonWalletTransferResult:
+		return UnmarshalTonWalletTransferResult(data)
+
 	case ConstructorActiveStoryStateLive:
 		return UnmarshalActiveStoryStateLive(data)
 
@@ -24692,6 +26142,33 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 	case ConstructorProfileAccentColor:
 		return UnmarshalProfileAccentColor(data)
 
+	case ConstructorNotificationSettingsScopePrivateChats:
+		return UnmarshalNotificationSettingsScopePrivateChats(data)
+
+	case ConstructorNotificationSettingsScopeGroupChats:
+		return UnmarshalNotificationSettingsScopeGroupChats(data)
+
+	case ConstructorNotificationSettingsScopeChannelChats:
+		return UnmarshalNotificationSettingsScopeChannelChats(data)
+
+	case ConstructorChatNotificationSettings:
+		return UnmarshalChatNotificationSettings(data)
+
+	case ConstructorScopeNotificationSettings:
+		return UnmarshalScopeNotificationSettings(data)
+
+	case ConstructorReactionNotificationSourceNone:
+		return UnmarshalReactionNotificationSourceNone(data)
+
+	case ConstructorReactionNotificationSourceContacts:
+		return UnmarshalReactionNotificationSourceContacts(data)
+
+	case ConstructorReactionNotificationSourceAll:
+		return UnmarshalReactionNotificationSourceAll(data)
+
+	case ConstructorReactionNotificationSettings:
+		return UnmarshalReactionNotificationSettings(data)
+
 	case ConstructorCommunityId:
 		return UnmarshalCommunityId(data)
 
@@ -24724,6 +26201,18 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 
 	case ConstructorCommunityFullInfo:
 		return UnmarshalCommunityFullInfo(data)
+
+	case ConstructorCommunities:
+		return UnmarshalCommunities(data)
+
+	case ConstructorCommunityAddChatRequest:
+		return UnmarshalCommunityAddChatRequest(data)
+
+	case ConstructorCommunityAddChatRequests:
+		return UnmarshalCommunityAddChatRequests(data)
+
+	case ConstructorCommunityMemberChats:
+		return UnmarshalCommunityMemberChats(data)
 
 	case ConstructorUserRating:
 		return UnmarshalUserRating(data)
@@ -25202,33 +26691,6 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 	case ConstructorFoundFileDownloads:
 		return UnmarshalFoundFileDownloads(data)
 
-	case ConstructorNotificationSettingsScopePrivateChats:
-		return UnmarshalNotificationSettingsScopePrivateChats(data)
-
-	case ConstructorNotificationSettingsScopeGroupChats:
-		return UnmarshalNotificationSettingsScopeGroupChats(data)
-
-	case ConstructorNotificationSettingsScopeChannelChats:
-		return UnmarshalNotificationSettingsScopeChannelChats(data)
-
-	case ConstructorChatNotificationSettings:
-		return UnmarshalChatNotificationSettings(data)
-
-	case ConstructorScopeNotificationSettings:
-		return UnmarshalScopeNotificationSettings(data)
-
-	case ConstructorReactionNotificationSourceNone:
-		return UnmarshalReactionNotificationSourceNone(data)
-
-	case ConstructorReactionNotificationSourceContacts:
-		return UnmarshalReactionNotificationSourceContacts(data)
-
-	case ConstructorReactionNotificationSourceAll:
-		return UnmarshalReactionNotificationSourceAll(data)
-
-	case ConstructorReactionNotificationSettings:
-		return UnmarshalReactionNotificationSettings(data)
-
 	case ConstructorDraftMessageContentText:
 		return UnmarshalDraftMessageContentText(data)
 
@@ -25529,6 +26991,30 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 	case ConstructorThemeSettings:
 		return UnmarshalThemeSettings(data)
 
+	case ConstructorProfileShareThemeBackdrop:
+		return UnmarshalProfileShareThemeBackdrop(data)
+
+	case ConstructorProfileShareThemeBackdrops:
+		return UnmarshalProfileShareThemeBackdrops(data)
+
+	case ConstructorEmojiTypeRegular:
+		return UnmarshalEmojiTypeRegular(data)
+
+	case ConstructorEmojiTypeCustomEmoji:
+		return UnmarshalEmojiTypeCustomEmoji(data)
+
+	case ConstructorProfileShareThemeEmoji:
+		return UnmarshalProfileShareThemeEmoji(data)
+
+	case ConstructorProfileShareThemeUpgradedGift:
+		return UnmarshalProfileShareThemeUpgradedGift(data)
+
+	case ConstructorInputProfileShareThemeEmoji:
+		return UnmarshalInputProfileShareThemeEmoji(data)
+
+	case ConstructorInputProfileShareThemeUpgradedGift:
+		return UnmarshalInputProfileShareThemeUpgradedGift(data)
+
 	case ConstructorInlineButton:
 		return UnmarshalInlineButton(data)
 
@@ -25573,6 +27059,9 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 
 	case ConstructorRichTextBankCardNumber:
 		return UnmarshalRichTextBankCardNumber(data)
+
+	case ConstructorRichTextTonAddress:
+		return UnmarshalRichTextTonAddress(data)
 
 	case ConstructorRichTextBotCommand:
 		return UnmarshalRichTextBotCommand(data)
@@ -26336,6 +27825,9 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 	case ConstructorMessageStory:
 		return UnmarshalMessageStory(data)
 
+	case ConstructorMessageWidget:
+		return UnmarshalMessageWidget(data)
+
 	case ConstructorMessageChecklist:
 		return UnmarshalMessageChecklist(data)
 
@@ -26501,6 +27993,12 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 	case ConstructorMessageGiveawayPrizeStars:
 		return UnmarshalMessageGiveawayPrizeStars(data)
 
+	case ConstructorMessageTonWalletTransfer:
+		return UnmarshalMessageTonWalletTransfer(data)
+
+	case ConstructorMessageTonConnectRequest:
+		return UnmarshalMessageTonConnectRequest(data)
+
 	case ConstructorMessageGift:
 		return UnmarshalMessageGift(data)
 
@@ -26524,6 +28022,9 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 
 	case ConstructorMessageDirectMessagePriceChanged:
 		return UnmarshalMessageDirectMessagePriceChanged(data)
+
+	case ConstructorMessageUnpaidMessagesAllowedByLink:
+		return UnmarshalMessageUnpaidMessagesAllowedByLink(data)
 
 	case ConstructorMessageChecklistTasksDone:
 		return UnmarshalMessageChecklistTasksDone(data)
@@ -26614,6 +28115,9 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 
 	case ConstructorTextEntityTypeBankCardNumber:
 		return UnmarshalTextEntityTypeBankCardNumber(data)
+
+	case ConstructorTextEntityTypeTonAddress:
+		return UnmarshalTextEntityTypeTonAddress(data)
 
 	case ConstructorTextEntityTypeBold:
 		return UnmarshalTextEntityTypeBold(data)
@@ -26891,6 +28395,12 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 	case ConstructorInputMessageChecklist:
 		return UnmarshalInputMessageChecklist(data)
 
+	case ConstructorInputMessageWidget:
+		return UnmarshalInputMessageWidget(data)
+
+	case ConstructorInputMessageSharedWidget:
+		return UnmarshalInputMessageSharedWidget(data)
+
 	case ConstructorInputMessageForwarded:
 		return UnmarshalInputMessageForwarded(data)
 
@@ -27089,9 +28599,6 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 	case ConstructorCurrentWeather:
 		return UnmarshalCurrentWeather(data)
 
-	case ConstructorStoryAreaPosition:
-		return UnmarshalStoryAreaPosition(data)
-
 	case ConstructorStoryAreaTypeLocation:
 		return UnmarshalStoryAreaTypeLocation(data)
 
@@ -27118,9 +28625,6 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 
 	case ConstructorInputStoryAreaTypeLocation:
 		return UnmarshalInputStoryAreaTypeLocation(data)
-
-	case ConstructorInputStoryAreaTypeFoundVenue:
-		return UnmarshalInputStoryAreaTypeFoundVenue(data)
 
 	case ConstructorInputStoryAreaTypePreviousVenue:
 		return UnmarshalInputStoryAreaTypePreviousVenue(data)
@@ -27524,6 +29028,9 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 	case ConstructorSpeechRecognitionResultError:
 		return UnmarshalSpeechRecognitionResultError(data)
 
+	case ConstructorSpeechRecognitionLanguages:
+		return UnmarshalSpeechRecognitionLanguages(data)
+
 	case ConstructorBusinessConnection:
 		return UnmarshalBusinessConnection(data)
 
@@ -27667,6 +29174,24 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 
 	case ConstructorCallbackQueryAnswer:
 		return UnmarshalCallbackQueryAnswer(data)
+
+	case ConstructorWidgetQueryWallet:
+		return UnmarshalWidgetQueryWallet(data)
+
+	case ConstructorWidgetQueryTypeData:
+		return UnmarshalWidgetQueryTypeData(data)
+
+	case ConstructorWidgetQueryTypeSignData:
+		return UnmarshalWidgetQueryTypeSignData(data)
+
+	case ConstructorWidgetQueryTypeSentTransaction:
+		return UnmarshalWidgetQueryTypeSentTransaction(data)
+
+	case ConstructorWidgetQueryAnswer:
+		return UnmarshalWidgetQueryAnswer(data)
+
+	case ConstructorWidgetPublicData:
+		return UnmarshalWidgetPublicData(data)
 
 	case ConstructorCustomRequestResult:
 		return UnmarshalCustomRequestResult(data)
@@ -28385,6 +29910,12 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 	case ConstructorPushMessageContentGiveaway:
 		return UnmarshalPushMessageContentGiveaway(data)
 
+	case ConstructorPushMessageContentTonWalletTransfer:
+		return UnmarshalPushMessageContentTonWalletTransfer(data)
+
+	case ConstructorPushMessageContentTonConnectRequest:
+		return UnmarshalPushMessageContentTonConnectRequest(data)
+
 	case ConstructorPushMessageContentGift:
 		return UnmarshalPushMessageContentGift(data)
 
@@ -29003,6 +30534,12 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 	case ConstructorInternalLinkTypeTheme:
 		return UnmarshalInternalLinkTypeTheme(data)
 
+	case ConstructorInternalLinkTypeTonConnect:
+		return UnmarshalInternalLinkTypeTonConnect(data)
+
+	case ConstructorInternalLinkTypeTonWalletTransfer:
+		return UnmarshalInternalLinkTypeTonWalletTransfer(data)
+
 	case ConstructorInternalLinkTypeUnknownDeepLink:
 		return UnmarshalInternalLinkTypeUnknownDeepLink(data)
 
@@ -29273,6 +30810,9 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 	case ConstructorSuggestedActionViewChecksHint:
 		return UnmarshalSuggestedActionViewChecksHint(data)
 
+	case ConstructorSuggestedActionViewFirstTonWalletTransferHint:
+		return UnmarshalSuggestedActionViewFirstTonWalletTransferHint(data)
+
 	case ConstructorSuggestedActionConvertToBroadcastGroup:
 		return UnmarshalSuggestedActionConvertToBroadcastGroup(data)
 
@@ -29348,11 +30888,38 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 	case ConstructorProxyTypeMtproto:
 		return UnmarshalProxyTypeMtproto(data)
 
+	case ConstructorProxyTypeWeb:
+		return UnmarshalProxyTypeWeb(data)
+
 	case ConstructorAddedProxy:
 		return UnmarshalAddedProxy(data)
 
 	case ConstructorAddedProxies:
 		return UnmarshalAddedProxies(data)
+
+	case ConstructorWebProxyCarrier:
+		return UnmarshalWebProxyCarrier(data)
+
+	case ConstructorWebProxyCarrierMessageText:
+		return UnmarshalWebProxyCarrierMessageText(data)
+
+	case ConstructorWebProxyCarrierMessageBinary:
+		return UnmarshalWebProxyCarrierMessageBinary(data)
+
+	case ConstructorWebProxyCarrierErrorUnsupported:
+		return UnmarshalWebProxyCarrierErrorUnsupported(data)
+
+	case ConstructorWebProxyCarrierErrorPaused:
+		return UnmarshalWebProxyCarrierErrorPaused(data)
+
+	case ConstructorWebProxyCarrierErrorLoadFailed:
+		return UnmarshalWebProxyCarrierErrorLoadFailed(data)
+
+	case ConstructorWebProxyCarrierErrorTerminated:
+		return UnmarshalWebProxyCarrierErrorTerminated(data)
+
+	case ConstructorWebProxyCarrierErrorRefused:
+		return UnmarshalWebProxyCarrierErrorRefused(data)
 
 	case ConstructorNewSticker:
 		return UnmarshalNewSticker(data)
@@ -29855,6 +31422,9 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 	case ConstructorUpdateStoryStealthMode:
 		return UnmarshalUpdateStoryStealthMode(data)
 
+	case ConstructorUpdateAllowedBotUsernamePremiumSuffixes:
+		return UnmarshalUpdateAllowedBotUsernamePremiumSuffixes(data)
+
 	case ConstructorUpdateTrustedMiniAppBots:
 		return UnmarshalUpdateTrustedMiniAppBots(data)
 
@@ -29903,6 +31473,15 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 	case ConstructorUpdateConnectionState:
 		return UnmarshalUpdateConnectionState(data)
 
+	case ConstructorUpdateWebProxyCarrierOpened:
+		return UnmarshalUpdateWebProxyCarrierOpened(data)
+
+	case ConstructorUpdateWebProxyCarrierData:
+		return UnmarshalUpdateWebProxyCarrierData(data)
+
+	case ConstructorUpdateWebProxyCarrierClosed:
+		return UnmarshalUpdateWebProxyCarrierClosed(data)
+
 	case ConstructorUpdateFreezeState:
 		return UnmarshalUpdateFreezeState(data)
 
@@ -29945,6 +31524,18 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 	case ConstructorUpdateOwnedGramCount:
 		return UnmarshalUpdateOwnedGramCount(data)
 
+	case ConstructorUpdateTonWalletState:
+		return UnmarshalUpdateTonWalletState(data)
+
+	case ConstructorUpdateTonWalletGaslessTransfersInfo:
+		return UnmarshalUpdateTonWalletGaslessTransfersInfo(data)
+
+	case ConstructorUpdateTonWalletTonConnectSession:
+		return UnmarshalUpdateTonWalletTonConnectSession(data)
+
+	case ConstructorUpdateTonWalletTonConnectSessionDisconnectRequired:
+		return UnmarshalUpdateTonWalletTonConnectSessionDisconnectRequired(data)
+
 	case ConstructorUpdateChatRevenueAmount:
 		return UnmarshalUpdateChatRevenueAmount(data)
 
@@ -29956,6 +31547,9 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 
 	case ConstructorUpdateSpeechRecognitionTrial:
 		return UnmarshalUpdateSpeechRecognitionTrial(data)
+
+	case ConstructorUpdateSpeechRecognitionInFile:
+		return UnmarshalUpdateSpeechRecognitionInFile(data)
 
 	case ConstructorUpdateGroupCallMessageLevels:
 		return UnmarshalUpdateGroupCallMessageLevels(data)
@@ -30016,6 +31610,15 @@ func UnmarshalType(data jsontext.Value) (Type, error) {
 
 	case ConstructorUpdateNewBusinessCallbackQuery:
 		return UnmarshalUpdateNewBusinessCallbackQuery(data)
+
+	case ConstructorUpdateNewWidgetQuery:
+		return UnmarshalUpdateNewWidgetQuery(data)
+
+	case ConstructorUpdateNewInlineWidgetQuery:
+		return UnmarshalUpdateNewInlineWidgetQuery(data)
+
+	case ConstructorUpdateNewWidgetCopyQuery:
+		return UnmarshalUpdateNewWidgetCopyQuery(data)
 
 	case ConstructorUpdateNewShippingQuery:
 		return UnmarshalUpdateNewShippingQuery(data)

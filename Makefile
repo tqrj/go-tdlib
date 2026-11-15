@@ -1,4 +1,4 @@
-# 生成代码的 schema 来源是本地的 tqrj/tdPatch（TDLib 1.8.67 + 指纹补丁），不是上游 tdlib/td：
+# 生成代码的 schema 来源是本地的 tqrj/tdPatch（TDLib 1.8.70 / layer 233 + 指纹补丁），不是上游 tdlib/td：
 # tdPatch 的 commit 在 GitHub 的 tdlib/td 下不存在，按 -version 下载会 404，所以生成器
 # 改成读本地文件（-schema / -code）。TD_DIR 指向 tdPatch 的工作目录，TAG 只用来记录版本。
 TD_DIR ?= /Users/coca/Cproject/tdPatch
