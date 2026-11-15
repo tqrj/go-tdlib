@@ -4,6 +4,8 @@ Go wrapper for [TDLib (Telegram Database Library)](https://github.com/tdlib/td) 
 当前配套版本：tqrj/tdPatch **1.8.70 / layer 233**，提交 `0964206624ce50eb669672918ef2fce381f1422d`。
 生成代码与该提交的 schema 一致，不能混用旧版原生库；`client/version_test.go` 会核对实际加载库的版本和提交号。
 
+Windows 实机结果见 [WINDOWS-ACCEPTANCE.md](WINDOWS-ACCEPTANCE.md)。其中内部未加壳应用的功能验收不替代正式发布验收。
+
 ## TDLib installation
 
 使用 [tqrj/tdPatch](https://github.com/tqrj/tdPatch) 的上述提交构建，不使用未打补丁的上游 TDLib。
