@@ -1,10 +1,14 @@
 # go-tdlib
 
 Go wrapper for [TDLib (Telegram Database Library)](https://github.com/tdlib/td) with full support of the TDLib.
-当前配套版本：tqrj/tdPatch **1.8.70 / layer 233**，提交 `0964206624ce50eb669672918ef2fce381f1422d`。
+当前配套版本：tqrj/tdPatch **v1.8.70-p1 / layer 233**，提交 `2be240331a798d25e2249cd4d50f2a702f1795fe`。
 生成代码与该提交的 schema 一致，不能混用旧版原生库；`client/version_test.go` 会核对实际加载库的版本和提交号。
 
-Windows 实机结果见 [WINDOWS-ACCEPTANCE.md](WINDOWS-ACCEPTANCE.md)。其中内部未加壳应用的功能验收不替代正式发布验收。
+本版原生库在 JSON 编码前过滤 TGDirector 不消费的 22 类更新，并在初始化前默认关闭网络统计。
+更新过滤不影响请求响应、消息发送结果、动态发布结果及授权关闭通知。
+
+此前 layer 233 基线的 Windows 实机结果见 [WINDOWS-ACCEPTANCE.md](WINDOWS-ACCEPTANCE.md)。
+该记录针对 `096420662`，不代表本版新增优化已完成 Windows 实机验收；内部未加壳应用的功能验收也不替代正式发布验收。
 
 ## TDLib installation
 
